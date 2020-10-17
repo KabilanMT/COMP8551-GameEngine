@@ -118,7 +118,7 @@ void Engine::keyCallback(GLFWwindow* window, int key, int action)
 
 //cursor position input call back 
 void Engine::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
-    std::cout << "x position: " << xpos << "y position: " << ypos << std::endl;
+    // std::cout << "x position: " << xpos << "y position: " << ypos << std::endl;
 }
 
 //cursor enter input call back
@@ -170,6 +170,8 @@ void Engine::start() {
     entity.assign<Translation>(50, 50, 0);
     entity.assign<Rotate>(0, 0, 0, 1);
     entity.assign<Camera>(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+
+    entity.assign<CustomScript>("src/CustomScripts/XmlExampleCustomScript.xml");
 
     //test for sound system
     // Entity e1 = entities.create();

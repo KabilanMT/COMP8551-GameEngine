@@ -1,0 +1,17 @@
+<root>
+    <update>
+        <ifVar name="health" value="5">
+            <updateVar name="health" value="4"/>
+            <addToVar name="health" value="-1"/>
+        </ifVar>
+    </update>
+    <onCollision>
+
+    </onCollision>
+    <start>
+
+    </start>
+    <variables>
+        <int name="health" value="5"/>
+    </variables>
+</root>
