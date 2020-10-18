@@ -83,11 +83,56 @@ public:
                 }
 
                 // Do commands
-                if (name == "moveEntity") {
-                    float x = stof(attributes.at("x"));
-                    float y = stof(attributes.at("y"));
+                if (name == "ifVar" && attributes.find("name") != attributes.end() && attributes.find("value") != attributes.end()) {
+                    string type = attributes.at("type");
 
-                    moveEntity(x, y);
+                    if (type == "int" && cScript.get()->ints.find(attributes.at("name")) != cScript.get()->ints.end()) {
+                        int val = cScript.get()->ints.at(attributes.at("name"));
+                        int valToCompare = stoi(attributes.at("value"), nullptr, 0);
+
+                        if (val == valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "float" && cScript.get()->floats.find(attributes.at("name")) != cScript.get()->floats.end()) {
+                        float val = cScript.get()->floats.at(attributes.at("name"));
+                        float valToCompare = stof(attributes.at("value"));
+
+                        if (val == valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "double" && cScript.get()->doubles.find(attributes.at("name")) != cScript.get()->doubles.end()) {
+                        double val = cScript.get()->doubles.at(attributes.at("name"));
+                        double valToCompare = stod(attributes.at("value"));
+
+                        if (val == valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+                    
+                    if (type == "string" && cScript.get()->strings.find(attributes.at("name")) != cScript.get()->strings.end()) {
+                        string val = cScript.get()->strings.at(attributes.at("name"));
+                        string valToCompare = attributes.at("value");
+
+                        if (val.compare(valToCompare) == 0)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "bool" && cScript.get()->bools.find(attributes.at("name")) != cScript.get()->bools.end()) { 
+                        bool val = cScript.get()->bools.at(attributes.at("name"));
+
+                        if (val)
+                            runCommands(command->FirstChild(), cScript);   
+                    }
+
+                }
+
+                if (name == "moveEntity") {
+                    int x = stoi(attributes.at("x"), nullptr, 0);
+                    int y = stoi(attributes.at("y"), nullptr, 0);
+                    int z = stoi(attributes.at("z"), nullptr, 0);
+
+                    moveEntity(x, y, z);
                 }
 
                 if (name == "removeEntity") {
@@ -100,19 +145,11 @@ public:
 
         // CustomScript Functions
         // Should update as there should be more than just 4 vertices
-        void moveEntity(float x, float y) {
-            ComponentHandle<Position> position = currEntity->component<Position>(); 
-            position.get()->v0x += x;
-            position.get()->v0y += y;
-
-            position.get()->v1x += x;
-            position.get()->v1y += y;
-
-            position.get()->v2x += x;
-            position.get()->v2y += y;
-
-            position.get()->v3x += x;
-            position.get()->v3y += y;
+        void moveEntity(int x, int y, int z) {
+            // ComponentHandle<Translation> trans = currEntity->component<Translation>(); 
+            // trans.get()->x += x;
+            // trans.get()->y += y;
+            // trans.get()->z += z;
         }
 
         void removeEntity() {
@@ -144,7 +181,14 @@ public:
                 cScript.get()->bools.at(varName);
         }
 
-        void addVar(string varName, string varType, string value) {
-            
+        void addVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName) += stoi(value, nullptr, 0);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) += stoi(value, nullptr, 0);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) += stoi(value, nullptr, 0);
         }
 }; 

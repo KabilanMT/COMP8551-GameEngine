@@ -55,6 +55,7 @@ struct CustomScript
             delete doc;
         }
 
+        // XML Variables
         TinyXMLDocument* doc;
         XMLElement* root;
         string xml;
@@ -65,7 +66,4 @@ struct CustomScript
         unordered_map<std::string, double> doubles;
         unordered_map<std::string, std::string> strings;
         unordered_map<std::string, bool> bools;
-
-        // Function pointers
-        vector<std::function<void(void)>> updateFunctions;
 };
