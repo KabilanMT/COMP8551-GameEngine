@@ -32,11 +32,14 @@ struct CustomScript
             return root->FirstChildElement("update");
         }
 
+        XMLElement* getVariables() {
+            return root->FirstChildElement("variables");
+        }
+
         ~CustomScript() {
             delete doc;
         }
 
-    private:
         TinyXMLDocument* doc;
         XMLElement* root;
         string xml;

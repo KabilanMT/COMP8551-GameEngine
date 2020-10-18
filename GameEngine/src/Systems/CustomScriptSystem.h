@@ -28,13 +28,44 @@ public:
         auto entities = es.entities_with_components<CustomScript>();
 
         for (Entity e : entities) {
+            // ComponentHandle<CustomScript> handle = e.component<CustomScript>();
+            // XMLElement* updateContent = handle->getUpdate();
+            // runCommands(updateContent->FirstChild(), handle);
+
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
-            XMLElement* updateContent = handle->getUpdate();
-            runCommands(updateContent->FirstChild(), handle);
+            XMLElement* updateContent = handle->getVariables();
+            getVariables(updateContent->FirstChild(), handle);
         }
     }
 
    private:
+        void getVariables(XMLNode* variable, ComponentHandle<CustomScript> cScript) {
+            while (variable != NULL) {
+                
+                string name = variable->Value();
+                const XMLAttribute* attr = variable->ToElement()->FirstAttribute();
+                string var_name = attr->Value();
+                string var_value = attr->Next()->Value(); 
+
+                if (name == "int")
+                    cScript.get()->ints.insert(make_pair(var_name, stoi(var_value, nullptr, 0)));
+
+                if (name == "float")
+                    cScript.get()->floats.insert(make_pair(var_name, stof(var_value)));
+
+                if (name == "double")
+                    cScript.get()->doubles.insert(make_pair(var_name, stod(var_value)));
+                
+                if (name == "string")
+                    cScript.get()->strings.insert(make_pair(var_name, var_value));
+
+                if (name == "bool") 
+                    cScript.get()->bools.insert(make_pair(var_name, (var_value == "true") ? true : false));
+
+                variable = variable->NextSibling();
+            }
+        }
+
         void runCommands(XMLNode* command, ComponentHandle<CustomScript> cScript) {
             while (command != NULL) {
                 //do commands

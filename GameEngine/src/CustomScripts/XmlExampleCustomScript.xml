@@ -1,4 +1,8 @@
 <root>
+    <variables>
+        <int name="health" value="5"/>
+        <bool name="isTrue" value="true"/>
+    </variables>
     <update>
         <ifVar name="health" value="5">
             <updateVar name="health" value="4"/>
@@ -11,7 +15,4 @@
     <start>
 
     </start>
-    <variables>
-        <int name="health" value="5"/>
-    </variables>
 </root>

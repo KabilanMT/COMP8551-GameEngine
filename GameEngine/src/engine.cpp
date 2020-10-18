@@ -176,8 +176,8 @@ void Engine::start() {
     //test for sound system
     // Entity e1 = entities.create();
     // e1.assign<AudioSource>(new Sound("Red Dead Redemption 2 - See the Fire in Your Eyes.mp3"));
-    Entity e2 = entities.create();
-    e2.assign<AudioSource>(new Sound("kick-trimmed.wav", true));
+    // Entity e2 = entities.create();
+    // e2.assign<AudioSource>(new Sound("kick-trimmed.wav", true));
 
     SceneManager::getInstance().start();
     // render loop
