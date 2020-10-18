@@ -8,6 +8,7 @@
             <updateVar name="health" value="4"/>
             <addToVar name="health" value="-1"/>
         </ifVar>
+        <moveEntity x="0.5" y="0" z="0"/>
     </update>
     <onCollision>
 

@@ -13,6 +13,7 @@
 #include "tinyxml2.h"
 
 using namespace tinyxml2;
+
 struct CustomScript
 {
     public:
@@ -25,7 +26,7 @@ struct CustomScript
                 Logger::getInstance() << "Could not read game object XML file!\n";
                 return;
             }
-            
+
             root = doc->FirstChildElement("root");
         }
 
@@ -63,4 +64,7 @@ struct CustomScript
         unordered_map<std::string, double> doubles;
         unordered_map<std::string, std::string> strings;
         unordered_map<std::string, bool> bools;
+
+        // Function pointers
+        // vector<>
 };

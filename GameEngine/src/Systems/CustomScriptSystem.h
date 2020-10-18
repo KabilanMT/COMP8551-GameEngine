@@ -28,13 +28,16 @@ public:
         auto entities = es.entities_with_components<CustomScript>();
 
         for (Entity e : entities) {
-            // ComponentHandle<CustomScript> handle = e.component<CustomScript>();
-            // XMLElement* updateContent = handle->getUpdate();
-            // runCommands(updateContent->FirstChild(), handle);
+            currEntity = &e;
+            ComponentHandle<CustomScript> handle = e.component<CustomScript>();
+            XMLElement* updateContent = handle->getUpdate();
+            runCommands(updateContent->FirstChild(), handle);
         }
     }
 
    private:
+        Entity* currEntity;
+
         // Should be ran in start
         // TODO: Requires error checking and refactor, assumes that the first and second attrib is variable name and value
         void getVariables(XMLNode* variable, ComponentHandle<CustomScript> cScript) {
@@ -66,21 +69,81 @@ public:
 
         void runCommands(XMLNode* command, ComponentHandle<CustomScript> cScript) {
             while (command != NULL) {
-                //do commands
-
+                
+                // Setup
                 string name = command->Value();
-                Logger::getInstance() << name << "\n";
                 const XMLAttribute* attr = command->ToElement()->FirstAttribute();
-                vector<string> attribNames;
-                vector<string> attribVals;
+                unordered_map<string, string> attributes;
 
+                // Get Attributes
                 while (attr != NULL) {
-                    attribNames.push_back(attr->Name());
-                    attribVals.push_back(attr->Value());
+                    attributes.insert(make_pair(attr->Name(), attr->Value()));
                     attr = attr->Next();
+                }
+
+                // Do commands
+                if (name == "moveEntity") {
+                    float x = stof(attributes.at("x"));
+                    float y = stof(attributes.at("y"));
+
+                    moveEntity(x, y);
+                }
+
+                if (name == "removeEntity") {
+                    removeEntity();
                 }
 
                 command = command->NextSibling();
             }
+        }
+
+        // CustomScript Functions
+        // Should update as there should be more than just 4 vertices
+        void moveEntity(float x, float y) {
+            ComponentHandle<Position> position = currEntity->component<Position>(); 
+            position.get()->v0x += x;
+            position.get()->v0y += y;
+
+            position.get()->v1x += x;
+            position.get()->v1y += y;
+
+            position.get()->v2x += x;
+            position.get()->v2y += y;
+
+            position.get()->v3x += x;
+            position.get()->v3y += y;
+        }
+
+        void removeEntity() {
+            // Flag Current entity for deletion
+        }
+
+        void setActiveObject(bool active) {
+            
+        }
+
+        void loadScene() {
+
+        }
+
+        void updateVar(string varName, string varType, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName);
+            
+            if (varType == "string")
+                cScript.get()->strings.at(varName);
+
+            if (varType == "bool") 
+                cScript.get()->bools.at(varName);
+        }
+
+        void addVar() {
+
         }
 }; 
