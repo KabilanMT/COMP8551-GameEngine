@@ -1,16 +1,17 @@
 #pragma once
 
 #include <fstream>
-#include <experimental/filesystem>
 #include <iostream>
 #include <string>
 #include <windows.h>
+#include <functional>
 
 #include "entityx/entityx.h"
 #include "../Components/Components.h"
 #include "../Events/Events.h"
 
 using namespace entityx;
+
 class CustomScriptSystem : public System<CustomScriptSystem>, public Receiver<CustomScriptSystem> {
 public:
     void configure(EventManager& events) override {
@@ -143,7 +144,7 @@ public:
                 cScript.get()->bools.at(varName);
         }
 
-        void addVar() {
-
+        void addVar(string varName, string varType, string value) {
+            
         }
 }; 

@@ -7,6 +7,7 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <functional>
 
 #include "../CScript.h"
 #include "../Components/Components.h"
@@ -66,5 +67,5 @@ struct CustomScript
         unordered_map<std::string, bool> bools;
 
         // Function pointers
-        // vector<>
+        vector<std::function<void(void)>> updateFunctions;
 };
