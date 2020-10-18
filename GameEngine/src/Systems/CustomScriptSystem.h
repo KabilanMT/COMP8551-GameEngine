@@ -31,14 +31,12 @@ public:
             // ComponentHandle<CustomScript> handle = e.component<CustomScript>();
             // XMLElement* updateContent = handle->getUpdate();
             // runCommands(updateContent->FirstChild(), handle);
-
-            ComponentHandle<CustomScript> handle = e.component<CustomScript>();
-            XMLElement* updateContent = handle->getVariables();
-            getVariables(updateContent->FirstChild(), handle);
         }
     }
 
    private:
+        // Should be ran in start
+        // TODO: Requires error checking and refactor, assumes that the first and second attrib is variable name and value
         void getVariables(XMLNode* variable, ComponentHandle<CustomScript> cScript) {
             while (variable != NULL) {
                 

@@ -17,15 +17,20 @@ struct CustomScript
 {
     public:
         CustomScript(string xmlFile) {
-
             doc = new TinyXMLDocument();
             XMLError xmlerr = doc->LoadFile(xmlFile.c_str());
+
             if (xmlerr != XML_SUCCESS)
             {
                 Logger::getInstance() << "Could not read game object XML file!\n";
                 return;
             }
+            
             root = doc->FirstChildElement("root");
+        }
+
+        XMLElement* getStart() {
+            return root->FirstChildElement("start");
         }
 
         XMLElement* getUpdate() {
@@ -34,6 +39,14 @@ struct CustomScript
 
         XMLElement* getVariables() {
             return root->FirstChildElement("variables");
+        }
+
+        XMLElement* getOnEvent() {
+            return root->FirstChildElement("onEvent");
+        }
+
+        XMLElement* getOnCollision() {
+            return root->FirstChildElement("onCollision");
         }
 
         ~CustomScript() {
