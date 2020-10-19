@@ -155,7 +155,7 @@ void Engine::start() {
 
     entityx::Entity entity = Engine::getInstance().entities.create();
 
-    entity.assign<Position>(
+    entity.assign<SpriteVertices>(
         -50.0f,  -50.0f, 0.0f, 0.0f,
          50.0f, -50.0f, 1.0f, 0.0f,
          50.0f,  50.0f, 1.0f, 1.0f,
@@ -167,9 +167,8 @@ void Engine::start() {
 
     entity.assign<ShaderComp>("src/res/shaders/Basic.shader");
     entity.assign<TextureComp>("src/res/textures/Sport.png");
-    entity.assign<Translation>(50, 50, 0);
-    entity.assign<Rotate>(0, 0, 0, 1);
-    entity.assign<Camera>(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+    entity.assign<Transform>(50.0f, 50.0f, 0.0f, 180, 0, 0, 1);
+    entity.assign<Camera>((float)SCR_WIDTH / 2 * -1, (float)SCR_WIDTH / 2, (float)SCR_HEIGHT / 2 * -1, (float)SCR_HEIGHT / 2, -1.0f, 1.0f);
 
     //test for sound system
     // Entity e1 = entities.create();

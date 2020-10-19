@@ -14,12 +14,11 @@
 #include "../vertexBufferLayout.h"
 #include "../texture.h"
 
-#include "../Components/Position.h"
+#include "../Components/SpriteVertices.h"
 #include "../Components/ShaderComp.h"
 #include "../Components/TextureComp.h"
-#include "../Components/Translation.h"
-#include "../Components/Rotate.h"
 #include "../Components/Camera.h"
+#include "../Components/Transform.h"
 
 using namespace entityx;
 class RenderingSystem : public System<RenderingSystem> {
@@ -28,9 +27,9 @@ class RenderingSystem : public System<RenderingSystem> {
             //update loop
             renderer renderer;
             renderer.Clear();
-            es.each<Position, ShaderComp, TextureComp, Translation, Rotate, Camera>([dt, renderer](
-                Entity entity, Position &position, ShaderComp &shaderComp, TextureComp &textureComp,
-                Translation &translationComp, Rotate &rotateComp, Camera &cameraComp) {
+            es.each<SpriteVertices, ShaderComp, TextureComp, Camera, Transform>([dt, renderer](
+                Entity entity, SpriteVertices &position, ShaderComp &shaderComp, TextureComp &textureComp,
+                Camera &cameraComp, Transform &transformComp) {
                 //For large objects just 1 vertex buffer and multiple index buffers for different material types
                 //create vertex buffer
                 float positions[] = {
@@ -92,18 +91,18 @@ class RenderingSystem : public System<RenderingSystem> {
                 IB = contains vertex indices
                 //Draw uses IB access VB and call shader program on all vertices individually
                 */
-                va.Unbind();
-                vb.Unbind();
-                ib.Unbind();
-                shader.Unbind();
-
-                glm::vec3 translation(translationComp.x, translationComp.y, translationComp.z);
+                // va.Unbind();
+                // vb.Unbind();
+                // ib.Unbind();
+                // shader.Unbind();
+                
+                glm::vec3 translation((int)round(transformComp.x), (int)round(transformComp.y), (int)round(transformComp.z));
 
                 shader.Bind();
                 Texture.Bind();
                 glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(translation));
 
-                model = glm::rotate(model, 3.141592f / 180 * rotateComp.angle, glm::vec3(rotateComp.x, rotateComp.y, rotateComp.z)); // where x, y, z is axis of rotation (e.g. 0 1 0)
+                model = glm::rotate(model, 3.141592f / 180 * transformComp.angle, glm::vec3(transformComp.rx, transformComp.ry, transformComp.rz)); // where x, y, z is axis of rotation (e.g. 0 1 0)
 
                 glm::mat4 mvp = proj * view * model; 
                 shader.setUniformsMat4f("u_MVP", mvp);
