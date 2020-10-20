@@ -10,6 +10,8 @@
 #include "../logger.h"
 #include <string>
 #include <math.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 using namespace entityx;
 
@@ -45,7 +47,16 @@ class PhysicsSystem : public System<PhysicsSystem> {
         void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
             //Step 1: Apply rigidbody movement (velocity)
             //TODO
+            auto entities = es.entities_with_components<Rigidbody_2D>();
 
+            for(Entity e : entities){
+                //Update position:
+                ComponentHandle<Rigidbody_2D> rb = e.component<Rigidbody_2D>();
+                ComponentHandle<Transform> transform = e.component<Transform>();
+                float t = (float)dt;
+                transform->x = rb->velocityX * t + 0.5 * rb->accelerationX * powf(t, 2);
+                transform->y = rb->velocityY * t + 0.5 * rb->accelerationY * powf(t, 2);
+            }
             //Step 2: Detect collisions
             std::vector<EntityPair> pairs = broadphase(es); //returns pairs of possible collisions
             std::vector<EntityPair> collidingPairs = narrowphase(pairs); //should return pairs of entities that are colliding
@@ -134,7 +145,13 @@ class PhysicsSystem : public System<PhysicsSystem> {
         //Circle - Circle
         bool CheckCollision(ComponentHandle<CircleCollider>& c1, ComponentHandle<CircleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
             //TODO
-            Logger::getInstance() << "CheckCollision Circle-Circle\n"; // remove this during implementation
+            float c1PosX = c1->x + c1T->x;
+            float c2PosX = c2->x + c2T->x;
+            float c1PosY = c1->y + c1T->y;
+            float c2PosY = c2->y + c2T->y;
+            float distance = abs(sqrtf(powf(c2PosX - c1PosX, 2) +powf(c2PosY - c1PosY, 2)));
+            if(distance - (c1->radius + c2->radius))
+                return true;
             return false;
         }
 
@@ -142,13 +159,91 @@ class PhysicsSystem : public System<PhysicsSystem> {
         bool CheckCollision(ComponentHandle<CapsuleCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
             //TODO
             Logger::getInstance() << "CheckCollision Capsule-Capsule\n"; // remove this during implementation
+            //Capsule c1:
+            float c1Rotation = c1T->rz * M_PI / 180.0f;
+            glm::vec2 c1Tip = glm::rotate(glm::vec2(c1->x + c1T->x, c1->y + c1T->y + (c1->a)/2), c1Rotation);
+            glm::vec2 c1Base = glm::rotate(glm::vec2(c1->x + c1T->x, c1->y + c1T->y - (c1->a)/2), c1Rotation);
+            glm::vec2 c1Normal = glm::normalize(c1Tip - c1Base);
+            glm::vec2 c1LineEndOffset = c1Normal * c1->radius;
+            glm::vec2 c1_A = c1Base + c1LineEndOffset;
+            glm::vec2 c1_B = c1Tip + c1LineEndOffset;
+
+            //Capsule c2:
+            float c2Rotation = c2T->rz * M_PI / 180.0f;
+            glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y + (c2->a)/2), c2Rotation);
+            glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y - (c2->a)/2), c2Rotation);
+            glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
+            glm::vec2 c2LineEndOffset = c2Normal * c2->radius;
+            glm::vec2 c2_A = c2Base + c2LineEndOffset;
+            glm::vec2 c2_B = c2Tip + c2LineEndOffset;
             return false;
+
+            // vectors between line endpoints:
+            glm::vec2 v0 = c2_A - c1_A;
+            glm::vec2 v1 = c2_B - c1_A; 
+            glm::vec2 v2 = c2_A - c1_B; 
+            glm::vec2 v3 = c2_B - c1_B;
+
+            // squared distances:
+            float d0 = glm::dot(v0, v0); 
+            float d1 = glm::dot(v1, v1); 
+            float d2 = glm::dot(v2, v2); 
+            float d3 = glm::dot(v3, v3);
+
+            // select best potential endpoint on capsule A:
+            glm::vec2 bestA;
+            if (d2 < d0 || d2 < d1 || d3 < d0 || d3 < d1)
+            {
+                bestA = c1_B;
+            }
+            else
+            {
+                bestA = c1_A;
+            }
+
+            // select point on capsule B line segment nearest to best potential endpoint on A capsule:
+            glm::vec2 bestB = ClosestPointOnLineSegment(c2_A, c2_B, bestA);
+            // now do the same for capsule A segment:
+            bestA = ClosestPointOnLineSegment(c1_A, c1_B, bestB);
+
+            //Collision calc:
+            glm::vec2 penetration_normal = bestA - bestB;
+            float len = length(penetration_normal);
+            penetration_normal /= len;  // normalize
+            float penetration_depth = c1->radius + c2->radius - len;
+            return penetration_depth > 0;
         }
 
         //Box - Circle
         bool CheckCollision(ComponentHandle<BoxCollider>& c1, ComponentHandle<CircleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
             //TODO
             Logger::getInstance() << "CheckCollision Box-Circle\n"; // remove this during implementation
+            //Box stuff
+            float boxPosX = c1->x + c1T->x;
+            float boxPosY = c1->y + c1T->y;
+
+            //Circle
+            float circleX = c2->x + c2T->x;
+            float circleY = c2->y + c2T->y;
+
+            //Collision stuff
+            float testX;
+            float testY;
+            if(circleX < boxPosX - c1->width / 2)
+                testX = boxPosX - c1->width / 2;   //Testing left edge of box
+            else
+                testX = boxPosX + c1->width / 2;   //Testing right edge of box
+            if(circleY > boxPosY + c1->height / 2)
+                testY = boxPosY + c1->height / 2;   //Testing top edge of box
+            else
+                testY = boxPosY - c1->height / 2;   //Testing bottom edge of box
+
+            float distX = circleX - testX;
+            float distY = circleY - testY;
+            float distance = sqrtf(powf(distX, 2) + powf(distY, 2));
+
+            if(distance < c2->radius)
+                return true;
             return false;
         }
 
@@ -172,6 +267,17 @@ class PhysicsSystem : public System<PhysicsSystem> {
         //Circle - Capsule
         bool CheckCollision(ComponentHandle<CircleCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
             //TODO
+            //Capsule c2:
+            float c2Rotation = c2T->rz * M_PI / 180.0f;
+            glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y + (c2->a)/2), c2Rotation);
+            glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y - (c2->a)/2), c2Rotation);
+            glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
+            glm::vec2 c2LineEndOffset = c2Normal * c2->radius;
+            glm::vec2 c2_A = c2Base + c2LineEndOffset;
+            glm::vec2 c2_B = c2Tip + c2LineEndOffset;
+
+
+            return false;
             Logger::getInstance() << "CheckCollision Circle-Capsule\n"; // remove this during implementation
             return false;
         }
@@ -188,6 +294,13 @@ class PhysicsSystem : public System<PhysicsSystem> {
                 return true;
             }
             return false;
+        }
+
+        glm::vec2 ClosestPointOnLineSegment(glm::vec2 A, glm::vec2 B, glm::vec2 Point)
+        {
+            glm::vec2 AB = B - A;
+            float t = glm::dot(Point - A, AB) / glm::dot(AB, AB);
+            return A + min(max(t, 0.0f), 1.0f) * AB; // saturate(t) can be written as: min((max(t, 0), 1)
         }
 
         void PerformCollisionCalculations(EntityPair collision) {
