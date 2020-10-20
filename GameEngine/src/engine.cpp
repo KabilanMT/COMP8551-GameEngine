@@ -190,6 +190,7 @@ void Engine::start() {
     // e1.assign<AudioSource>(new Sound("Red Dead Redemption 2 - See the Fire in Your Eyes.mp3"));
 
     float i = 300.0f;
+    float y = -300.0f;
     SceneManager::getInstance().start();
     // render loop
     // -----------
@@ -199,6 +200,9 @@ void Engine::start() {
 
         entityx::ComponentHandle<Transform> transform = e2.component<Transform>();
         transform.get()->x += (i - transform.get()->x) * 0.1;
+
+        entityx::ComponentHandle<Transform> transform2 = entity.component<Transform>();
+        transform2.get()->x += (y - transform2.get()->x) * 0.1;
         //Swap front and back buffers
 
 

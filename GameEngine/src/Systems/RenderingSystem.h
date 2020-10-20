@@ -72,7 +72,7 @@ class RenderingSystem : public System<RenderingSystem> {
 
                 //Make projection matrix editable
                 glm::mat4 proj = glm::ortho(cameraComp.lf, cameraComp.rf, cameraComp.bf, cameraComp.tf, cameraComp.dnp, cameraComp.dfp);
-                glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+                glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(cameraComp.x, cameraComp.y, cameraComp.z));
 
                 //Have to set uniforms to the same bind slot (default 0)
                 shader shader(shaderComp.filepath);
