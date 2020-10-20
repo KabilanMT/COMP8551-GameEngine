@@ -73,7 +73,6 @@ class RenderingSystem : public System<RenderingSystem> {
                 //Make projection matrix editable
                 glm::mat4 proj = glm::ortho(cameraComp.lf, cameraComp.rf, cameraComp.bf, cameraComp.tf, cameraComp.dnp, cameraComp.dfp);
                 glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
-                //Need to eventually move this model view out in to imgui
 
                 //Have to set uniforms to the same bind slot (default 0)
                 shader shader(shaderComp.filepath);
@@ -101,10 +100,16 @@ class RenderingSystem : public System<RenderingSystem> {
                 shader.Bind();
                 Texture.Bind();
                 glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(translation));
-
                 model = glm::rotate(model, 3.141592f / 180 * transformComp.angle, glm::vec3(transformComp.rx, transformComp.ry, transformComp.rz)); // where x, y, z is axis of rotation (e.g. 0 1 0)
+                glm::mat4 mvp;
+                if(transformComp.sx == 2){
+                    // cout<<"TEST";
+                    mvp = proj * model;  
+                }
+                else{
+                    mvp = proj * view * model; 
+                }
 
-                glm::mat4 mvp = proj * view * model; 
                 shader.setUniformsMat4f("u_MVP", mvp);
                 renderer.Draw(va, ib, shader);
             });

@@ -60,7 +60,7 @@ void Engine::initialize() {
         return;
     }
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); //VSYNC
+    glfwSwapInterval(0); //VSYNC
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
@@ -152,11 +152,26 @@ void Engine::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) 
 
 void Engine::start() {
     Logger::getInstance() << "Start of game engine.\n";
+    entityx::Entity e2 = entities.create();
+    e2.assign<AudioSource>(new Sound("kick-trimmed.wav", true));
+    e2.assign<SpriteVertices>(
+        -100.0f, -100.0f, 0.0f, 0.0f,
+         100.0f, -100.0f, 1.0f, 0.0f,
+         100.0f,  100.0f, 1.0f, 1.0f,
+        -100.0f,  100.0f, 0.0f, 1.0f,
+
+        0,1,2,
+        2,3,0
+    );
+    e2.assign<ShaderComp>("src/res/shaders/Basic.shader");
+    e2.assign<TextureComp>("src/res/textures/Torb.png");
+    e2.assign<Transform>(0.0f, 0.0f, 0.0f, 0, 0, 0, 1, 2);
+    e2.assign<Camera>((float)SCR_WIDTH / 2 * -1, (float)SCR_WIDTH / 2, (float)SCR_HEIGHT / 2 * -1, (float)SCR_HEIGHT / 2, -1.0f, 1.0f);
 
     entityx::Entity entity = Engine::getInstance().entities.create();
 
     entity.assign<SpriteVertices>(
-        -50.0f,  -50.0f, 0.0f, 0.0f,
+        -50.0f, -50.0f, 0.0f, 0.0f,
          50.0f, -50.0f, 1.0f, 0.0f,
          50.0f,  50.0f, 1.0f, 1.0f,
         -50.0f,  50.0f, 0.0f, 1.0f,
@@ -167,15 +182,14 @@ void Engine::start() {
 
     entity.assign<ShaderComp>("src/res/shaders/Basic.shader");
     entity.assign<TextureComp>("src/res/textures/Sport.png");
-    entity.assign<Transform>(50.0f, 50.0f, 0.0f, 180, 0, 0, 1);
+    entity.assign<Transform>(-100.0f, 0.0f, 0.0f, 90, 0, 0, 1);
     entity.assign<Camera>((float)SCR_WIDTH / 2 * -1, (float)SCR_WIDTH / 2, (float)SCR_HEIGHT / 2 * -1, (float)SCR_HEIGHT / 2, -1.0f, 1.0f);
 
     //test for sound system
     // Entity e1 = entities.create();
     // e1.assign<AudioSource>(new Sound("Red Dead Redemption 2 - See the Fire in Your Eyes.mp3"));
-    Entity e2 = entities.create();
-    e2.assign<AudioSource>(new Sound("kick-trimmed.wav", true));
 
+    float i = 300.0f;
     SceneManager::getInstance().start();
     // render loop
     // -----------
@@ -183,7 +197,11 @@ void Engine::start() {
     {   
         update();
 
+        entityx::ComponentHandle<Transform> transform = e2.component<Transform>();
+        transform.get()->x += (i - transform.get()->x) * 0.1;
         //Swap front and back buffers
+
+
         glfwSwapBuffers(window);
 
         glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
