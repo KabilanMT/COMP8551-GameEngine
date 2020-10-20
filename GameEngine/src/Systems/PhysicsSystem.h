@@ -47,9 +47,9 @@ class PhysicsSystem : public System<PhysicsSystem> {
         void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
             //Step 1: Apply rigidbody movement (velocity)
             //TODO
-            auto entities = es.entities_with_components<Rigidbody_2D>();
+            auto physicsEntities = es.entities_with_components<Rigidbody_2D>();
 
-            for(Entity e : entities){
+            for(Entity e : physicsEntities){
                 //Update position:
                 ComponentHandle<Rigidbody_2D> rb = e.component<Rigidbody_2D>();
                 ComponentHandle<Transform> transform = e.component<Transform>();
@@ -158,7 +158,6 @@ class PhysicsSystem : public System<PhysicsSystem> {
         //Capsule - Capsule
         bool CheckCollision(ComponentHandle<CapsuleCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
             //TODO
-            Logger::getInstance() << "CheckCollision Capsule-Capsule\n"; // remove this during implementation
             //Capsule c1:
             float c1Rotation = c1T->rz * M_PI / 180.0f;
             glm::vec2 c1Tip = glm::rotate(glm::vec2(c1->x + c1T->x, c1->y + c1T->y + (c1->a)/2), c1Rotation);
@@ -217,7 +216,6 @@ class PhysicsSystem : public System<PhysicsSystem> {
         //Box - Circle
         bool CheckCollision(ComponentHandle<BoxCollider>& c1, ComponentHandle<CircleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
             //TODO
-            Logger::getInstance() << "CheckCollision Box-Circle\n"; // remove this during implementation
             //Box stuff
             float boxPosX = c1->x + c1T->x;
             float boxPosY = c1->y + c1T->y;
@@ -278,7 +276,6 @@ class PhysicsSystem : public System<PhysicsSystem> {
 
 
             return false;
-            Logger::getInstance() << "CheckCollision Circle-Capsule\n"; // remove this during implementation
             return false;
         }
 
