@@ -76,7 +76,7 @@ struct Sound {
     void setUpSound() {
         string fullpath = path + name;
         if (!(sound = BASS_StreamCreateFile(false, fullpath.c_str(), 0, 0, BASS_SAMPLE_MONO))) {
-            Logger::getInstance() << "Load error: " << BASS_ErrorGetCode() << " \t";
+            Logger::getInstance() << "Load error: " << BASS_ErrorGetCode() << " \n";
         }
         if (ifLoop == true) {
             setIfLoop(ifLoop);
@@ -86,19 +86,19 @@ struct Sound {
 
     void play() {
         if (!BASS_ChannelPlay(sound, FALSE)) {
-            Logger::getInstance() << "Play error: " << BASS_ErrorGetCode() << " \t";
+            Logger::getInstance() << "Play error: " << BASS_ErrorGetCode() << " \n";
         }
     }
 
     void pause() {
         if (!BASS_ChannelPause(sound)) {
-            Logger::getInstance() << "Play error: " << BASS_ErrorGetCode() << " \t";
+            Logger::getInstance() << "Play error: " << BASS_ErrorGetCode() << " \n";
         }
     }
 
     void stop() {
         if (!BASS_ChannelStop(sound)) {
-            Logger::getInstance() << "Play error: " << BASS_ErrorGetCode() << " \t";
+            Logger::getInstance() << "Play error: " << BASS_ErrorGetCode() << " \n";
         }
     }
 
@@ -106,7 +106,7 @@ struct Sound {
         ifLoop = loop;
 
         if (BASS_ChannelFlags(sound, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP) == -1) {
-            Logger::getInstance() << "Play error: " << BASS_ErrorGetCode() << " \t";
+            Logger::getInstance() << "Play error: " << BASS_ErrorGetCode() << " \n";
         }
     }
 

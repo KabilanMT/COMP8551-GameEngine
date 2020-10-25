@@ -5,8 +5,8 @@
 
 using namespace std;
 
-struct SceneLoad : Event<SceneLoad> {
-  SceneLoad(string sceneName) : sceneName(sceneName) {}
+struct SceneUnload : Event<SceneUnload> {
+  SceneUnload(string sceneName) : sceneName(sceneName) {}
 
   string sceneName;
 };

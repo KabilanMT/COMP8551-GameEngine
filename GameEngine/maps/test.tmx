@@ -3,7 +3,7 @@
     <objectgroup name="Objects" offsetx="1" offsety="-2">
         <object id="1" name="Flaps" type="Wall" x="0" y="0" width="64" height="64" rotate="130" visible="1">
             <properties>
-                <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true"/>             
+                <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true,bgm"/>             
             </properties>
         </object>
     </objectgroup>

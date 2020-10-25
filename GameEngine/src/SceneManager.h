@@ -18,6 +18,8 @@ class SceneManager {
 
     private:
         SceneManager();
+        bool isSceneLoaded = false;
+        string sceneLoaded;
 
         vector<Scene*> scenes;
 };
