@@ -13,6 +13,6 @@
 
     </onCollision>
     <start>
-
+        <updateVar name="health" value="4" type="int" />
     </start>
 </root>
