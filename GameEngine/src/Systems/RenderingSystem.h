@@ -42,9 +42,6 @@ class RenderingSystem : public System<RenderingSystem> {
 
             ComponentHandle<Camera> mainCamera;
             ComponentHandle<Transform> mainTransform;
-            // ComponentHandle<SpriteVertices> mainSpriteVertices;
-            // ComponentHandle<ShaderComp> mainShader;
-            // ComponentHandle<TextureComp> mainTexture;
             glm::mat4 proj, view;
 
             vertexArray va;
@@ -54,8 +51,6 @@ class RenderingSystem : public System<RenderingSystem> {
                 // Do things with entity, position and direction.
                 mainCamera = entity.component<Camera>();
                 mainTransform = entity.component<Transform>();
-                // mainSpriteVertices = entity.component<SpriteVertices>();
-                // mainShader = entity.component<ShaderComp>();
                 lf = mainCamera.get()->lf;
                 rf = mainCamera.get()->rf;
                 bf = mainCamera.get()->bf;
