@@ -3,11 +3,17 @@
 #include <Bass\bass.h>
 #include "Sound.h"
 #include <string>
+#include "../logger.h"
 
 using namespace std;
 
 struct AudioSource {
-	AudioSource(Sound* sound) : sound(sound), name(sound->name) {}
+	AudioSource(string name, bool ifLoop = false, string tag = "") : sound{new Sound(name, ifLoop)}, name(name), tag(tag) {
+		sound->setUpSound();
+	}
+	~AudioSource() {
+		cleanUp();
+	}
 
 	Sound* sound;
 	string name;

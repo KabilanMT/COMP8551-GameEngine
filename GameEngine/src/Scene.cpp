@@ -145,8 +145,7 @@ Scene::Scene(string sceneName, string tmxFile) : name(sceneName), fileName(tmxFi
 void Scene::addAudioSource(vector<string>& parameters, Entity& e) {
     bool b;
     istringstream(parameters.at(1)) >> std::boolalpha >> b;
-    Sound* s = new Sound(parameters.at(0).c_str(), b);
-    e.assign<AudioSource>(s);
+    e.assign<AudioSource>(parameters.at(0).c_str(), b, parameters.at(2));
 }
 
 void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {

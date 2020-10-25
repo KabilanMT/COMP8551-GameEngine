@@ -2,6 +2,7 @@
  
 #include "entityx/entityx.h"
 #include "../Components/Sound.h"
+#include "../Events/Events.h"
 
 #include "AudioMixer.h"
 #include <Windows.h>
@@ -10,41 +11,44 @@
 
 using namespace entityx;
 
-class SoundSystem : public System<SoundSystem> {
+class SoundSystem : public System<SoundSystem>, public Receiver<SoundSystem> {
     public:
- 
-
-        Sound *bgm;
-        Sound *sound;
         AudioMixer *audiomix;
+
+        void configure(EventManager& events) override {
+            events.subscribe<ScenePreLoad>(*this);
+        }
+
+        //this method will be called right before the scene loads
+        void receive(const ScenePreLoad& sl) {
+
+            if (!initialized) {
+                initSystem();
+            }
+
+            newScene = true;
+        }
+ 
         void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
             //update loop
 
             auto entities = es.entities_with_components<AudioSource>();
-            if (!initialized) {
-                initSystem();
+            if (newScene) {
+                newScene = false;
                 for (Entity e : entities) {
                     ComponentHandle<AudioSource> handle = e.component<AudioSource>();
-                    handle->sound->setUpSound();
-                    if (handle->name == "Red Dead Redemption 2 - See the Fire in Your Eyes.mp3") {
-                        handle->tag = "bgm";
-                    }
-                    if (handle->tag == "bgm") {
-                        //handle->setVolume(0.2f);
-                        Logger::getInstance() << handle->tag << "'s name is " << handle->name << "\t";
-                    }
                     handle->sound->play();
 
-                   
+                    //audiomix->Setchorus(handle->sound->sound, true);
+                    //audiomix->chorusproperties(100, 100, 99, 10, 1, 20, BASS_DX8_PHASE_90);
                     //change volume
                     //handle->sound->setVolumn(2);
                     //causes echo effect
                     //audiomix->Setecho(handle->sound->sound, true);
-                    //audiomix->echoproperties(0, 100, 2000, 2000, TRUE);
-             
+                    //audiomix->echoproperties(100, 0, 1, 1, TRUE);
                     //causes distortion effect
                     //audiomix->Setdistortion(handle->sound->sound, true);
-                    //audiomix->distortionproperties(-60, 100, 8000, 8000, 8000);
+                    //audiomix->distortionproperties(-18, 15, 2400, 2400, 8000);
                 }
             }
 
@@ -74,4 +78,5 @@ class SoundSystem : public System<SoundSystem> {
 
     private:
         bool initialized = false;
+        bool newScene = true;
 };

@@ -3,11 +3,10 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <windows.h>
 #include <functional>
 
 #include "entityx/entityx.h"
-#include "../Components/Components.h"
+#include "../Components/CustomScript.h"
 #include "../Events/Events.h"
 
 using namespace entityx;
@@ -21,7 +20,19 @@ public:
     void receive(const SceneLoad& sl) {
         //this method will be called when the scene loads
 
-        //call start methods
+        // call start methods
+        for (Entity e : sl.entities) {
+            currEntity = &e;
+            ComponentHandle<CustomScript> handle = e.component<CustomScript>();
+
+            XMLElement* variablesContent = handle->getVariables();
+            if (variablesContent != nullptr)
+                runCommands(variablesContent->FirstChild(), handle);
+
+            XMLElement* startContent = handle->getStart();
+            if (startContent != nullptr)
+                runCommands(startContent->FirstChild(), handle);
+        }
     }
 
     void update(EntityManager& es, EventManager& events, TimeDelta dt) override 
@@ -32,7 +43,9 @@ public:
             currEntity = &e;
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
             XMLElement* updateContent = handle->getUpdate();
-            runCommands(updateContent->FirstChild(), handle);
+
+            if (updateContent != nullptr)
+                runCommands(updateContent->FirstChild(), handle);
         }
     }
 
@@ -42,7 +55,7 @@ public:
         // Should be ran in start
         // TODO: Requires error checking and refactor, assumes that the first and second attrib is variable name and value
         void getVariables(XMLNode* variable, ComponentHandle<CustomScript> cScript) {
-            while (variable != NULL) {
+            while (variable != nullptr) {
                 
                 string name = variable->Value();
                 const XMLAttribute* attr = variable->ToElement()->FirstAttribute();
