@@ -45,7 +45,7 @@ void Scene::load() {
                 string aName = attr->Name();
 
                 if (aName == "name") {
-                    //ent.assign<Name>(attr->Value());
+                    ent.assign<Name>(attr->Value());
                 } else if (aName == "x") {
                     stringstream str(attr->Value());
                     str >> x;
@@ -65,7 +65,7 @@ void Scene::load() {
                     stringstream str(attr->Value());
                     int temp;
                     str >> temp;
-                    //ent.assign<Active>((bool)temp);
+                    ent.assign<Active>((bool)temp);
                 }
 
                 attr = attr->Next();
