@@ -9,7 +9,6 @@
 #include <iostream>
 #include <functional>
 
-#include "../CScript.h"
 #include "../Components/Components.h"
 #include "tinyxml2.h"
 

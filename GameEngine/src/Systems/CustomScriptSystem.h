@@ -27,7 +27,7 @@ public:
 
             XMLElement* variablesContent = handle->getVariables();
             if (variablesContent != nullptr)
-                runCommands(variablesContent->FirstChild(), handle);
+                getVariables(variablesContent->FirstChild(), handle);
 
             XMLElement* startContent = handle->getStart();
             if (startContent != nullptr)
@@ -62,7 +62,7 @@ public:
                 string var_name = attr->Value();
                 string var_value = attr->Next()->Value(); 
 
-                if (name == "int")
+                if (name.compare("int") == 0)
                     cScript.get()->ints.insert(make_pair(var_name, stoi(var_value, nullptr, 0)));
 
                 if (name == "float")
@@ -140,6 +140,24 @@ public:
 
                 }
 
+                if (name == "updateVar") {
+                    cout << "Test" << endl;
+                    string varName = attributes.at("name");
+                    string varType = attributes.at("type");
+                    string value = attributes.at("value");
+                    cout << "Test" << endl;
+
+                    updateVar(varName, varType, value, cScript);
+                }
+
+                if (name == "addVar") {
+                    string varName = attributes.at("name");
+                    string varType = attributes.at("type");
+                    string value = attributes.at("value");
+
+                    addVar(varName, varType, value, cScript);
+                }
+
                 if (name == "moveEntity") {
                     int x = stoi(attributes.at("x"), nullptr, 0);
                     int y = stoi(attributes.at("y"), nullptr, 0);
@@ -177,21 +195,21 @@ public:
 
         }
 
-        void updateVar(string varName, string varType, ComponentHandle<CustomScript> cScript) {
+        void updateVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
             if (varType == "int")
-                cScript.get()->ints.at(varName);
+                cScript.get()->ints.at(varName) = stoi(value, nullptr, 0);
 
             if (varType == "float")
-                cScript.get()->floats.at(varName);
+                cScript.get()->floats.at(varName) = stof(value);
 
             if (varType == "double")
-                cScript.get()->doubles.at(varName);
+                cScript.get()->doubles.at(varName) = stod(value);
             
             if (varType == "string")
-                cScript.get()->strings.at(varName);
+                cScript.get()->strings.at(varName) = value;
 
             if (varType == "bool") 
-                cScript.get()->bools.at(varName);
+                cScript.get()->bools.at(varName) = (value == "true") ? true : false;
         }
 
         void addVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
@@ -199,9 +217,12 @@ public:
                 cScript.get()->ints.at(varName) += stoi(value, nullptr, 0);
 
             if (varType == "float")
-                cScript.get()->floats.at(varName) += stoi(value, nullptr, 0);
+                cScript.get()->floats.at(varName) += stof(value);
 
             if (varType == "double")
-                cScript.get()->doubles.at(varName) += stoi(value, nullptr, 0);
+                cScript.get()->doubles.at(varName) += stod(value);
+
+            if (varType == "string")
+                cScript.get()->strings.at(varName) += value;
         }
 }; 
