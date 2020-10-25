@@ -177,10 +177,10 @@ public:
         // CustomScript Functions
         // Should update as there should be more than just 4 vertices
         void moveEntity(int x, int y, int z) {
-            // ComponentHandle<Translation> trans = currEntity->component<Translation>(); 
-            // trans.get()->x += x;
-            // trans.get()->y += y;
-            // trans.get()->z += z;
+            ComponentHandle<Transform> trans = currEntity->component<Transform>(); 
+            trans.get()->x += x;
+            trans.get()->y += y;
+            trans.get()->z += z;
         }
 
         void removeEntity() {
