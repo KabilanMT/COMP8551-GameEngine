@@ -152,11 +152,26 @@ void Engine::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) 
 
 void Engine::start() {
     Logger::getInstance() << "Start of game engine.\n";
+    entityx::Entity e2 = entities.create();
+    //e2.assign<AudioSource>(new Sound("kick-trimmed.wav", true));
+    e2.assign<SpriteVertices>(
+        -25.0f, -25.0f, 0.0f, 0.0f,
+         25.0f, -25.0f, 1.0f, 0.0f,
+         25.0f,  25.0f, 1.0f, 1.0f,
+        -25.0f,  25.0f, 0.0f, 1.0f,
+
+        0,1,2,
+        2,3,0
+    );
+    e2.assign<ShaderComp>("src/res/shaders/Basic.shader");
+    e2.assign<TextureComp>("src/res/textures/platformChar_idle.png");
+    e2.assign<Transform>(0.0f, 0.0f, 0.0f, 0, 0, 0, 1, 2);
+    e2.assign<Camera>((float)SCR_WIDTH / 2 * -1, (float)SCR_WIDTH / 2, (float)SCR_HEIGHT / 2 * -1, (float)SCR_HEIGHT / 2, -1.0f, 1.0f);
 
     entityx::Entity entity = Engine::getInstance().entities.create();
 
-    entity.assign<Position>(
-        -50.0f,  -50.0f, 0.0f, 0.0f,
+    entity.assign<SpriteVertices>(
+        -50.0f, -50.0f, 0.0f, 0.0f,
          50.0f, -50.0f, 1.0f, 0.0f,
          50.0f,  50.0f, 1.0f, 1.0f,
         -50.0f,  50.0f, 0.0f, 1.0f,
@@ -167,16 +182,25 @@ void Engine::start() {
 
     entity.assign<ShaderComp>("src/res/shaders/Basic.shader");
     entity.assign<TextureComp>("src/res/textures/Sport.png");
-    entity.assign<Translation>(50, 50, 0);
-    entity.assign<Rotate>(0, 0, 0, 1);
-    entity.assign<Camera>(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+    entity.assign<Transform>(-100.0f, 0.0f, 0.0f, 90, 0, 0, 1);
+    //test for sound system
+    // Entity e1 = entities.create();
+    // e1.assign<AudioSource>(new Sound("Red Dead Redemption 2 - See the Fire in Your Eyes.mp3"));
 
+    float i = 300.0f;
+    float y = -300.0f;
+    float alpha = 0.01;
     SceneManager::getInstance().start();
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {   
         update();
+
+        entityx::ComponentHandle<Transform> transform = e2.component<Transform>();
+
+        //LEEEEERP
+        transform.get()->x = transform.get()->x * (1.0 - alpha) + i * alpha;
 
         //Swap front and back buffers
         glfwSwapBuffers(window);
