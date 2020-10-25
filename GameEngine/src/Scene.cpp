@@ -45,7 +45,7 @@ void Scene::load() {
                 string aName = attr->Name();
 
                 if (aName == "name") {
-                    //ent.assign<Name>(attr->Value());
+                    ent.assign<Name>(attr->Value());
                 } else if (aName == "x") {
                     stringstream str(attr->Value());
                     str >> x;
@@ -65,7 +65,7 @@ void Scene::load() {
                     stringstream str(attr->Value());
                     int temp;
                     str >> temp;
-                    //ent.assign<Active>((bool)temp);
+                    ent.assign<Active>((bool)temp);
                 }
 
                 attr = attr->Next();
@@ -145,8 +145,7 @@ Scene::Scene(string sceneName, string tmxFile) : name(sceneName), fileName(tmxFi
 void Scene::addAudioSource(vector<string>& parameters, Entity& e) {
     bool b;
     istringstream(parameters.at(1)) >> std::boolalpha >> b;
-    Sound* s = new Sound(parameters.at(0).c_str(), b);
-    e.assign<AudioSource>(s);
+    e.assign<AudioSource>(parameters.at(0).c_str(), b, parameters.at(2));
 }
 
 void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {

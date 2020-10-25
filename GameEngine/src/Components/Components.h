@@ -13,3 +13,5 @@
 #include "Camera.h"
 #include "CustomScript.h"
 #include "AudioSource.h"
+#include "Name.h"
+#include "Active.h"
