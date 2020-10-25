@@ -60,7 +60,7 @@ void Engine::initialize() {
         return;
     }
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(0); //VSYNC
+    glfwSwapInterval(1); //VSYNC
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
@@ -202,7 +202,7 @@ void Engine::start() {
         //LEEEEERP
         transform.get()->x = transform.get()->x * (1.0 - alpha) + i * alpha;
 
-
+        //Swap front and back buffers
         glfwSwapBuffers(window);
 
         glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)

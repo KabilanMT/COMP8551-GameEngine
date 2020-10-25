@@ -31,7 +31,6 @@ log.txt
 
 # Generated files
 .idea/**/contentModel.xml
-*.stackdump
 
 # Sensitive or high-churn files
 .idea/**/dataSources/

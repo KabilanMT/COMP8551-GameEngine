@@ -28,17 +28,6 @@ class RenderingSystem : public System<RenderingSystem> {
             renderer renderer;
             renderer.Clear();
             float lf, rf, bf, tf, dnp, dfp, x, y, z;
-            //use es.each<camera> get first element with camera and create view matrix with that
-            //get entity with the camera component
-            //get camera component
-            //use camera component for view matrix
-            //get transform component from entity
-            //create view matrix here
-            //glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(transform.x + camera.x, transform.y + camera.y, transform.z + camera.z));
-
-            //put camera component on player entity
-            //player -> Transform, other stuff, camera
-            //transform used for determining position for model matrix, also used for position of camera
 
             ComponentHandle<Camera> mainCamera;
             ComponentHandle<Transform> mainTransform;
@@ -125,10 +114,10 @@ class RenderingSystem : public System<RenderingSystem> {
                 IB = contains vertex indices
                 //Draw uses IB access VB and call shader program on all vertices individually
                 */
-                // va.Unbind();
-                // vb.Unbind();
-                // ib.Unbind();
-                // shader.Unbind();
+                va.Unbind();
+                vb.Unbind();
+                ib.Unbind();
+                shader.Unbind();
                 
                 glm::vec3 translation((int)round(transformComp.x), (int)round(transformComp.y), (int)round(transformComp.z));
 
