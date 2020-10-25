@@ -60,7 +60,7 @@ void Engine::initialize() {
         return;
     }
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(0); //VSYNC
+    glfwSwapInterval(1); //VSYNC
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
@@ -168,10 +168,11 @@ void Engine::start() {
     e2.assign<Transform>(0.0f, 0.0f, 0.0f, 0, 0, 0, 1, 2);
     e2.assign<Camera>((float)SCR_WIDTH / 2 * -1, (float)SCR_WIDTH / 2, (float)SCR_HEIGHT / 2 * -1, (float)SCR_HEIGHT / 2, -1.0f, 1.0f);
 
+
     entityx::Entity entity = Engine::getInstance().entities.create();
 
-    entity.assign<SpriteVertices>(
-        -50.0f, -50.0f, 0.0f, 0.0f,
+    entity.assign<Position>(
+        -50.0f,  -50.0f, 0.0f, 0.0f,
          50.0f, -50.0f, 1.0f, 0.0f,
          50.0f,  50.0f, 1.0f, 1.0f,
         -50.0f,  50.0f, 0.0f, 1.0f,
@@ -182,14 +183,10 @@ void Engine::start() {
 
     entity.assign<ShaderComp>("src/res/shaders/Basic.shader");
     entity.assign<TextureComp>("src/res/textures/Sport.png");
-    entity.assign<Transform>(-100.0f, 0.0f, 0.0f, 90, 0, 0, 1);
-    //test for sound system
-    // Entity e1 = entities.create();
-    // e1.assign<AudioSource>(new Sound("Red Dead Redemption 2 - See the Fire in Your Eyes.mp3"));
+    entity.assign<Translation>(50, 50, 0);
+    entity.assign<Rotate>(0, 0, 0, 1);
+    entity.assign<Camera>(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
 
-    float i = 300.0f;
-    float y = -300.0f;
-    float alpha = 0.01;
     SceneManager::getInstance().start();
     // render loop
     // -----------
@@ -197,12 +194,7 @@ void Engine::start() {
     {   
         update();
 
-        entityx::ComponentHandle<Transform> transform = e2.component<Transform>();
-
-        //LEEEEERP
-        transform.get()->x = transform.get()->x * (1.0 - alpha) + i * alpha;
-
-
+        //Swap front and back buffers
         glfwSwapBuffers(window);
 
         glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)

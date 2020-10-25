@@ -14,11 +14,12 @@
 #include "../vertexBufferLayout.h"
 #include "../texture.h"
 
-#include "../Components/SpriteVertices.h"
+#include "../Components/Position.h"
 #include "../Components/ShaderComp.h"
 #include "../Components/TextureComp.h"
+#include "../Components/Translation.h"
+#include "../Components/Rotate.h"
 #include "../Components/Camera.h"
-#include "../Components/Transform.h"
 
 using namespace entityx;
 class RenderingSystem : public System<RenderingSystem> {
@@ -27,67 +28,9 @@ class RenderingSystem : public System<RenderingSystem> {
             //update loop
             renderer renderer;
             renderer.Clear();
-            float lf, rf, bf, tf, dnp, dfp, x, y, z;
-            //use es.each<camera> get first element with camera and create view matrix with that
-            //get entity with the camera component
-            //get camera component
-            //use camera component for view matrix
-            //get transform component from entity
-            //create view matrix here
-            //glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(transform.x + camera.x, transform.y + camera.y, transform.z + camera.z));
-
-            //put camera component on player entity
-            //player -> Transform, other stuff, camera
-            //transform used for determining position for model matrix, also used for position of camera
-
-            ComponentHandle<Camera> mainCamera;
-            ComponentHandle<Transform> mainTransform;
-            // ComponentHandle<SpriteVertices> mainSpriteVertices;
-            // ComponentHandle<ShaderComp> mainShader;
-            // ComponentHandle<TextureComp> mainTexture;
-            glm::mat4 proj, view;
-
-            vertexArray va;
-            vertexBufferLayout layout;
-            
-            for (Entity entity : es.entities_with_components(mainTransform, mainCamera)) {
-                // Do things with entity, position and direction.
-                mainCamera = entity.component<Camera>();
-                mainTransform = entity.component<Transform>();
-                // mainSpriteVertices = entity.component<SpriteVertices>();
-                // mainShader = entity.component<ShaderComp>();
-                lf = mainCamera.get()->lf;
-                rf = mainCamera.get()->rf;
-                bf = mainCamera.get()->bf;
-                tf = mainCamera.get()->tf;
-                dnp = mainCamera.get()->dnp;
-                dfp = mainCamera.get()->dfp;
-                x = mainCamera.get()->x - mainTransform.get()->x;
-                y = mainCamera.get()->y - mainTransform.get()->y;
-                z = mainCamera.get()->z - mainTransform.get()->z;
-
-                // Model matrix: defines position, rotation and scale of the vertices of the model in the world.
-                // View matrix: defines position and orientation of the "camera".
-                // Projection matrix: Maps what the "camera" sees to NDC, taking care of aspect ratio and perspective.
-            
-                //Orthographic projection between (-2 and 2 (x) / -1.5 and 1.5 (y) / -1 and 1 (z))
-                //This is the view, if any of the positions are outside of this view, they won't be rendered
-                //EG. if position x is -0.5 and ortho view is -2  - 2:
-                //  then it will be a quarter of the way to the left since -0.5 is 1/4th of 2 which will make it 0.25
-                //1:1 pixel mapping for 960x540 res:
-                // EG: glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-                
-                //Make projection matrix editable
-                //Creates a matrix for an orthographic parallel viewing volume.
-
-                //   LEFT, RIGHT, BOTTOM, TOP, ZNEAR, ZFAR
-                proj = glm::ortho(lf, rf, bf, tf, dnp, dfp);
-                view = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
-                break;
-            }
-            es.each<SpriteVertices, ShaderComp, TextureComp, Transform>([dt, renderer, proj, view](
-                Entity entity, SpriteVertices &position, ShaderComp &shaderComp, TextureComp &textureComp,
-                Transform &transformComp) {
+            es.each<Position, ShaderComp, TextureComp, Translation, Rotate, Camera>([dt, renderer](
+                Entity entity, Position &position, ShaderComp &shaderComp, TextureComp &textureComp,
+                Translation &translationComp, Rotate &rotateComp, Camera &cameraComp) {
                 //For large objects just 1 vertex buffer and multiple index buffers for different material types
                 //create vertex buffer
                 float positions[] = {
@@ -114,6 +57,25 @@ class RenderingSystem : public System<RenderingSystem> {
                 //create index buffer
                 indexBuffer ib(indices, 6);
 
+                //Orthographic projection between (-2 and 2 (x) / -1.5 and 1.5 (y) / -1 and 1 (z))
+                //This is the view, if any of the positions are outside of this view, they won't be rendered
+                //EG. if position x is -0.5 and ortho view is -2  - 2:
+                //  then it will be a quarter of the way to the left since -0.5 is 1/4th of 2 which will make it 0.25
+                //1:1 pixel mapping for 960x540 res:
+                // EG: 
+                //      glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+                
+                /*
+                Model matrix: defines position, rotation and scale of the vertices of the model in the world.
+                View matrix: defines position and orientation of the "camera".
+                Projection matrix: Maps what the "camera" sees to NDC, taking care of aspect ratio and perspective.
+                */
+
+                //Make projection matrix editable
+                glm::mat4 proj = glm::ortho(cameraComp.lf, cameraComp.rf, cameraComp.bf, cameraComp.tf, cameraComp.dnp, cameraComp.dfp);
+                glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+                //Need to eventually move this model view out in to imgui
+
                 //Have to set uniforms to the same bind slot (default 0)
                 shader shader(shaderComp.filepath);
                 shader.Bind();
@@ -130,20 +92,20 @@ class RenderingSystem : public System<RenderingSystem> {
                 IB = contains vertex indices
                 //Draw uses IB access VB and call shader program on all vertices individually
                 */
-                // va.Unbind();
-                // vb.Unbind();
-                // ib.Unbind();
-                // shader.Unbind();
-                
-                glm::vec3 translation((int)round(transformComp.x), (int)round(transformComp.y), (int)round(transformComp.z));
+                va.Unbind();
+                vb.Unbind();
+                ib.Unbind();
+                shader.Unbind();
+
+                glm::vec3 translation(translationComp.x, translationComp.y, translationComp.z);
 
                 shader.Bind();
                 Texture.Bind();
                 glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(translation));
-                model = glm::rotate(model, 3.141592f / 180 * transformComp.angle, glm::vec3(transformComp.rx, transformComp.ry, transformComp.rz)); // where x, y, z is axis of rotation (e.g. 0 1 0)
-                glm::mat4 mvp;
-                mvp = proj * view * model; 
 
+                model = glm::rotate(model, 3.141592f / 180 * rotateComp.angle, glm::vec3(rotateComp.x, rotateComp.y, rotateComp.z)); // where x, y, z is axis of rotation (e.g. 0 1 0)
+
+                glm::mat4 mvp = proj * view * model; 
                 shader.setUniformsMat4f("u_MVP", mvp);
                 renderer.Draw(va, ib, shader);
             });

@@ -1,7 +1,7 @@
 #pragma once
 
-struct SpriteVertices {
-    SpriteVertices(
+struct Position {
+    Position(
         float v0x = -50.0f, float v0y = -50.0f, float v0t1 = 0.0f, float v0t2 = 0.0f,
         float v1x =  50.0f, float v1y = -50.0f, float v1t1 = 1.0f, float v1t2 = 0.0f,
         float v2x =  50.0f, float v2y =  50.0f, float v2t1 = 1.0f, float v2t2 = 1.0f,
