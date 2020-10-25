@@ -152,22 +152,6 @@ void Engine::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) 
 
 void Engine::start() {
     Logger::getInstance() << "Start of game engine.\n";
-    entityx::Entity e2 = entities.create();
-    //e2.assign<AudioSource>(new Sound("kick-trimmed.wav", true));
-    e2.assign<SpriteVertices>(
-        -25.0f, -25.0f, 0.0f, 0.0f,
-         25.0f, -25.0f, 1.0f, 0.0f,
-         25.0f,  25.0f, 1.0f, 1.0f,
-        -25.0f,  25.0f, 0.0f, 1.0f,
-
-        0,1,2,
-        2,3,0
-    );
-    e2.assign<ShaderComp>("src/res/shaders/Basic.shader");
-    e2.assign<TextureComp>("src/res/textures/platformChar_idle.png");
-    e2.assign<Transform>(0.0f, 0.0f, 0.0f, 0, 0, 0, 1, 2);
-    e2.assign<Camera>((float)SCR_WIDTH / 2 * -1, (float)SCR_WIDTH / 2, (float)SCR_HEIGHT / 2 * -1, (float)SCR_HEIGHT / 2, -1.0f, 1.0f);
-
 
     entityx::Entity entity = Engine::getInstance().entities.create();
 
