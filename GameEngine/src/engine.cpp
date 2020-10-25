@@ -153,7 +153,7 @@ void Engine::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) 
 void Engine::start() {
     Logger::getInstance() << "Start of game engine.\n";
     entityx::Entity e2 = entities.create();
-    e2.assign<AudioSource>(new Sound("kick-trimmed.wav", true));
+    //e2.assign<AudioSource>(new Sound("kick-trimmed.wav", true));
     e2.assign<SpriteVertices>(
         -25.0f, -25.0f, 0.0f, 0.0f,
          25.0f, -25.0f, 1.0f, 0.0f,
