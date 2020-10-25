@@ -35,16 +35,16 @@ class SoundSystem : public System<SoundSystem> {
                     }
                     handle->sound->play();
 
-                   
+                    //audiomix->Setchorus(handle->sound->sound, true);
+                    //audiomix->chorusproperties(100, 100, 99, 10, 1, 20, BASS_DX8_PHASE_90);
                     //change volume
                     //handle->sound->setVolumn(2);
                     //causes echo effect
                     //audiomix->Setecho(handle->sound->sound, true);
-                    //audiomix->echoproperties(0, 100, 2000, 2000, TRUE);
-             
+                    //audiomix->echoproperties(100, 0, 1, 1, TRUE);
                     //causes distortion effect
                     //audiomix->Setdistortion(handle->sound->sound, true);
-                    //audiomix->distortionproperties(-60, 100, 8000, 8000, 8000);
+                    //audiomix->distortionproperties(-18, 15, 2400, 2400, 8000);
                 }
             }
 

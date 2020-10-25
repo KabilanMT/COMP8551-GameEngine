@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="200" height="40" tilewidth="64" tileheight="64" nextobjectid="46">
+    <objectgroup name="Objects" offsetx="1" offsety="-2">
+        <object id="1" name="Trees" type="Wall" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+            <properties>
+              <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>            
+           </properties>
+        </object>
+
+         <object id="2" name="Ground" type="Floor" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+         </object>
+
+            <object id="3" name="House" type="Wall" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+            <properties>
+              <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>            
+           </properties>
+        </object>
+
+         <object id="3" name="Player" type="player" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+            <properties>
+              <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>
+              <property name="Camera" type="string" value="0,0,0,0,0,0"/>
+           </properties>
+        </object>
+
+         <object id="4" name="Little Sister" type="NPC" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+            <properties>
+              <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>
+              <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true"/>   
+           </properties>
+        </object>
+
+         <object id="5" name="Villager 1" type="NPC" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+            <properties>
+              <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>
+              <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true"/>   
+            </properties>
+        </object>
+
+      <object id="6" name="Villager 2" type="NPC" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+        <properties>
+          <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>
+          <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true"/>
+        </properties>
+      </object>
+
+      <object id="7" name="Villager 3" type="NPC" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+        <properties>
+          <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>
+          <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true"/>
+        </properties>
+      </object>
+
+      <object id="8" name="Villager 4" type="NPC" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+        <properties>
+          <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>
+          <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true"/>
+        </properties>
+      </object>
+
+      <object id="9" name="Grandmother" type="NPC" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+        <properties>
+          <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>
+          <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true"/>
+        </properties>
+      </object>
+
+      <object id="10" name="Trigger 1" type="EVENT" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+      </object>
+    </objectgroup>
+</map>
