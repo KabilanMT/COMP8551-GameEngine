@@ -192,21 +192,21 @@ void Scene::addCamera(vector<string>& parameters, Entity& e) {
 
     stringstream str(parameters.at(0));
     str >> lf;
-    stringstream str(parameters.at(1));
+	str = stringstream(parameters.at(1));
     str >> rf;
-    stringstream str(parameters.at(2));
+	str = stringstream(parameters.at(2));
     str >> bf;
-    stringstream str(parameters.at(3));
+	str =  stringstream(parameters.at(3));
     str >> tf;
-    stringstream str(parameters.at(4));
+	str =  stringstream(parameters.at(4));
     str >> dnp;
-    stringstream str(parameters.at(5));
+	str =  stringstream(parameters.at(5));
     str >> dfp;
-    stringstream str(parameters.at(6));
+	str =  stringstream(parameters.at(6));
     str >> x;
-    stringstream str(parameters.at(7));
+	str =  stringstream(parameters.at(7));
     str >> y;
-    stringstream str(parameters.at(8));
+	str =  stringstream(parameters.at(8));
     str >> z;
 
     e.assign<Camera>(lf, rf, bf, tf, dnp, dfp, x, y, z);
