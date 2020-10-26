@@ -30,16 +30,9 @@ public:
             if (variablesContent != nullptr)
                 getVariables(variablesContent->FirstChild(), handle);
 
-            for (auto& x : handle.get()->ints)
-                cout << x.first << ": " << x.second << endl; 
-
             XMLElement* startContent = handle->getStart();
             if (startContent != nullptr)
                 runCommands(startContent->FirstChild(), handle);
-
-            for (auto& x : handle.get()->ints)
-                cout << x.first << ": " << x.second << endl; 
-
         }
     }
 
