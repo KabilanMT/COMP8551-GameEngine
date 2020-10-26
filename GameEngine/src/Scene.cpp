@@ -70,9 +70,20 @@ void Scene::load() {
 
                 attr = attr->Next();
             }
-            ent.assign<Transform>(x, y, z); //TODO not using rotAngle yet
-            //TODO width and height need to be applied to sprite vertices
+            // Add rotation passing in a degrees (rotAngle)
+            // Convert width and height to sprite vertices
 
+            ent.assign<Transform>(x, y, z, rotAngle, 0, 0, 1);
+            //TODO width and height need to be applied to sprite vertices
+            ent.assign<SpriteVertices>(
+                -width/2, -height/2, 0.0f, 0.0f,
+                 width/2, -height/2, 1.0f, 0.0f,
+                 width/2,  height/2, 1.0f, 1.0f,
+                -width/2,  height/2, 0.0f, 1.0f,
+
+                0,1,2,
+                2,3,0
+            );
 
             //loop through properties for most other components
             //get first property
@@ -104,16 +115,12 @@ void Scene::load() {
                         addCircleCollider(parameters, ent);
                     } else if (compType == "CustomScript") {
                         addCustomScript(parameters, ent);
-                    } else if (compType == "Position") {
-                        //TODO might be removed
                     } else if (compType == "Rigidbody_2D") {
                         addRigidBody_2D(parameters, ent);
                     } else if (compType == "ShaderComp") {
                         addShaderComp(parameters, ent);
                     } else if (compType == "TextureComp") {
                         addTextureComp(parameters, ent);
-                    } else if (compType == "Translation") {
-                        //TODO might be removed
                     }
                     property = property->NextSibling();
                 }
@@ -181,7 +188,29 @@ void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {
 }
 
 void Scene::addCamera(vector<string>& parameters, Entity& e) {
-    //TODO
+    float lf, rf, bf, tf, dnp, dfp, x, y, z;
+
+    stringstream str(parameters.at(0));
+    str >> lf;
+    stringstream str(parameters.at(1));
+    str >> rf;
+    stringstream str(parameters.at(2));
+    str >> bf;
+    stringstream str(parameters.at(3));
+    str >> tf;
+    stringstream str(parameters.at(4));
+    str >> dnp;
+    stringstream str(parameters.at(5));
+    str >> dfp;
+    stringstream str(parameters.at(6));
+    str >> x;
+    stringstream str(parameters.at(7));
+    str >> y;
+    stringstream str(parameters.at(8));
+    str >> z;
+
+    e.assign<Camera>(lf, rf, bf, tf, dnp, dfp, x, y, z);
+
 }
 
 void Scene::addCapsuleCollider(vector<string>& parameters, Entity& e) {
