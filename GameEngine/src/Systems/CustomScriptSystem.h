@@ -8,6 +8,7 @@
 #include "entityx/entityx.h"
 #include "../Components/CustomScript.h"
 #include "../Events/Events.h"
+#include "../SceneManager.h"
 
 using namespace entityx;
 
@@ -29,9 +30,16 @@ public:
             if (variablesContent != nullptr)
                 getVariables(variablesContent->FirstChild(), handle);
 
+            for (auto& x : handle.get()->ints)
+                cout << x.first << ": " << x.second << endl; 
+
             XMLElement* startContent = handle->getStart();
             if (startContent != nullptr)
                 runCommands(startContent->FirstChild(), handle);
+
+            for (auto& x : handle.get()->ints)
+                cout << x.first << ": " << x.second << endl; 
+
         }
     }
 
@@ -177,22 +185,29 @@ public:
         // CustomScript Functions
         // Should update as there should be more than just 4 vertices
         void moveEntity(int x, int y, int z) {
-            ComponentHandle<Transform> trans = currEntity->component<Transform>(); 
-            trans.get()->x += x;
-            trans.get()->y += y;
-            trans.get()->z += z;
+            if (currEntity->has_component<Transform>()) {
+                ComponentHandle<Transform> trans = currEntity->component<Transform>(); 
+                trans.get()->x += x;
+                trans.get()->y += y;
+                trans.get()->z += z;
+            }
         }
 
         void removeEntity() {
             // Flag Current entity for deletion
+            currEntity->destroy();
         }
 
         void setActiveObject(bool active) {
-            
+            if (currEntity->has_component<Active>())
+            {
+                ComponentHandle<Active> _active = currEntity->component<Active>();
+                _active.get()->setActiveStatus(active);
+            }
         }
 
-        void loadScene() {
-
+        void loadScene(string sceneName) {
+            SceneManager::getInstance().loadScene(sceneName);
         }
 
         void updateVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
@@ -224,5 +239,38 @@ public:
 
             if (varType == "string")
                 cScript.get()->strings.at(varName) += value;
+        }
+
+        void subVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName) -= stoi(value, nullptr, 0);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) -= stof(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) -= stod(value);
+        }
+
+        void multiVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName) *= stoi(value, nullptr, 0);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) *= stof(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) *= stod(value);
+        }
+
+        void divideVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName) /= stoi(value, nullptr, 0);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) /= stof(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) /= stod(value);
         }
 }; 

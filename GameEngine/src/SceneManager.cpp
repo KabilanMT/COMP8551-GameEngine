@@ -36,7 +36,7 @@ void SceneManager::loadScene(string sceneName) {
         }
     }
 
-    Logger::getInstance() << "SceneManager::loadScene failed: Scene not found.\n";
+    Logger::getInstance() << "SceneManager::loadScene failed: Scene " << sceneName << " not found.\n";
 }
 
 void SceneManager::addScene(string sceneName, string tmxFile) {
