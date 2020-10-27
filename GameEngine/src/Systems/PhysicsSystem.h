@@ -292,7 +292,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
         bool CheckCollision(ComponentHandle<CapsuleCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
             //TODO
             //Capsule c1:
-            float c1Rotation = c1T->rz * M_PI / 180.0f;
+            float c1Rotation = c1T->angle * M_PI / 180.0f;
             glm::vec2 c1Tip = glm::vec2(c1->x, c1->y + (c1->a)/2);
             c1Tip = glm::rotate(c1Tip, c1Rotation);
             c1Tip = glm::vec2(c1Tip.x + c1T->x, c1Tip.y + c1T->y);
@@ -305,7 +305,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             glm::vec2 c1_B = c1Tip + c1LineEndOffset;
 
             //Capsule c2:
-            float c2Rotation = c2T->rz * M_PI / 180.0f;
+            float c2Rotation = c2T->angle * M_PI / 180.0f;
             glm::vec2 c2Tip = glm::vec2(c2->x, c2->y + (c2->a)/2);
             c2Tip = glm::rotate(c2Tip, c2Rotation);
             c2Tip = glm::vec2(c2Tip.x + c2T->x, c2Tip.y + c2T->y);
@@ -360,7 +360,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             float boxPosX = c1->x + c1T->x;
             float boxPosY = c1->y + c1T->y;
 
-            float boxRotation = c1T->rz * M_PI / 180.0f;
+            float boxRotation = c1T->angle * M_PI / 180.0f;
 
             //Circle
             float circleX = c2->x + c2T->x;
@@ -419,7 +419,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             glm::vec2 bottomLeft = glm::vec2(0 - c1->width / 2, 0 - c1->height / 2);
             glm::vec2 bottomRight = glm::vec2(0 + c1->width / 2, 0 - c1->height / 2);
             //Rotate box corners and move to actual position:
-            float theta = c1T->rz * M_PI / 180.0f;
+            float theta = c1T->angle * M_PI / 180.0f;
             topLeft = glm::rotate(topLeft, theta);
             topLeft = glm::vec2(topLeft.x + c1T->x, topLeft.y + c1T->y);
             topRight = glm::rotate(topRight, theta);
@@ -430,7 +430,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             bottomRight = glm::vec2(bottomRight.x + c1T->x, bottomRight.y + c1T->y);
 
             //Capsule c2:
-            float c2Rotation = c2T->rz * M_PI / 180.0f;
+            float c2Rotation = c2T->angle * M_PI / 180.0f;
             glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y + (c2->a)/2), c2Rotation);
             glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y - (c2->a)/2), c2Rotation);
             glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
@@ -526,7 +526,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
         //Circle - Capsule
         bool CheckCollision(ComponentHandle<CircleCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
             //Capsule c2:
-            float c2Rotation = c2T->rz * M_PI / 180.0f;
+            float c2Rotation = c2T->angle * M_PI / 180.0f;
             glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y + (c2->a)/2), c2Rotation);
             glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y - (c2->a)/2), c2Rotation);
             glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
@@ -678,6 +678,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                     //Notify;
                     return;
                 }
+            }
             if(hasRigidbody.has_component<CapsuleCollider>()){
                 hRBCapC = hasRigidbody.component<CapsuleCollider>();
                 if(hRBCapC->isTrigger){
@@ -685,7 +686,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                     return;
                 }
             }
-            /*
+            
             if(noRigidbody.has_component<CircleCollider>()){
                 ComponentHandle<CircleCollider> nRBCollider = noRigidbody.component<CircleCollider>();
                 //Check for trigger:
@@ -718,7 +719,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                         //Notify
                         return;
                     }
-                    float theta = nRBTrans->rz * M_PI / 180.0f;
+                    float theta = nRBTrans->angle * M_PI / 180.0f;
                     topLeft = glm::rotate(glm::vec2(0 - nRBCollider->bbWidth / 2, nRBCollider->bbHeight / 2), theta);
                     topLeft = glm::vec2(topLeft.x + nRBTrans->x + nRBCollider->x, topLeft.y + nRBTrans->y + nRBCollider->y);
                     topRight = glm::rotate(glm::vec2(nRBCollider->bbWidth / 2, nRBCollider->bbHeight / 2), theta);
@@ -735,7 +736,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                         //Notify
                         return;
                     }
-                    float theta = nRBTrans->rz * M_PI / 180.0f;
+                    float theta = nRBTrans->angle * M_PI / 180.0f;
                     topLeft = glm::rotate(glm::vec2(0 - nRBCollider->bbWidth / 2, nRBCollider->bbHeight / 2), theta);
                     topLeft = glm::vec2(topLeft.x + nRBTrans->x + nRBCollider->x, topLeft.y + nRBTrans->y + nRBCollider->y);
                     topRight = glm::rotate(glm::vec2(nRBCollider->bbWidth / 2, nRBCollider->bbHeight / 2), theta);
@@ -805,7 +806,6 @@ class PhysicsSystem : public System<PhysicsSystem> {
                 hRB->velocityX = newVelocity.x;
                 hRB->velocityY = newVelocity.y;
             }
-            */
         }
         #pragma endregion //collision algorithms
 
