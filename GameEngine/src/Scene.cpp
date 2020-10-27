@@ -340,9 +340,23 @@ void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
 }
 
 void Scene::addShaderComp(vector<string>& parameters, Entity& e) {
-    e.assign<ShaderComp>(parameters.at(0).c_str());
+    string temp = parameters.at(0);
+    int n=temp.length();
+    char *chararray= new char [n+1];
+    strcpy(chararray,temp.c_str());
+  
+    for (int i = 0; i < n; i++) 
+        cout << chararray[i]; 
+    e.assign<ShaderComp>(chararray);
 }
 
 void Scene::addTextureComp(vector<string>& parameters, Entity& e) {
-    e.assign<TextureComp>(parameters.at(0).c_str());
+    string temp = parameters.at(0);
+    int n=temp.length();
+    char *chararray= new char [n+1];
+    strcpy(chararray,temp.c_str());
+  
+    for (int i = 0; i < n; i++) 
+        cout << chararray[i]; 
+    e.assign<TextureComp>(chararray);
 }
