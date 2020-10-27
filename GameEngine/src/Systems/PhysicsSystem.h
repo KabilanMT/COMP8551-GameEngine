@@ -57,6 +57,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                 transform->x = rb->velocityX * t + 0.5 * rb->accelerationX * powf(t, 2);
                 transform->y = rb->velocityY * t + 0.5 * rb->accelerationY * powf(t, 2);
             }
+
             //Step 2: Detect collisions
             std::vector<EntityPair> pairs = broadphase(es); //returns pairs of possible collisions
             std::vector<EntityPair> collidingPairs = narrowphase(pairs); //should return pairs of entities that are colliding
@@ -143,6 +144,131 @@ class PhysicsSystem : public System<PhysicsSystem> {
 
             return collisions;
         }
+
+        std::vector<EntityPair> broadphase(EntityManager& es) {
+            //might need performance boost - right now it's sorting every frame,
+            //could keep it sorted between frames but would need a way to track new/moving colliders
+
+            //sort and sweep
+            //get all colliders
+            auto boxEntities = es.entities_with_components<BoxCollider>();
+            auto circleEntities = es.entities_with_components<CircleCollider>();
+            auto capsuleEntities = es.entities_with_components<CapsuleCollider>();
+
+            // colliders require b and e attributes (along x) - type float
+            //get each collider's b & e
+            //and put all b & e in a list
+            std::vector<SASObject> sas;
+            for (Entity e : boxEntities) {
+                ComponentHandle<BoxCollider> handle = e.component<BoxCollider>();
+                ComponentHandle<Transform> handleT = e.component<Transform>();
+                sas.emplace_back(SASObject(handle->b + handleT->x, e, true, Box));
+                sas.emplace_back(SASObject(handle->e + handleT->x, e, false, Box));
+            }
+            for (Entity e : circleEntities) {
+                ComponentHandle<CircleCollider> handle = e.component<CircleCollider>();
+                ComponentHandle<Transform> handleT = e.component<Transform>();
+                sas.emplace_back(SASObject(handle->b + handleT->x, e, true, Circle));
+                sas.emplace_back(SASObject(handle->e + handleT->x, e, false, Circle));
+            }
+            for (Entity e : capsuleEntities) {
+                ComponentHandle<CapsuleCollider> handle = e.component<CapsuleCollider>();
+                ComponentHandle<Transform> handleT = e.component<Transform>();
+                sas.emplace_back(SASObject(handle->b + handleT->x, e, true, Capsule));
+                sas.emplace_back(SASObject(handle->e + handleT->x, e, false, Capsule));
+            }
+            //pretty sure that each entity can only have one component of each type, i.e. no duplicates.
+            //If this is the case it doesnt make sense for an entity to be able to have two different types of components either
+            //solution: Generic Collider component that is either modified, or has children types
+            //for now just assume only has box collider
+
+            //sort the list
+            std::sort(sas.begin(), sas.end());
+            //sweep
+            std::vector<SASObject> active;
+            std::vector<EntityPair> possibleCollides;
+            for (auto it = sas.begin(); it != sas.end(); ++it) {
+                if ((*it).isBegin) {
+                    //add to active
+                    active.push_back(*it);
+                } else {
+                    //remove match from active
+                    //when removing an SASObject, perform AABB check between this obj and all active ones
+                    std::vector<SASObject>::iterator oToRemove; // to remember where to remove
+                    for (auto it2 = active.begin(); it2 != active.end(); ++it2) {
+                        if ((*it).e == (*it2).e) {
+                            //they have the same entity, begin and end are *it and *it2
+                            //remove begin
+                            oToRemove = it2; //might be a reference issue here
+                        } else {
+                            Entity e1 = (*it).e;
+                            Entity e2 = (*it2).e;
+                            ComponentHandle<Transform> c1T = e1.component<Transform>();
+                            ComponentHandle<Transform> c2T = e2.component<Transform>();
+                            //Get each components' types and test AABB
+                            if ((*it).type == Box) {
+                                ComponentHandle<BoxCollider> c1 = e1.component<BoxCollider>();
+                                if ((*it2).type == Box) {
+                                    ComponentHandle<BoxCollider> c2 = e2.component<BoxCollider>();
+                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
+                                        possibleCollides.emplace_back(EntityPair((*it).e, Box, (*it2).e, Box));
+                                    }
+                                } else if ((*it2).type == Circle) {
+                                    ComponentHandle<CircleCollider> c2 = e2.component<CircleCollider>();
+                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
+                                        possibleCollides.emplace_back(EntityPair((*it).e, Box, (*it2).e, Circle));
+                                    }
+                                } else if ((*it2).type == Capsule) {
+                                    ComponentHandle<CapsuleCollider> c2 = e2.component<CapsuleCollider>();
+                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
+                                        possibleCollides.emplace_back(EntityPair((*it).e, Box, (*it2).e, Capsule));
+                                    }
+                                }
+                            } else if ((*it).type == Circle) {
+                                ComponentHandle<CircleCollider> c1 = e1.component<CircleCollider>();
+                                if ((*it2).type == Box) {
+                                    ComponentHandle<BoxCollider> c2 = e2.component<BoxCollider>();
+                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
+                                        possibleCollides.emplace_back(EntityPair((*it).e, Circle, (*it2).e, Box));
+                                    }
+                                } else if ((*it2).type == Circle) {
+                                    ComponentHandle<CircleCollider> c2 = e2.component<CircleCollider>();
+                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
+                                        possibleCollides.emplace_back(EntityPair((*it).e, Circle, (*it2).e, Circle));
+                                    }
+                                } else if ((*it2).type == Capsule) {
+                                    ComponentHandle<CapsuleCollider> c2 = e2.component<CapsuleCollider>();
+                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
+                                        possibleCollides.emplace_back(EntityPair((*it).e, Circle, (*it2).e, Capsule));
+                                    }
+                                }
+                            } else if ((*it).type == Capsule) {
+                                ComponentHandle<CapsuleCollider> c1 = e1.component<CapsuleCollider>();
+                                if ((*it2).type == Box) {
+                                    ComponentHandle<BoxCollider> c2 = e2.component<BoxCollider>();
+                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
+                                        possibleCollides.emplace_back(EntityPair((*it).e, Capsule, (*it2).e, Box));
+                                    }
+                                } else if ((*it2).type == Circle) {
+                                    ComponentHandle<CircleCollider> c2 = e2.component<CircleCollider>();
+                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
+                                        possibleCollides.emplace_back(EntityPair((*it).e, Capsule, (*it2).e, Circle));
+                                    }
+                                } else if ((*it2).type == Capsule) {
+                                    ComponentHandle<CapsuleCollider> c2 = e2.component<CapsuleCollider>();
+                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
+                                        possibleCollides.emplace_back(EntityPair((*it).e, Capsule, (*it2).e, Capsule));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    active.erase(oToRemove);
+                }
+            }
+            return possibleCollides;
+        }
+
         #pragma region //Collision algorithms
         //Box - Box
         bool CheckCollision(ComponentHandle<BoxCollider>& c1, ComponentHandle<BoxCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
@@ -156,7 +282,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             float c2PosX = c2->x + c2T->x;
             float c1PosY = c1->y + c1T->y;
             float c2PosY = c2->y + c2T->y;
-            float distance = abs(sqrtf(powf(c2PosX - c1PosX, 2) +powf(c2PosY - c1PosY, 2)));
+            float distance = abs(sqrtf(powf(c2PosX - c1PosX, 2) + powf(c2PosY - c1PosY, 2)));
             if(distance - (c1->radius + c2->radius))
                 return true;
             return false;
@@ -482,7 +608,54 @@ class PhysicsSystem : public System<PhysicsSystem> {
             bRB->velocityY = vBFY;
         }
 
+        //Updates the move on the rigidbody with detection of collisions along the way
+        void RigidbodyMoveTo(EntityManager& es, Entity e, float x, float y){
+            int checkInterval = 10;
+            ComponentHandle<Transform>transform = e.component<Transform>();
+            float xStep = (x - transform->x) / checkInterval;
+            float yStep = (y - transform->y) / checkInterval;
+
+            for(int i = 0; i <= checkInterval; i++){
+                //Step 1:  Perform step
+                transform->x += xStep;
+                transform->y += yStep;
+                //Step 2: Detect collisions
+                std::vector<EntityPair> pairs = broadphase(es); //returns pairs of possible collisions
+                std::vector<EntityPair> collideWithMe;  //Container for all the collisions involving the entity
+                std::vector<EntityPair> narrowPhaseCollisions;
+                for(EntityPair p : pairs){
+                    if(p.a == e || p.b == e)
+                        collideWithMe.push_back(p);
+                }
+
+                if(collideWithMe.size() > 0)
+                    narrowPhaseCollisions = narrowphase(collideWithMe);
+
+                if(narrowPhaseCollisions.size() > 0){
+                    //Reverse step:
+                    transform->x -= xStep;
+                    transform->y -= yStep;
+                    return;     //Leave function after backstep instead of continuing
+                }
+            }
+        }
+
+        void UpdateVelocityAndAcceleration(Entity e, TimeDelta dt, float thrust = 0.0f){
+            ComponentHandle<Rigidbody_2D> rb = e.component<Rigidbody_2D>();
+            float tau = rb->mass / rb->linDrag;
+            float t = (float)dt;
+            //update velocity
+            rb->velocityX = (1.0f/rb->linDrag)*(thrust - expf(-1 * rb->linDrag * t / rb->mass) * (thrust - rb->linDrag * rb->velocityX));
+            rb->velocityY = (1.0f/rb->linDrag)*(thrust - expf(-1 * rb->linDrag * t / rb->mass) * (thrust - rb->linDrag * rb->velocityY));
+            //update acceleration
+            rb->accelerationX = (thrust - rb->linDrag * rb->velocityX) / rb->mass;
+            rb->accelerationY = (thrust - rb->linDrag * rb->velocityY) / rb->mass;
+
+            return;
+        }
+
         void PerformPhysicsWithOneRigidBody(Entity hasRigidbody, Entity noRigidbody){
+            
             ComponentHandle<Transform> hRBTrans = hasRigidbody.component<Transform>();
             ComponentHandle<Transform> nRBTrans = noRigidbody.component<Transform>();
             ComponentHandle<Rigidbody_2D> hRB = hasRigidbody.component<Rigidbody_2D>();
@@ -492,28 +665,32 @@ class PhysicsSystem : public System<PhysicsSystem> {
             glm::vec2 rbVelocity = glm::vec2(hRB->velocityX, hRB->velocityY);
 
             //Figure out what kind of collider the rigidbody has:
-            if(hasRigidbody.has_component<CircleCollider>()){{
+            if(hasRigidbody.has_component<CircleCollider>()){
                 hRBCC = hasRigidbody.component<CircleCollider>();
                 if(hRBCC->isTrigger){
-                    ;//Notify
+                    //Notify
+                    return;
                 }
             }
             if(hasRigidbody.has_component<BoxCollider>()){
                 hRBBC = hasRigidbody.component<BoxCollider>();
                 if(hRBBC->isTrigger){
-                    ;//Notify
+                    //Notify;
+                    return;
                 }
             if(hasRigidbody.has_component<CapsuleCollider>()){
                 hRBCapC = hasRigidbody.component<CapsuleCollider>();
                 if(hRBCapC->isTrigger){
-                    ;//Notify
+                    //Notify
+                    return;
                 }
             }
+            /*
             if(noRigidbody.has_component<CircleCollider>()){
                 ComponentHandle<CircleCollider> nRBCollider = noRigidbody.component<CircleCollider>();
                 //Check for trigger:
                 if(nRBCollider->isTrigger){
-                    ;//Notify
+                    //Notify
                     return;
                 }
 
@@ -538,7 +715,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                     ComponentHandle<BoxCollider> nRBCollider = noRigidbody.component<BoxCollider>();
                     //Check for trigger:
                     if(nRBCollider->isTrigger){
-                        ;//Notify
+                        //Notify
                         return;
                     }
                     float theta = nRBTrans->rz * M_PI / 180.0f;
@@ -555,7 +732,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                     ComponentHandle<CapsuleCollider> nRBCollider = noRigidbody.component<CapsuleCollider>();
                     //Check for trigger:
                     if(nRBCollider->isTrigger){
-                        ;//Notify
+                        //Notify
                         return;
                     }
                     float theta = nRBTrans->rz * M_PI / 180.0f;
@@ -608,6 +785,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                     nextMin = glm::length(tip2BL);
                     nextClosest = bottomLeft;
                 }
+
                 if(glm::length(tip2BR) < minDistance){
                     nextMin = minDistance;
                     nextClosest = closestPoint;
@@ -622,183 +800,13 @@ class PhysicsSystem : public System<PhysicsSystem> {
                 glm::vec2 reflectNorm = rbCoM - bestPointOnRect;
 
                 //Calculate the reflection of the velocity vector:
-                glm::vec2 newVelocity = rbVelocity - (2 * glm::dot(rbVelocity, reflectNorm)) / 
-                    glm::dot(reflectNorm, reflectNorm) * reflectNorm;
+                glm::vec2 newVelocity = rbVelocity - 2 * glm::dot(rbVelocity, reflectNorm) / glm::dot(reflectNorm, reflectNorm) * reflectNorm;
 
                 hRB->velocityX = newVelocity.x;
                 hRB->velocityY = newVelocity.y;
             }
+            */
         }
-
-        void UpdateVelocityAndAcceleration(Entity e, TimeDelta dt, float thrust = 0.0f){
-            ComponentHandle<Rigidbody_2D> rb = e.component<Rigidbody_2D>();
-            float tau = rb->mass / rb->linDrag;
-            float t = (float)dt;
-            //update velocity
-            rb->velocityX = (1.0f/rb->linDrag)*(thrust - expf(-1 * rb->linDrag * t / rb->mass) * (thrust - rb->linDrag * rb->velocityX));
-            rb->velocityY = (1.0f/rb->linDrag)*(thrust - expf(-1 * rb->linDrag * t / rb->mass) * (thrust - rb->linDrag * rb->velocityY));
-            //update acceleration
-            rb->accelerationX = (thrust - rb->linDrag * rb->velocityX) / rb->mass;
-            rb->accelerationY = (thrust - rb->linDrag * rb->velocityY) / rb->mass;
-
-            return;
-        }
-
-        //Updates the move on the rigidbody with detection of collisions along the way
-        void RigidbodyMoveTo(EntityManager& es, Entity e, float x, float y){
-            int checkInterval = 10;
-            ComponentHandle<Transform>transform = e.component<Transform>();
-            float xStep = (x - transform->x) / checkInterval;
-            float yStep = (y - transform->y) / checkInterval;
-
-            for(int i = 0; i <= checkInterval; i++){
-                //Step 1:  Perform step
-                transform->x += xStep;
-                transform->y += yStep;
-                //Step 2: Detect collisions
-                std::vector<EntityPair> pairs = broadphase(es); //returns pairs of possible collisions
-                std::vector<EntityPair> collideWithMe;  //Container for all the collisions involving the entity
-                std::vector<EntityPair> narrowPhaseCollisions;
-                for(EntityPair p : pairs){
-                    if(p.a == e || p.b == e)
-                        collideWithMe.push_back(p);
-                }
-
-                if(collideWithMe.size() > 0)
-                    narrowPhaseCollisions = narrowphase(collideWithMe);
-
-                if(narrowPhaseCollisions.size() > 0){
-                    //Reverse step:
-                    transform->x -= xStep;
-                    transform->y -= yStep;
-                    return;     //Leave function after backstep instead of continuing
-                }
-            }
-        }
-
         #pragma endregion //collision algorithms
 
-        std::vector<EntityPair> broadphase(EntityManager& es) {
-            //might need performance boost - right now it's sorting every frame,
-            //could keep it sorted between frames but would need a way to track new/moving colliders
-
-            //sort and sweep
-            //get all colliders
-            auto boxEntities = es.entities_with_components<BoxCollider>();
-            auto circleEntities = es.entities_with_components<CircleCollider>();
-            auto capsuleEntities = es.entities_with_components<CapsuleCollider>();
-
-            // colliders require b and e attributes (along x) - type float
-            //get each collider's b & e
-            //and put all b & e in a list
-            std::vector<SASObject> sas;
-            for (Entity e : boxEntities) {
-                ComponentHandle<BoxCollider> handle = e.component<BoxCollider>();
-                ComponentHandle<Transform> handleT = e.component<Transform>();
-                sas.emplace_back(SASObject(handle->b + handleT->x, e, true, Box));
-                sas.emplace_back(SASObject(handle->e + handleT->x, e, false, Box));
-            }
-            for (Entity e : circleEntities) {
-                ComponentHandle<CircleCollider> handle = e.component<CircleCollider>();
-                ComponentHandle<Transform> handleT = e.component<Transform>();
-                sas.emplace_back(SASObject(handle->b + handleT->x, e, true, Circle));
-                sas.emplace_back(SASObject(handle->e + handleT->x, e, false, Circle));
-            }
-            for (Entity e : capsuleEntities) {
-                ComponentHandle<CapsuleCollider> handle = e.component<CapsuleCollider>();
-                ComponentHandle<Transform> handleT = e.component<Transform>();
-                sas.emplace_back(SASObject(handle->b + handleT->x, e, true, Capsule));
-                sas.emplace_back(SASObject(handle->e + handleT->x, e, false, Capsule));
-            }
-            //pretty sure that each entity can only have one component of each type, i.e. no duplicates.
-            //If this is the case it doesnt make sense for an entity to be able to have two different types of components either
-            //solution: Generic Collider component that is either modified, or has children types
-            //for now just assume only has box collider
-
-            //sort the list
-            std::sort(sas.begin(), sas.end());
-            //sweep
-            std::vector<SASObject> active;
-            std::vector<EntityPair> possibleCollides;
-            for (auto it = sas.begin(); it != sas.end(); ++it) {
-                if ((*it).isBegin) {
-                    //add to active
-                    active.push_back(*it);
-                } else {
-                    //remove match from active
-                    //when removing an SASObject, perform AABB check between this obj and all active ones
-                    std::vector<SASObject>::iterator oToRemove; // to remember where to remove
-                    for (auto it2 = active.begin(); it2 != active.end(); ++it2) {
-                        if ((*it).e == (*it2).e) {
-                            //they have the same entity, begin and end are *it and *it2
-                            //remove begin
-                            oToRemove = it2; //might be a reference issue here
-                        } else {
-                            Entity e1 = (*it).e;
-                            Entity e2 = (*it2).e;
-                            ComponentHandle<Transform> c1T = e1.component<Transform>();
-                            ComponentHandle<Transform> c2T = e2.component<Transform>();
-                            //Get each components' types and test AABB
-                            if ((*it).type == Box) {
-                                ComponentHandle<BoxCollider> c1 = e1.component<BoxCollider>();
-                                if ((*it2).type == Box) {
-                                    ComponentHandle<BoxCollider> c2 = e2.component<BoxCollider>();
-                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
-                                        possibleCollides.emplace_back(EntityPair((*it).e, Box, (*it2).e, Box));
-                                    }
-                                } else if ((*it2).type == Circle) {
-                                    ComponentHandle<CircleCollider> c2 = e2.component<CircleCollider>();
-                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
-                                        possibleCollides.emplace_back(EntityPair((*it).e, Box, (*it2).e, Circle));
-                                    }
-                                } else if ((*it2).type == Capsule) {
-                                    ComponentHandle<CapsuleCollider> c2 = e2.component<CapsuleCollider>();
-                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
-                                        possibleCollides.emplace_back(EntityPair((*it).e, Box, (*it2).e, Capsule));
-                                    }
-                                }
-                            } else if ((*it).type == Circle) {
-                                ComponentHandle<CircleCollider> c1 = e1.component<CircleCollider>();
-                                if ((*it2).type == Box) {
-                                    ComponentHandle<BoxCollider> c2 = e2.component<BoxCollider>();
-                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
-                                        possibleCollides.emplace_back(EntityPair((*it).e, Circle, (*it2).e, Box));
-                                    }
-                                } else if ((*it2).type == Circle) {
-                                    ComponentHandle<CircleCollider> c2 = e2.component<CircleCollider>();
-                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
-                                        possibleCollides.emplace_back(EntityPair((*it).e, Circle, (*it2).e, Circle));
-                                    }
-                                } else if ((*it2).type == Capsule) {
-                                    ComponentHandle<CapsuleCollider> c2 = e2.component<CapsuleCollider>();
-                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
-                                        possibleCollides.emplace_back(EntityPair((*it).e, Circle, (*it2).e, Capsule));
-                                    }
-                                }
-                            } else if ((*it).type == Capsule) {
-                                ComponentHandle<CapsuleCollider> c1 = e1.component<CapsuleCollider>();
-                                if ((*it2).type == Box) {
-                                    ComponentHandle<BoxCollider> c2 = e2.component<BoxCollider>();
-                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
-                                        possibleCollides.emplace_back(EntityPair((*it).e, Capsule, (*it2).e, Box));
-                                    }
-                                } else if ((*it2).type == Circle) {
-                                    ComponentHandle<CircleCollider> c2 = e2.component<CircleCollider>();
-                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
-                                        possibleCollides.emplace_back(EntityPair((*it).e, Capsule, (*it2).e, Circle));
-                                    }
-                                } else if ((*it2).type == Capsule) {
-                                    ComponentHandle<CapsuleCollider> c2 = e2.component<CapsuleCollider>();
-                                    if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
-                                        possibleCollides.emplace_back(EntityPair((*it).e, Capsule, (*it2).e, Capsule));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    active.erase(oToRemove);
-                }
-            }
-            return possibleCollides;
-        }
 };
