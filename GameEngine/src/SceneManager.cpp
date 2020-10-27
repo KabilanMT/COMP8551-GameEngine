@@ -3,6 +3,8 @@
 #include "engine.h"
 #include "Events/Events.h"
 
+#include "Components/CustomScript.h"
+
 SceneManager::SceneManager() {
 
 }
@@ -28,13 +30,13 @@ void SceneManager::loadScene(string sceneName) {
             Engine::getInstance().events.emit<ScenePreLoad>(scene->getName());
             scene->load();
             Logger::getInstance() << "Loaded scene \"" << scene->getName() << "\"\n";
-            Engine::getInstance().events.emit<SceneLoad>(scene->getName());
+            Engine::getInstance().events.emit<SceneLoad>(scene->getName(), Engine::getInstance().entities.entities_with_components<CustomScript>());
             isSceneLoaded = true;
             return;
         }
     }
 
-    Logger::getInstance() << "SceneManager::loadScene failed: Scene not found.\n";
+    Logger::getInstance() << "SceneManager::loadScene failed: Scene " << sceneName << " not found.\n";
 }
 
 void SceneManager::addScene(string sceneName, string tmxFile) {

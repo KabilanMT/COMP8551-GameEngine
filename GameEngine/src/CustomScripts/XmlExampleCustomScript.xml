@@ -1,0 +1,22 @@
+<root>
+    <variables>
+        <int name="health" value="5"/>
+        <bool name="isTrue" value="true"/>
+    </variables>
+
+    <start>
+        <updateVar name="health" value="4" type="int" />
+        <addVar name="health" value="3" type="int" />
+    </start>
+
+    <update>
+        <ifVar name="health" value="7" type="int">
+            <moveEntity x="0" y="0" z="0" />
+        </ifVar>
+        <moveEntity x="1" y="0" z="0"/>
+    </update>
+    
+    <onCollision>
+
+    </onCollision>
+</root>

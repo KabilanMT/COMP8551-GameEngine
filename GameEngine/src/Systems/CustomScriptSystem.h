@@ -1,16 +1,17 @@
 #pragma once
 
 #include <fstream>
-#include <experimental/filesystem>
 #include <iostream>
 #include <string>
-#include <windows.h>
+#include <functional>
 
 #include "entityx/entityx.h"
-#include "../Components/Components.h"
+#include "../Components/CustomScript.h"
 #include "../Events/Events.h"
+#include "../SceneManager.h"
 
 using namespace entityx;
+
 class CustomScriptSystem : public System<CustomScriptSystem>, public Receiver<CustomScriptSystem> {
 public:
     void configure(EventManager& events) override {
@@ -20,125 +21,249 @@ public:
     void receive(const SceneLoad& sl) {
         //this method will be called when the scene loads
 
-        //call start methods
+        // call start methods
+        for (Entity e : sl.entities) {
+            currEntity = &e;
+            ComponentHandle<CustomScript> handle = e.component<CustomScript>();
+
+            XMLElement* variablesContent = handle->getVariables();
+            if (variablesContent != nullptr)
+                getVariables(variablesContent->FirstChild(), handle);
+
+            XMLElement* startContent = handle->getStart();
+            if (startContent != nullptr)
+                runCommands(startContent->FirstChild(), handle);
+        }
     }
 
     void update(EntityManager& es, EventManager& events, TimeDelta dt) override 
     {
-        // toFile(ccodestring, "ExampleCustomScript");
+        auto entities = es.entities_with_components<CustomScript>();
 
-        // es.each<Transform>([dt, this](Entity entity, Transform &customScript) {
+        for (Entity e : entities) {
+            currEntity = &e;
+            ComponentHandle<CustomScript> handle = e.component<CustomScript>();
+            XMLElement* updateContent = handle->getUpdate();
 
-        //     std::cout << customScript.x << std::endl; 
-
-        //     CScript* cscript;
-        //     cscript = getCustomScriptObject("ExampleCustomScript", &entity);
-
-        //     if (cscript != NULL)
-        //         cscript->update();
-        //     else
-        //         std::cout << "getCustomScriptObject failed" << std::endl;
-
-        //     std::cout << customScript.x << std::endl; 
-        // });
-
-        // cleanDir();
+            if (updateContent != nullptr)
+                runCommands(updateContent->FirstChild(), handle);
+        }
     }
 
-    /**
-     * Opens or Creates a cpp file to fill with a string of c++ code
-     * #PARAM ccode: String C++ of code
-     * #PARAM filename: Name of file you want to create to file   
-     */
-    // void toFile(std::string ccode, std::string filename)
-    // {
-    //     ofstream myfile;
-    //     std::string filepath = "src/CustomScripts/" + filename + ".cpp";
-    //     myfile.open(filepath);
-    //     myfile << ccode;
-    //     myfile.close();
-    // }
+   private:
+        Entity* currEntity;
 
-    // /**
-    //  * Builds dll file from Custom script and calls it's CreateCustomScriptObject function.
-    //  * #PARAM filename: name of file that contains the C++ code
-    //  * #PARAM ex: Entity to be referenced in the Custom Script
-    //  * #RETURN CScript: Custom Script object
-    //  */
-    // CScript* getCustomScriptObject(std::string filename, entityx::Entity* ex)
-    // {
-    //     HINSTANCE hdll = NULL;
-    //     CScript* cscript = NULL;
-    //     typedef void* (*pvScriptObject)(entityx::Entity*);
-    //     pvScriptObject createCustomScriptObject;
+        // Should be ran in start
+        // TODO: Requires error checking and refactor, assumes that the first and second attrib is variable name and value
+        void getVariables(XMLNode* variable, ComponentHandle<CustomScript> cScript) {
+            while (variable != nullptr) {
+                
+                string name = variable->Value();
+                const XMLAttribute* attr = variable->ToElement()->FirstAttribute();
+                string var_name = attr->Value();
+                string var_value = attr->Next()->Value(); 
 
-    //     // Create dll file 
-    //     std::string gccCommand = "g++ -Iincludes -Llibs src/CustomScripts/" + filename + ".cpp -o src/CustomScripts/" + filename + ".dll -shared -fPIC -lentityx";
-    //     const char *cgccCommand = gccCommand.c_str();
-    //     system(cgccCommand);
-        
-    //     // Load the dll ( It says there is an error but it compiles and works anyways :/ )
-    //     std::string path = "src\\CustomScripts\\" + filename + ".dll";
-    //     const char * cpath = path.c_str();
-    //     hdll = LoadLibrary(cpath);
+                if (name.compare("int") == 0)
+                    cScript.get()->ints.insert(make_pair(var_name, stoi(var_value, nullptr, 0)));
 
-    //     if (!hdll)
-    //     {
-    //        Logger::getInstance() << "Error: Failed to load dll " + filename;
-    //        return NULL;
-    //     }
+                if (name == "float")
+                    cScript.get()->floats.insert(make_pair(var_name, stof(var_value)));
 
-    //     // Get the function pointer
-    //     createCustomScriptObject = (pvScriptObject) (GetProcAddress(hdll, "CreateCustomScriptObject"));
+                if (name == "double")
+                    cScript.get()->doubles.insert(make_pair(var_name, stod(var_value)));
+                
+                if (name == "string")
+                    cScript.get()->strings.insert(make_pair(var_name, var_value));
 
-    //     if (!createCustomScriptObject)
-    //     {
-    //         Logger::getInstance() << "Error: Failed to find CreateCustomScriptObject in " + filename;
-    //         return NULL;
-    //     }
+                if (name == "bool") 
+                    cScript.get()->bools.insert(make_pair(var_name, (var_value == "true") ? true : false));
 
-    //     // Create CScript Object
-    //     cscript = static_cast<CScript*> ( createCustomScriptObject(ex) ); 
-        
-    //     return cscript;
-    // }
+                variable = variable->NextSibling();
+            }
+        }
 
-    // /**
-    //  * Deletes all files with the exception of the ExampleCustomScript from the CustomScripts directory.
-    //  * Should be called when creating new scene or ending the program.
-    //  */
-    // void cleanDir()
-    // {
-    //     for (const auto& entry : std::experimental::filesystem::directory_iterator("src/CustomScripts"))
-    //     {
-    //         if (entry.path().string().compare("src/CustomScripts/ExampleCustomScript.cpp") != 0)
-    //             std::experimental::filesystem::remove_all(entry.path());
-    //     }
-    // }
+        void runCommands(XMLNode* command, ComponentHandle<CustomScript> cScript) {
+            while (command != NULL) {
+                
+                // Setup
+                string name = command->Value();
+                const XMLAttribute* attr = command->ToElement()->FirstAttribute();
+                unordered_map<string, string> attributes;
 
-private:
-    std::string ccodestring = 
-        "#include <iostream> \n"  
-        "#include <entityx/entityx.h> \n"
-        "#include \"../CScript.h\" \n"
-        "#include \"../Components/Components.h\" \n\n"
-        "#define EXPORT extern \"C\" __declspec(dllexport) \n\n"  
-        "class ExampleCustomScript : public CScript \n" 
-        "{ \n" 
-        "private: \n"
-        "   typedef CScript super; \n"
-        "public: \n" 
-        "   ExampleCustomScript(entityx::Entity* ex) : super(ex) {} \n"
-        "   void update(); \n" 
-        "}; \n\n" 
-        "void ExampleCustomScript::update() \n" 
-        "{ \n" 
-        "   entityx::ComponentHandle<Transform> transform = entity->component<Transform>(); \n"
-        "   transform.get()->x = 2; \n"
-        "   // std::cout << entity->component<Transform>().get()->x << std::endl; \n" 
-        "} \n\n"
-        "EXPORT CScript* CreateCustomScriptObject(entityx::Entity* ex) \n"
-        "{ \n"
-        "   return new ExampleCustomScript(ex); \n"
-        "} \n";
+                // Get Attributes
+                while (attr != NULL) {
+                    attributes.insert(make_pair(attr->Name(), attr->Value()));
+                    attr = attr->Next();
+                }
+
+                // Do commands
+                if (name == "ifVar" && attributes.find("name") != attributes.end() && attributes.find("value") != attributes.end()) {
+                    string type = attributes.at("type");
+
+                    if (type == "int" && cScript.get()->ints.find(attributes.at("name")) != cScript.get()->ints.end()) {
+                        int val = cScript.get()->ints.at(attributes.at("name"));
+                        int valToCompare = stoi(attributes.at("value"), nullptr, 0);
+
+                        if (val == valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "float" && cScript.get()->floats.find(attributes.at("name")) != cScript.get()->floats.end()) {
+                        float val = cScript.get()->floats.at(attributes.at("name"));
+                        float valToCompare = stof(attributes.at("value"));
+
+                        if (val == valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "double" && cScript.get()->doubles.find(attributes.at("name")) != cScript.get()->doubles.end()) {
+                        double val = cScript.get()->doubles.at(attributes.at("name"));
+                        double valToCompare = stod(attributes.at("value"));
+
+                        if (val == valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+                    
+                    if (type == "string" && cScript.get()->strings.find(attributes.at("name")) != cScript.get()->strings.end()) {
+                        string val = cScript.get()->strings.at(attributes.at("name"));
+                        string valToCompare = attributes.at("value");
+
+                        if (val.compare(valToCompare) == 0)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "bool" && cScript.get()->bools.find(attributes.at("name")) != cScript.get()->bools.end()) { 
+                        bool val = cScript.get()->bools.at(attributes.at("name"));
+
+                        if (val)
+                            runCommands(command->FirstChild(), cScript);   
+                    }
+
+                }
+
+                if (name == "updateVar") {
+                    cout << "Test" << endl;
+                    string varName = attributes.at("name");
+                    string varType = attributes.at("type");
+                    string value = attributes.at("value");
+                    cout << "Test" << endl;
+
+                    updateVar(varName, varType, value, cScript);
+                }
+
+                if (name == "addVar") {
+                    string varName = attributes.at("name");
+                    string varType = attributes.at("type");
+                    string value = attributes.at("value");
+
+                    addVar(varName, varType, value, cScript);
+                }
+
+                if (name == "moveEntity") {
+                    int x = stoi(attributes.at("x"), nullptr, 0);
+                    int y = stoi(attributes.at("y"), nullptr, 0);
+                    int z = stoi(attributes.at("z"), nullptr, 0);
+
+                    moveEntity(x, y, z);
+                }
+
+                if (name == "removeEntity") {
+                    removeEntity();
+                }
+
+                command = command->NextSibling();
+            }
+        }
+
+        // CustomScript Functions
+        // Should update as there should be more than just 4 vertices
+        void moveEntity(int x, int y, int z) {
+            if (currEntity->has_component<Transform>()) {
+                ComponentHandle<Transform> trans = currEntity->component<Transform>(); 
+                trans.get()->x += x;
+                trans.get()->y += y;
+                trans.get()->z += z;
+            }
+        }
+
+        void removeEntity() {
+            // Flag Current entity for deletion
+            currEntity->destroy();
+        }
+
+        void setActiveObject(bool active) {
+            if (currEntity->has_component<Active>())
+            {
+                ComponentHandle<Active> _active = currEntity->component<Active>();
+                _active.get()->setActiveStatus(active);
+            }
+        }
+
+        void loadScene(string sceneName) {
+            SceneManager::getInstance().loadScene(sceneName);
+        }
+
+        void updateVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName) = stoi(value, nullptr, 0);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) = stof(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) = stod(value);
+            
+            if (varType == "string")
+                cScript.get()->strings.at(varName) = value;
+
+            if (varType == "bool") 
+                cScript.get()->bools.at(varName) = (value == "true") ? true : false;
+        }
+
+        void addVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName) += stoi(value, nullptr, 0);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) += stof(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) += stod(value);
+
+            if (varType == "string")
+                cScript.get()->strings.at(varName) += value;
+        }
+
+        void subVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName) -= stoi(value, nullptr, 0);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) -= stof(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) -= stod(value);
+        }
+
+        void multiVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName) *= stoi(value, nullptr, 0);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) *= stof(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) *= stod(value);
+        }
+
+        void divideVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+            if (varType == "int")
+                cScript.get()->ints.at(varName) /= stoi(value, nullptr, 0);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) /= stof(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) /= stod(value);
+        }
 }; 
