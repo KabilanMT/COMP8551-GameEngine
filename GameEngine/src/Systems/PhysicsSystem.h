@@ -67,7 +67,14 @@ class PhysicsSystem : public System<PhysicsSystem> {
             //Logger::getInstance() << "physics!\n";
             //Step 3: apply physics to all entities and resolve all collisions from pairs
             for(int i = 0; i < collidingPairs.size(); ++i) {
-                PerformCollisionCalculations(collidingPairs.at(i));
+                if(collidingPairs.at(i).a.has_component<Rigidbody_2D>() && collidingPairs.at(i).b.has_component<Rigidbody_2D>())
+                    PerformCollisionCalculations(collidingPairs.at(i));
+                else if(collidingPairs.at(i).a.has_component<Rigidbody_2D>())
+                    PerformPhysicsWithOneRigidBody(collidingPairs.at(i).a, collidingPairs.at(i).b);
+                else if(collidingPairs.at(i).b.has_component<Rigidbody_2D>())
+                    PerformPhysicsWithOneRigidBody(collidingPairs.at(i).b, collidingPairs.at(i).a);
+                else
+                    ;//Notify for triggers on both entities
             }
             auto entities = es.entities_with_components<Rigidbody_2D>();
 
@@ -160,8 +167,12 @@ class PhysicsSystem : public System<PhysicsSystem> {
             //TODO
             //Capsule c1:
             float c1Rotation = c1T->rz * M_PI / 180.0f;
-            glm::vec2 c1Tip = glm::rotate(glm::vec2(c1->x + c1T->x, c1->y + c1T->y + (c1->a)/2), c1Rotation);
-            glm::vec2 c1Base = glm::rotate(glm::vec2(c1->x + c1T->x, c1->y + c1T->y - (c1->a)/2), c1Rotation);
+            glm::vec2 c1Tip = glm::vec2(c1->x, c1->y + (c1->a)/2);
+            c1Tip = glm::rotate(c1Tip, c1Rotation);
+            c1Tip = glm::vec2(c1Tip.x + c1T->x, c1Tip.y + c1T->y);
+            glm::vec2 c1Base = glm::vec2(c1->x, c1->y - (c1->a)/2);
+            c1Base = glm::rotate(c1Base, c1Rotation);
+            c1Base = glm::vec2(c1Base.x + c1T->x, c1Base.y + c1T->y);
             glm::vec2 c1Normal = glm::normalize(c1Tip - c1Base);
             glm::vec2 c1LineEndOffset = c1Normal * c1->radius;
             glm::vec2 c1_A = c1Base + c1LineEndOffset;
@@ -169,13 +180,16 @@ class PhysicsSystem : public System<PhysicsSystem> {
 
             //Capsule c2:
             float c2Rotation = c2T->rz * M_PI / 180.0f;
-            glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y + (c2->a)/2), c2Rotation);
-            glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y - (c2->a)/2), c2Rotation);
+            glm::vec2 c2Tip = glm::vec2(c2->x, c2->y + (c2->a)/2);
+            c2Tip = glm::rotate(c2Tip, c2Rotation);
+            c2Tip = glm::vec2(c2Tip.x + c2T->x, c2Tip.y + c2T->y);
+            glm::vec2 c2Base = glm::vec2(c2->x, c2->y - (c2->a)/2);
+            c2Base = glm::rotate(c2Base, c2Rotation);
+            c2Base = glm::vec2(c2Base.x + c2T->x, c2Base.y + c2T->y);
             glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
             glm::vec2 c2LineEndOffset = c2Normal * c2->radius;
             glm::vec2 c2_A = c2Base + c2LineEndOffset;
             glm::vec2 c2_B = c2Tip + c2LineEndOffset;
-            return false;
 
             // vectors between line endpoints:
             glm::vec2 v0 = c2_A - c1_A;
@@ -220,22 +234,42 @@ class PhysicsSystem : public System<PhysicsSystem> {
             float boxPosX = c1->x + c1T->x;
             float boxPosY = c1->y + c1T->y;
 
+            float boxRotation = c1T->rz * M_PI / 180.0f;
+
             //Circle
             float circleX = c2->x + c2T->x;
             float circleY = c2->y + c2T->y;
 
+            //Rotate circle
+            circleX = cosf(boxRotation) * (circleX - boxPosX) - sinf(boxRotation) * 
+                (circleY - boxPosY) + boxPosX;
+            circleY = sinf(boxRotation) * (circleX - boxPosX) + cosf(boxRotation) *
+                (circleY - boxPosY) + boxPosY;
+
+
             //Collision stuff
+            //Check first if center of the circle is inside the box:
+            if(circleX > boxPosX - c1->width / 2 && circleX < boxPosX + c1->width / 2 &&
+                circleY < boxPosY + c1->height / 2 && circleY > boxPosY - c1->height / 2)
+                return true;
+            
+            //Now check if the circle is outside of the box
             float testX;
             float testY;
             if(circleX < boxPosX - c1->width / 2)
                 testX = boxPosX - c1->width / 2;   //Testing left edge of box
+            else if(circleX > boxPosX + c1->width / 2)
+                testX = boxPosX + c1->width / 2;  //Testing right edge of box
             else
-                testX = boxPosX + c1->width / 2;   //Testing right edge of box
+                testX = boxPosX;  //In this case the circle is between left and right edges
+            
             if(circleY > boxPosY + c1->height / 2)
                 testY = boxPosY + c1->height / 2;   //Testing top edge of box
-            else
+            else if(circleY < boxPosY - c1->height / 2)
                 testY = boxPosY - c1->height / 2;   //Testing bottom edge of box
-
+            else
+                testY = boxPosY;  //Circle is between the top and bottom edges;
+            
             float distX = circleX - testX;
             float distY = circleY - testY;
             float distance = sqrtf(powf(distX, 2) + powf(distY, 2));
@@ -253,18 +287,22 @@ class PhysicsSystem : public System<PhysicsSystem> {
         //Box - Capsule
         bool CheckCollision(ComponentHandle<BoxCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
             //TODO
-            Logger::getInstance() << "CheckCollision Box-Capsule\n"; // remove this during implementation
-            return false;
-        }
+            //Box c1:
+            glm::vec2 topLeft = glm::vec2(0 - c1->width / 2, 0 + c1->height / 2);
+            glm::vec2 topRight = glm::vec2(0 + c1->width / 2, 0 + c1->height / 2);
+            glm::vec2 bottomLeft = glm::vec2(0 - c1->width / 2, 0 - c1->height / 2);
+            glm::vec2 bottomRight = glm::vec2(0 + c1->width / 2, 0 - c1->height / 2);
+            //Rotate box corners and move to actual position:
+            float theta = c1T->rz * M_PI / 180.0f;
+            topLeft = glm::rotate(topLeft, theta);
+            topLeft = glm::vec2(topLeft.x + c1T->x, topLeft.y + c1T->y);
+            topRight = glm::rotate(topRight, theta);
+            topRight = glm::vec2(topRight.x + c1T->x, topRight.y + c1T->y);
+            bottomLeft = glm::rotate(bottomLeft, theta);
+            bottomLeft = glm::vec2(bottomLeft.x + c1T->x, bottomLeft.y + c1T->y);
+            bottomRight = glm::rotate(bottomRight, theta);
+            bottomRight = glm::vec2(bottomRight.x + c1T->x, bottomRight.y + c1T->y);
 
-        //Capsule - Box (Calls Box - Capsule)
-        bool CheckCollision(ComponentHandle<CapsuleCollider>& c1, ComponentHandle<BoxCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
-            return CheckCollision(c2, c1, c2T, c1T);
-        }
-
-        //Circle - Capsule
-        bool CheckCollision(ComponentHandle<CircleCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
-            //TODO
             //Capsule c2:
             float c2Rotation = c2T->rz * M_PI / 180.0f;
             glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y + (c2->a)/2), c2Rotation);
@@ -274,9 +312,114 @@ class PhysicsSystem : public System<PhysicsSystem> {
             glm::vec2 c2_A = c2Base + c2LineEndOffset;
             glm::vec2 c2_B = c2Tip + c2LineEndOffset;
 
+            //Test both ends of the capsule to all edges of the rectangle
+            //Test the tip against the rect points:
+            glm::vec2 tip2TL = topLeft - c2Tip;
+            glm::vec2 tip2TR = topRight - c2Tip;
+            glm::vec2 tip2BL = bottomLeft - c2Tip;
+            glm::vec2 tip2BR = bottomRight - c2Tip;
 
-            return false;
-            return false;
+            float d1T = glm::dot(tip2TL, tip2TL);
+            float d2T = glm::dot(tip2TR, tip2TR);
+            float d3T = glm::dot(tip2BL, tip2BL);
+            float d4T = glm::dot(tip2BR, tip2BR);
+
+            float testMin = d1T;
+            if(testMin > d2T)
+                testMin = d2T;
+            if(testMin > d3T)
+                testMin = d3T;
+            if(testMin > d4T)
+                testMin = d4T;
+
+            glm::vec2 bestB = c2Tip;
+
+            //Test the base against the rect points:
+            glm::vec2 base2TL = topLeft - c2Base;
+            glm::vec2 base2TR = topRight - c2Base;
+            glm::vec2 base2BL = bottomLeft - c2Base;
+            glm::vec2 base2BR = bottomRight - c2Base;
+
+            float d1B = glm::dot(base2TL, base2TL);
+            float d2B = glm::dot(base2TR, base2TR);
+            float d3B = glm::dot(base2BL, base2BL);
+            float d4B = glm::dot(base2BR, base2BR);
+
+            if(testMin > d1B || testMin > d2B || testMin > d3B || testMin > d4B)
+                bestB = c2Base;
+
+            //Find the closest point on the rect to the selected capsule end point
+            glm::vec2 closeTop = ClosestPointOnLineSegment(topLeft, topRight, bestB);
+            glm::vec2 closeRight = ClosestPointOnLineSegment(topRight, bottomRight, bestB);
+            glm::vec2 closeBottom = ClosestPointOnLineSegment(bottomLeft, bottomRight, bestB);
+            glm::vec2 closeLeft = ClosestPointOnLineSegment(topLeft, bottomLeft, bestB);
+
+            float minDistance = glm::length(closeTop - bestB);
+            float bToRight = glm::length(closeRight - bestB);
+            float bToBottom = glm::length(closeBottom - bestB);
+            float bToLeft = glm::length(closeLeft - bestB);
+
+            glm::vec2 bestA = closeTop;
+            if(minDistance > bToRight)
+                bestA = closeRight;
+            if(minDistance > bToBottom)
+                bestA = closeBottom;
+            if(minDistance > bToLeft)
+                bestA = closeLeft;
+
+            //Find the closest point on the capsule to the closest edge of the rect
+            bestB = ClosestPointOnLineSegment(c2Tip, c2Base, bestA);
+
+            //First rotate the test point with respect to the rect's rotation for easy calc:
+            float boxPosX = c1->x + c1T->x;
+            float boxPosY = c1->y + c1T->y;
+            glm::vec2 bestBRotated = glm::vec2(cosf(theta) * (bestB.x - boxPosX) - sinf(theta) * 
+                (bestB.y - boxPosY) + boxPosX, sinf(theta) * (bestB.x - boxPosX) + cosf(theta) *
+                (bestB.y - boxPosY) + boxPosY);
+            
+
+            //Collision calc:
+            //First test if the point on the capsule is inside the rect:
+            if(bestBRotated.x > c1->x - c1->width / 2 && bestBRotated.x < c1->x + c1->width / 2 &&
+                bestBRotated.y < c1->y + c1->height / 2 && bestBRotated.y > c1->y - c1->height / 2)
+                return true;
+            
+            //Now do test for outside the rect with original points on capsule and rect:
+            glm::vec2 penetration_normal = bestA - bestB;
+            float len = length(penetration_normal);
+            penetration_normal /= len;  // normalize
+            float penetration_depth = c2->radius - len;
+            return penetration_depth > 0;
+        }
+
+        //Capsule - Box (Calls Box - Capsule)
+        bool CheckCollision(ComponentHandle<CapsuleCollider>& c1, ComponentHandle<BoxCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
+            return CheckCollision(c2, c1, c2T, c1T);
+        }
+
+        //Circle - Capsule
+        bool CheckCollision(ComponentHandle<CircleCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
+            //Capsule c2:
+            float c2Rotation = c2T->rz * M_PI / 180.0f;
+            glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y + (c2->a)/2), c2Rotation);
+            glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y - (c2->a)/2), c2Rotation);
+            glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
+            glm::vec2 c2LineEndOffset = c2Normal * c2->radius;
+            glm::vec2 c2_A = c2Base + c2LineEndOffset;
+            glm::vec2 c2_B = c2Tip + c2LineEndOffset;
+
+            //Circle c1:
+            glm::vec2 c1_Point = glm::vec2(c1->x + c1T->x, c1->y + c1T->y);
+
+            //Selecting point on the capsule closest to the circle:
+            glm::vec2 c2_Best = ClosestPointOnLineSegment(c2_A, c2_B, c1_Point);
+
+            //Collision calculation:
+            glm::vec2 penetration_normal = c1_Point - c2_Best;
+            float len = length(penetration_normal);
+            penetration_normal /= len;  // normalize
+            float penetration_depth = c1->radius + c2->radius - len;
+            return penetration_depth > 0;
         }
 
         //Capsule - Circle (Calls Circle - Capsule)
@@ -301,6 +444,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
         }
 
         void PerformCollisionCalculations(EntityPair collision) {
+
             ComponentHandle<Transform> aTrans = collision.a.component<Transform>();
             ComponentHandle<Transform> bTrans = collision.b.component<Transform>();
             ComponentHandle<Rigidbody_2D> aRB = collision.a.component<Rigidbody_2D>();
@@ -336,8 +480,154 @@ class PhysicsSystem : public System<PhysicsSystem> {
             aRB->velocityY = vAFY;
             bRB->velocityX = vBFX;
             bRB->velocityY = vBFY;
+        }
 
-            return;
+        void PerformPhysicsWithOneRigidBody(Entity hasRigidbody, Entity noRigidbody){
+            ComponentHandle<Transform> hRBTrans = hasRigidbody.component<Transform>();
+            ComponentHandle<Transform> nRBTrans = noRigidbody.component<Transform>();
+            ComponentHandle<Rigidbody_2D> hRB = hasRigidbody.component<Rigidbody_2D>();
+            ComponentHandle<CircleCollider> hRBCC;
+            ComponentHandle<BoxCollider> hRBBC;
+            ComponentHandle<CapsuleCollider> hRBCapC;
+            glm::vec2 rbVelocity = glm::vec2(hRB->velocityX, hRB->velocityY);
+
+            //Figure out what kind of collider the rigidbody has:
+            if(hasRigidbody.has_component<CircleCollider>()){{
+                hRBCC = hasRigidbody.component<CircleCollider>();
+                if(hRBCC->isTrigger){
+                    ;//Notify
+                }
+            }
+            if(hasRigidbody.has_component<BoxCollider>()){
+                hRBBC = hasRigidbody.component<BoxCollider>();
+                if(hRBBC->isTrigger){
+                    ;//Notify
+                }
+            if(hasRigidbody.has_component<CapsuleCollider>()){
+                hRBCapC = hasRigidbody.component<CapsuleCollider>();
+                if(hRBCapC->isTrigger){
+                    ;//Notify
+                }
+            }
+            if(noRigidbody.has_component<CircleCollider>()){
+                ComponentHandle<CircleCollider> nRBCollider = noRigidbody.component<CircleCollider>();
+                //Check for trigger:
+                if(nRBCollider->isTrigger){
+                    ;//Notify
+                    return;
+                }
+
+                //Find the vector of the angle between the center of the two bodies
+                glm::vec2 directionFromNoRBToRB = glm::vec2(hRBTrans->x + hRB->cmX - nRBTrans->x + nRBCollider->x, 
+                    hRBTrans->y + hRB->cmY - nRBTrans->y + nRBCollider->y);
+
+                //Calculate the reflection of the velocity vector:
+                glm::vec2 newVelocity = rbVelocity - (2 * glm::dot(rbVelocity, directionFromNoRBToRB)) / 
+                    glm::dot(directionFromNoRBToRB, directionFromNoRBToRB) * directionFromNoRBToRB;
+
+                hRB->velocityX = newVelocity.x;
+                hRB->velocityY = newVelocity.y;
+
+            } else {
+                //Collider bounding box points setup:
+                glm::vec2 topLeft;
+                glm::vec2 topRight;
+                glm::vec2 bottomLeft;
+                glm::vec2 bottomRight;
+                if(noRigidbody.has_component<BoxCollider>()){
+                    ComponentHandle<BoxCollider> nRBCollider = noRigidbody.component<BoxCollider>();
+                    //Check for trigger:
+                    if(nRBCollider->isTrigger){
+                        ;//Notify
+                        return;
+                    }
+                    float theta = nRBTrans->rz * M_PI / 180.0f;
+                    topLeft = glm::rotate(glm::vec2(0 - nRBCollider->bbWidth / 2, nRBCollider->bbHeight / 2), theta);
+                    topLeft = glm::vec2(topLeft.x + nRBTrans->x + nRBCollider->x, topLeft.y + nRBTrans->y + nRBCollider->y);
+                    topRight = glm::rotate(glm::vec2(nRBCollider->bbWidth / 2, nRBCollider->bbHeight / 2), theta);
+                    topRight = glm::vec2(topRight.x + nRBTrans->x + nRBCollider->x, topRight.y + nRBTrans->y + nRBCollider->y);
+                    bottomLeft = glm::rotate(glm::vec2(0 - nRBCollider->bbWidth / 2, 0 - nRBCollider->bbHeight / 2), theta);
+                    bottomLeft = glm::vec2(bottomLeft.x + nRBTrans->x + nRBCollider->x, bottomLeft.y + nRBTrans->y + nRBCollider->y);
+                    bottomRight = glm::rotate(glm::vec2(nRBCollider->bbWidth / 2, 0 - nRBCollider->bbHeight / 2), theta);
+                    bottomRight = glm::vec2(bottomRight.x + nRBTrans->x + nRBCollider->x, bottomRight.y + nRBTrans->y + nRBCollider->y);
+                }
+                else if(noRigidbody.has_component<CapsuleCollider>()){
+                    ComponentHandle<CapsuleCollider> nRBCollider = noRigidbody.component<CapsuleCollider>();
+                    //Check for trigger:
+                    if(nRBCollider->isTrigger){
+                        ;//Notify
+                        return;
+                    }
+                    float theta = nRBTrans->rz * M_PI / 180.0f;
+                    topLeft = glm::rotate(glm::vec2(0 - nRBCollider->bbWidth / 2, nRBCollider->bbHeight / 2), theta);
+                    topLeft = glm::vec2(topLeft.x + nRBTrans->x + nRBCollider->x, topLeft.y + nRBTrans->y + nRBCollider->y);
+                    topRight = glm::rotate(glm::vec2(nRBCollider->bbWidth / 2, nRBCollider->bbHeight / 2), theta);
+                    topRight = glm::vec2(topRight.x + nRBTrans->x + nRBCollider->x, topRight.y + nRBTrans->y + nRBCollider->y);
+                    bottomLeft = glm::rotate(glm::vec2(0 - nRBCollider->bbWidth / 2, 0 - nRBCollider->bbHeight / 2), theta);
+                    bottomLeft = glm::vec2(bottomLeft.x + nRBTrans->x + nRBCollider->x, bottomLeft.y + nRBTrans->y + nRBCollider->y);
+                    bottomRight = glm::rotate(glm::vec2(nRBCollider->bbWidth / 2, 0 - nRBCollider->bbHeight / 2), theta);
+                    bottomRight = glm::vec2(bottomRight.x + nRBTrans->x + nRBCollider->x, bottomRight.y + nRBTrans->y + nRBCollider->y);
+                }
+                //Center of mass of the rigidbody
+                glm::vec2 rbCoM = glm::vec2(hRBTrans->x + hRB->cmX, hRB->cmY - nRBTrans->y);
+
+                //Vectors of the edges of the bounding box:            
+                //Test the tip against the rect points:
+                glm::vec2 tip2TL = topLeft - rbCoM;
+                glm::vec2 tip2TR = topRight - rbCoM;
+                glm::vec2 tip2BL = bottomLeft - rbCoM;
+                glm::vec2 tip2BR = bottomRight - rbCoM;
+
+                //Closest points on the rect to the CoM
+                glm::vec2 closestPoint;
+                glm::vec2 nextClosest;
+
+                float minDistance = glm::length(tip2TL);
+                closestPoint = topLeft;
+                float nextMin = glm::length(tip2TR);
+                nextClosest = topRight;
+
+                if(glm::length(tip2TL) < glm::length(tip2TR)){
+                    float minDistance = glm::length(tip2TL);
+                    closestPoint = topLeft;
+                    float nextMin = glm::length(tip2TR);
+                    nextClosest = topRight;
+                } else {
+                    float minDistance = glm::length(tip2TR);
+                    closestPoint = topRight;
+                    float nextMin = glm::length(tip2TL);
+                    nextClosest = topLeft;
+                }
+
+                if(glm::length(tip2BL) < minDistance){
+                    nextMin = minDistance;
+                    nextClosest = closestPoint;
+                    minDistance = glm::length(tip2BL);
+                    closestPoint = bottomLeft;
+                } else if(glm::length(tip2BL) < nextMin){
+                    nextMin = glm::length(tip2BL);
+                    nextClosest = bottomLeft;
+                }
+                if(glm::length(tip2BR) < minDistance){
+                    nextMin = minDistance;
+                    nextClosest = closestPoint;
+                    minDistance = glm::length(tip2BR);
+                    closestPoint = bottomRight;
+                } else if(glm::length(tip2BR) < nextMin){
+                    nextMin = glm::length(tip2BR);
+                    nextClosest = bottomRight;
+                }
+
+                glm::vec2 bestPointOnRect = ClosestPointOnLineSegment(closestPoint, nextClosest, rbCoM);
+                glm::vec2 reflectNorm = rbCoM - bestPointOnRect;
+
+                //Calculate the reflection of the velocity vector:
+                glm::vec2 newVelocity = rbVelocity - (2 * glm::dot(rbVelocity, reflectNorm)) / 
+                    glm::dot(reflectNorm, reflectNorm) * reflectNorm;
+
+                hRB->velocityX = newVelocity.x;
+                hRB->velocityY = newVelocity.y;
+            }
         }
 
         void UpdateVelocityAndAcceleration(Entity e, TimeDelta dt, float thrust = 0.0f){
@@ -352,6 +642,38 @@ class PhysicsSystem : public System<PhysicsSystem> {
             rb->accelerationY = (thrust - rb->linDrag * rb->velocityY) / rb->mass;
 
             return;
+        }
+
+        //Updates the move on the rigidbody with detection of collisions along the way
+        void RigidbodyMoveTo(EntityManager& es, Entity e, float x, float y){
+            int checkInterval = 10;
+            ComponentHandle<Transform>transform = e.component<Transform>();
+            float xStep = (x - transform->x) / checkInterval;
+            float yStep = (y - transform->y) / checkInterval;
+
+            for(int i = 0; i <= checkInterval; i++){
+                //Step 1:  Perform step
+                transform->x += xStep;
+                transform->y += yStep;
+                //Step 2: Detect collisions
+                std::vector<EntityPair> pairs = broadphase(es); //returns pairs of possible collisions
+                std::vector<EntityPair> collideWithMe;  //Container for all the collisions involving the entity
+                std::vector<EntityPair> narrowPhaseCollisions;
+                for(EntityPair p : pairs){
+                    if(p.a == e || p.b == e)
+                        collideWithMe.push_back(p);
+                }
+
+                if(collideWithMe.size() > 0)
+                    narrowPhaseCollisions = narrowphase(collideWithMe);
+
+                if(narrowPhaseCollisions.size() > 0){
+                    //Reverse step:
+                    transform->x -= xStep;
+                    transform->y -= yStep;
+                    return;     //Leave function after backstep instead of continuing
+                }
+            }
         }
 
         #pragma endregion //collision algorithms
