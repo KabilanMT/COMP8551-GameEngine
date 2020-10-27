@@ -181,7 +181,7 @@ void Engine::start() {
 
     entity.assign<ShaderComp>("src/res/shaders/Basic.shader");
     entity.assign<TextureComp>("src/res/textures/Sport.png");
-    entity.assign<CustomScript>("src/CustomScripts/XmlExampleCustomScript.xml");
+    // entity.assign<CustomScript>("src/CustomScripts/XmlExampleCustomScript.xml");
 
     entity.assign<Transform>(-100.0f, 0.0f, 0.0f, 90, 0, 0, 1);
     //test for sound system
