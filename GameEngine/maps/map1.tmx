@@ -3,14 +3,14 @@
     <objectgroup name="Objects" offsetx="1" offsety="-2">
         <object id="1" name="Trees" type="Wall" x="0" y="0" width="64" height="64" rotate="0" visible="1">
             <properties>
-              <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>            
+              <property name="BoxCollider" type="string" value="1,0,1,0,0,false,false"/>            
            </properties>
         </object>
 
          <object id="2" name="Ground" type="Floor" x="0" y="0" width="64" height="64" rotate="0" visible="1">
          </object>
 
-            <object id="3" name="House" type="Wall" x="0" y="0" width="64" height="64" rotate="0" visible="1">
+        <object id="3" name="House" type="Wall" x="0" y="0" width="64" height="64" rotate="0" visible="1">
             <properties>
               <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>            
            </properties>
@@ -26,7 +26,7 @@
          <object id="4" name="Little Sister" type="NPC" x="0" y="0" width="64" height="64" rotate="0" visible="1">
             <properties>
               <property name="BoxCollider" type="string" value="1,0,1,0,0,0,0,0,0,false,false"/>
-              <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true"/>   
+              <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true,bgm"/>   
            </properties>
         </object>
 
