@@ -20,7 +20,6 @@
 #include "texture.h"
 
 
-
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //add any method implementations here
 
@@ -118,7 +117,7 @@ void Engine::keyCallback(GLFWwindow* window, int key, int action)
 
 //cursor position input call back 
 void Engine::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
-    std::cout << "x position: " << xpos << "y position: " << ypos << std::endl;
+    // std::cout << "x position: " << xpos << "y position: " << ypos << std::endl;
 }
 
 //cursor enter input call back
@@ -182,6 +181,8 @@ void Engine::start() {
 
     entity.assign<ShaderComp>("src/res/shaders/Basic.shader");
     entity.assign<TextureComp>("src/res/textures/Sport.png");
+    // entity.assign<CustomScript>("src/CustomScripts/XmlExampleCustomScript.xml");
+
     entity.assign<Transform>(-100.0f, 0.0f, 0.0f, 90, 0, 0, 1);
     //test for sound system
     // Entity e1 = entities.create();
