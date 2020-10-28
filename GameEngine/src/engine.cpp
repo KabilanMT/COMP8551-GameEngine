@@ -1,4 +1,9 @@
 #include "engine.h"
+#include "Systems/SoundSystem.h"
+#include "Systems/InputSystem.h"
+#include "Systems/CustomScriptSystem.h"
+#include "Systems/PhysicsSystem.h"
+#include "Systems/RenderingSystem.h"
 #include "SceneManager.h"
 
 #include <glad/glad.h>

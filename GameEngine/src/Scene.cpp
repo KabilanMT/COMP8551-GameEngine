@@ -8,6 +8,8 @@
 #include <sstream>
 #include <string.h>
 
+#include "Components/Components.h"
+
 using namespace tinyxml2;
 
 string Scene::getName() {

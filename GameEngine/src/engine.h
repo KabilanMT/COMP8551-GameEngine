@@ -6,13 +6,6 @@
 #include <chrono>
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
-#include "Systems/CustomScriptSystem.h"
-#include "Systems/PhysicsSystem.h"
-#include "Systems/SoundSystem.h"
-#include "Systems/InputSystem.h"
-#include "Systems/RenderingSystem.h"
-
-#include <Windows.h>
 
 using namespace entityx;
 class Engine : public EntityX {
