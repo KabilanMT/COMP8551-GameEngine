@@ -8,10 +8,21 @@
 
 #include "entityx/entityx.h"
 #include "../Components/Components.h"
+#include "../Events/Events.h"
 
 using namespace entityx;
-class CustomScriptSystem : public System<CustomScriptSystem> {
+class CustomScriptSystem : public System<CustomScriptSystem>, public Receiver<CustomScriptSystem> {
 public:
+    void configure(EventManager& events) override {
+        events.subscribe<SceneLoad>(*this);
+    }
+
+    void receive(const SceneLoad& sl) {
+        //this method will be called when the scene loads
+
+        //call start methods
+    }
+
     void update(EntityManager& es, EventManager& events, TimeDelta dt) override 
     {
         // toFile(ccodestring, "ExampleCustomScript");
@@ -39,71 +50,71 @@ public:
      * #PARAM ccode: String C++ of code
      * #PARAM filename: Name of file you want to create to file   
      */
-    void toFile(std::string ccode, std::string filename)
-    {
-        ofstream myfile;
-        std::string filepath = "src/CustomScripts/" + filename + ".cpp";
-        myfile.open(filepath);
-        myfile << ccode;
-        myfile.close();
-    }
+    // void toFile(std::string ccode, std::string filename)
+    // {
+    //     ofstream myfile;
+    //     std::string filepath = "src/CustomScripts/" + filename + ".cpp";
+    //     myfile.open(filepath);
+    //     myfile << ccode;
+    //     myfile.close();
+    // }
 
-    /**
-     * Builds dll file from Custom script and calls it's CreateCustomScriptObject function.
-     * #PARAM filename: name of file that contains the C++ code
-     * #PARAM ex: Entity to be referenced in the Custom Script
-     * #RETURN CScript: Custom Script object
-     */
-    CScript* getCustomScriptObject(std::string filename, entityx::Entity* ex)
-    {
-        HINSTANCE hdll = NULL;
-        CScript* cscript = NULL;
-        typedef void* (*pvScriptObject)(entityx::Entity*);
-        pvScriptObject createCustomScriptObject;
+    // /**
+    //  * Builds dll file from Custom script and calls it's CreateCustomScriptObject function.
+    //  * #PARAM filename: name of file that contains the C++ code
+    //  * #PARAM ex: Entity to be referenced in the Custom Script
+    //  * #RETURN CScript: Custom Script object
+    //  */
+    // CScript* getCustomScriptObject(std::string filename, entityx::Entity* ex)
+    // {
+    //     HINSTANCE hdll = NULL;
+    //     CScript* cscript = NULL;
+    //     typedef void* (*pvScriptObject)(entityx::Entity*);
+    //     pvScriptObject createCustomScriptObject;
 
-        // Create dll file 
-        std::string gccCommand = "g++ -Iincludes -Llibs src/CustomScripts/" + filename + ".cpp -o src/CustomScripts/" + filename + ".dll -shared -fPIC -lentityx";
-        const char *cgccCommand = gccCommand.c_str();
-        system(cgccCommand);
+    //     // Create dll file 
+    //     std::string gccCommand = "g++ -Iincludes -Llibs src/CustomScripts/" + filename + ".cpp -o src/CustomScripts/" + filename + ".dll -shared -fPIC -lentityx";
+    //     const char *cgccCommand = gccCommand.c_str();
+    //     system(cgccCommand);
         
-        // Load the dll ( It says there is an error but it compiles and works anyways :/ )
-        std::string path = "src\\CustomScripts\\" + filename + ".dll";
-        const char * cpath = path.c_str();
-        hdll = LoadLibrary(cpath);
+    //     // Load the dll ( It says there is an error but it compiles and works anyways :/ )
+    //     std::string path = "src\\CustomScripts\\" + filename + ".dll";
+    //     const char * cpath = path.c_str();
+    //     hdll = LoadLibrary(cpath);
 
-        if (!hdll)
-        {
-           Logger::getInstance() << "Error: Failed to load dll " + filename;
-           return NULL;
-        }
+    //     if (!hdll)
+    //     {
+    //        Logger::getInstance() << "Error: Failed to load dll " + filename;
+    //        return NULL;
+    //     }
 
-        // Get the function pointer
-        createCustomScriptObject = (pvScriptObject) (GetProcAddress(hdll, "CreateCustomScriptObject"));
+    //     // Get the function pointer
+    //     createCustomScriptObject = (pvScriptObject) (GetProcAddress(hdll, "CreateCustomScriptObject"));
 
-        if (!createCustomScriptObject)
-        {
-            Logger::getInstance() << "Error: Failed to find CreateCustomScriptObject in " + filename;
-            return NULL;
-        }
+    //     if (!createCustomScriptObject)
+    //     {
+    //         Logger::getInstance() << "Error: Failed to find CreateCustomScriptObject in " + filename;
+    //         return NULL;
+    //     }
 
-        // Create CScript Object
-        cscript = static_cast<CScript*> ( createCustomScriptObject(ex) ); 
+    //     // Create CScript Object
+    //     cscript = static_cast<CScript*> ( createCustomScriptObject(ex) ); 
         
-        return cscript;
-    }
+    //     return cscript;
+    // }
 
-    /**
-     * Deletes all files with the exception of the ExampleCustomScript from the CustomScripts directory.
-     * Should be called when creating new scene or ending the program.
-     */
-    void cleanDir()
-    {
-        for (const auto& entry : std::experimental::filesystem::directory_iterator("src/CustomScripts"))
-        {
-            if (entry.path().string().compare("src/CustomScripts/ExampleCustomScript.cpp") != 0)
-                std::experimental::filesystem::remove_all(entry.path());
-        }
-    }
+    // /**
+    //  * Deletes all files with the exception of the ExampleCustomScript from the CustomScripts directory.
+    //  * Should be called when creating new scene or ending the program.
+    //  */
+    // void cleanDir()
+    // {
+    //     for (const auto& entry : std::experimental::filesystem::directory_iterator("src/CustomScripts"))
+    //     {
+    //         if (entry.path().string().compare("src/CustomScripts/ExampleCustomScript.cpp") != 0)
+    //             std::experimental::filesystem::remove_all(entry.path());
+    //     }
+    // }
 
 private:
     std::string ccodestring = 

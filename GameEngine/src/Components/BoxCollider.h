@@ -1,7 +1,7 @@
 #pragma once
 
 struct BoxCollider {
-	BoxCollider(float width = 0.0f, float height = 0.0f, 
+	BoxCollider(float width = 1.0f, float height = 1.0f, 
 	float x = 0.0f, float y = 0.0f, float z = 0.0f,
 	bool isTrigger = false, bool render = false) :
 	width(width), height(height), x(x), y(y), z(z), bbHeight(height),

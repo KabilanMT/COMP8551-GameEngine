@@ -1,5 +1,5 @@
 CXX			:= g++
-CXX_FLAGS 	:= -g --std=gnu++14
+CXX_FLAGS 	:= -g --std=gnu++14 
 
 BIN			:= bin
 SRC			:= src
@@ -10,7 +10,7 @@ ifeq ($(UNAME), Darwin)
 else
 
 LIB			:= libs
-LIBRARIES	:= -lglfw3 -lgdi32 -lentityx -lbass -lstdc++fs -static-libgcc -static-libstdc++
+LIBRARIES	:= -lglfw3 -lgdi32 -lbass -lentityx -lstdc++fs -static-libgcc -static-libstdc++ 
 
 endif
 

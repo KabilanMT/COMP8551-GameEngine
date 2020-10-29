@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="200" height="40" tilewidth="64" tileheight="64" nextobjectid="46">
+    <objectgroup name="Objects" offsetx="1" offsety="-2">
+        <object id="1" name="Flaps" type="Wall" x="0" y="0" width="64" height="64" rotate="130" visible="1">
+            <properties>
+                <property name="AudioSource" type="string" value="Red Dead Redemption 2 - See the Fire in Your Eyes.mp3,true,bgm"/>             
+            </properties>
+        </object>
+    </objectgroup>
+</map>

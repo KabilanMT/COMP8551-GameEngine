@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 #include "logger.h"
+#include "engine.h"
+#include "Events/Events.h"
 
 SceneManager::SceneManager() {
 
@@ -11,15 +13,23 @@ void SceneManager::start() {
 }
 
 void SceneManager::loadScene(string sceneName) {
+
     //find scene with name
     Scene* scene;
     for (int i = 0; i < scenes.size(); ++i) {
         scene = scenes.at(i);
         if (scene->getName() == sceneName) {
-            scene->load();
+            if (isSceneLoaded) {
+                Engine::getInstance().events.emit<SceneUnload>(sceneLoaded);
+                auto es = Engine::getInstance().entities.entities_with_components<AudioSource>();
+                Engine::getInstance().entities.reset();
+            }
 
-            //find all entities with custom scripts and run their start methods
-            
+            Engine::getInstance().events.emit<ScenePreLoad>(scene->getName());
+            scene->load();
+            Logger::getInstance() << "Loaded scene \"" << scene->getName() << "\"\n";
+            Engine::getInstance().events.emit<SceneLoad>(scene->getName());
+            isSceneLoaded = true;
             return;
         }
     }
