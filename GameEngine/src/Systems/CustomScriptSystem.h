@@ -9,6 +9,9 @@
 #include "../Components/CustomScript.h"
 #include "../Events/Events.h"
 #include "../SceneManager.h"
+#include "Input.h"
+#include <glfw/glfw3.h>
+#include "../logger.h"
 
 using namespace entityx;
 
@@ -39,6 +42,22 @@ public:
     void update(EntityManager& es, EventManager& events, TimeDelta dt) override 
     {
         auto entities = es.entities_with_components<CustomScript>();
+
+        //TEST - REMOVE
+        Logger::getInstance() << Input::getInstance().isMousePressed(true) << "\n";
+
+        // Example of how to check if a key is pressed:
+        // bool isSpacePressed = Input::getInstance().isKeyPressed(GLFW_KEY_SPACE)
+
+        // Full list of key_press codes are here
+        // https://www.glfw.org/docs/3.3/group__keys.html
+
+        // Example of how to check if a mouse button was pressed
+        // bool isLeftMousePressed = Input::getInstance().isMousePressed(true) //left mouse button
+
+        // Example to check the position of the cursor
+        // int xpos = Input::getInstance().getCursorPosition(true) //xcoord
+        // int ypos = Input::getInstance().getCursorPosition(false) //ycoord
 
         for (Entity e : entities) {
             currEntity = &e;

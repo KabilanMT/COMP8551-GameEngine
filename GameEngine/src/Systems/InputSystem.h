@@ -30,28 +30,26 @@ public:
 
             glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
                 {
-                    auto state = glfwGetKey(window, key);
-                    if (state == GLFW_PRESS || state == GLFW_REPEAT) {
-                       Input::getInstance().pressedChar.push_back(key);
+                    if (action == GLFW_PRESS) {
+                        Input::getInstance().pressKey(key);
+                    } else if (action == GLFW_RELEASE) {
+                        Input::getInstance().releaseKey(key);
                     }
-
-                    Input::getInstance().pressKey(key);
                 });
 
-            glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos) {
-                Input::getInstance().cursorPositionCallback(xpos, ypos);
+            glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos)
+                {
+                    Input::getInstance().cursorPositionCallback(xpos, ypos);
                 });
 
-            glfwSetCursorEnterCallback(window, [](GLFWwindow* window, int entered) {
-                Input::getInstance().cursorEnterCallback(entered);
+            glfwSetCursorEnterCallback(window, [](GLFWwindow* window, int entered) 
+                {
+                    Input::getInstance().cursorEnterCallback(entered);
                 });
 
-            glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
-                auto state = glfwGetMouseButton(window, button);
-                if (state == GLFW_PRESS || state == GLFW_REPEAT) {
-                    Input::getInstance().pressedChar.push_back(button);
-                }
-                Input::getInstance().pressMouseButton(button);
+            glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) 
+                {
+                    Input::getInstance().pressMouseButton(button);
                 });
 
             glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
@@ -62,10 +60,7 @@ public:
             hasWindow = true;
            
         }
-        Input::getInstance().pressedChar.clear();
-
-        double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
+        Input::getInstance().clear();
 
         //Poll for and process events
         glfwPollEvents();
