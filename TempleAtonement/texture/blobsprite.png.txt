@@ -1,0 +1,1 @@
+blobsprite_01.png.png 9 3, blobsprite_02.png.png 57 2, blobsprite_03.png.png 105 3, blobsprite_04.png.png 7 51, blobsprite_05.png.png 55 50, blobsprite_06.png.png 103 51, blobsprite_07.png.png 9 99, blobsprite_08.png.png 57 98, blobsprite_09.png.png 105 99, blobsprite_10.png.png 9 147, blobsprite_11.png.png 57 146, blobsprite_12.png.png 105 147.
