@@ -4,16 +4,9 @@
 
 #include <entityx/entityx.h>
 #include <chrono>
-#include "Systems/PhysicsSystem.h"
-#include "Systems/SoundSystem.h"
-
-#include "Systems/CustomScriptSystem.h"
-#include "Systems/RenderingSystem.h"
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 #include <functional>
-
-#include <Windows.h>
 
 using namespace entityx;
 

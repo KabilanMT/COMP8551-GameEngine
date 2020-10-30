@@ -152,6 +152,9 @@ fabric.properties
 # Mono auto generated files
 mono_crash.*
 
+# Stack Dump
+*.stackdump
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

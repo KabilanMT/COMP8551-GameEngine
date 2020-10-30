@@ -8,6 +8,8 @@
 #include <sstream>
 #include <string.h>
 
+#include "Components/Components.h"
+
 using namespace tinyxml2;
 
 string Scene::getName() {
@@ -45,7 +47,7 @@ void Scene::load() {
                 string aName = attr->Name();
 
                 if (aName == "name") {
-                    //ent.assign<Name>(attr->Value());
+                    ent.assign<Name>(attr->Value());
                 } else if (aName == "x") {
                     stringstream str(attr->Value());
                     str >> x;
@@ -65,14 +67,25 @@ void Scene::load() {
                     stringstream str(attr->Value());
                     int temp;
                     str >> temp;
-                    //ent.assign<Active>((bool)temp);
+                    ent.assign<Active>((bool)temp);
                 }
 
                 attr = attr->Next();
             }
-            ent.assign<Transform>(x, y, z); //TODO not using rotAngle yet
-            //TODO width and height need to be applied to sprite vertices
+            // Add rotation passing in a degrees (rotAngle)
+            // Convert width and height to sprite vertices
 
+            ent.assign<Transform>(x, y, z, rotAngle, 0, 0, 1);
+            //TODO width and height need to be applied to sprite vertices
+            ent.assign<SpriteVertices>(
+                -width/2, -height/2, 0.0f, 0.0f,
+                 width/2, -height/2, 1.0f, 0.0f,
+                 width/2,  height/2, 1.0f, 1.0f,
+                -width/2,  height/2, 0.0f, 1.0f,
+
+                0,1,2,
+                2,3,0
+            );
 
             //loop through properties for most other components
             //get first property
@@ -104,16 +117,12 @@ void Scene::load() {
                         addCircleCollider(parameters, ent);
                     } else if (compType == "CustomScript") {
                         addCustomScript(parameters, ent);
-                    } else if (compType == "Position") {
-                        //TODO might be removed
                     } else if (compType == "Rigidbody_2D") {
                         addRigidBody_2D(parameters, ent);
                     } else if (compType == "ShaderComp") {
                         addShaderComp(parameters, ent);
                     } else if (compType == "TextureComp") {
                         addTextureComp(parameters, ent);
-                    } else if (compType == "Translation") {
-                        //TODO might be removed
                     }
                     property = property->NextSibling();
                 }
@@ -181,7 +190,29 @@ void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {
 }
 
 void Scene::addCamera(vector<string>& parameters, Entity& e) {
-    //TODO
+    float lf, rf, bf, tf, dnp, dfp, x, y, z;
+
+    stringstream str(parameters.at(0));
+    str >> lf;
+	str = stringstream(parameters.at(1));
+    str >> rf;
+	str = stringstream(parameters.at(2));
+    str >> bf;
+	str =  stringstream(parameters.at(3));
+    str >> tf;
+	str =  stringstream(parameters.at(4));
+    str >> dnp;
+	str =  stringstream(parameters.at(5));
+    str >> dfp;
+	str =  stringstream(parameters.at(6));
+    str >> x;
+	str =  stringstream(parameters.at(7));
+    str >> y;
+	str =  stringstream(parameters.at(8));
+    str >> z;
+
+    e.assign<Camera>(lf, rf, bf, tf, dnp, dfp, x, y, z);
+
 }
 
 void Scene::addCapsuleCollider(vector<string>& parameters, Entity& e) {
@@ -311,9 +342,23 @@ void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
 }
 
 void Scene::addShaderComp(vector<string>& parameters, Entity& e) {
-    e.assign<ShaderComp>(parameters.at(0).c_str());
+    string temp = parameters.at(0);
+    int n=temp.length();
+    char *chararray= new char [n+1];
+    strcpy(chararray,temp.c_str());
+  
+    for (int i = 0; i < n; i++) 
+        cout << chararray[i]; 
+    e.assign<ShaderComp>(chararray);
 }
 
 void Scene::addTextureComp(vector<string>& parameters, Entity& e) {
-    e.assign<TextureComp>(parameters.at(0).c_str());
+    string temp = parameters.at(0);
+    int n=temp.length();
+    char *chararray= new char [n+1];
+    strcpy(chararray,temp.c_str());
+  
+    for (int i = 0; i < n; i++) 
+        cout << chararray[i]; 
+    e.assign<TextureComp>(chararray);
 }
