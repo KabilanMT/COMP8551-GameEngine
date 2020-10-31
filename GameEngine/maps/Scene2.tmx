@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="left-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="23">
+ <objectgroup id="2" name="Object Layer 1">
+  <object id="20" name="Land" x="0" y="336" width="736" height="992">
+   <properties>
+    <property name="AudioSource" value="29-Dark fantasy studio- You are fighting with me.mp3, true, sound"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Grass.png"/>
+   </properties>
+  </object>
+  <object id="1" name="TreeLeft" type="Wall" x="-370" y="336" width="64" height="992">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="2" name="TreeRight" type="Wall" x="370" y="336" width="64" height="992">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="3" name="TreeTop" type="Wall" x="0" y="864" width="800" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="4" name="TreeDown" type="Wall" x="0" y="-192" width="800" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="5" name="Road" x="0" y="336" width="64" height="992">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Road.png"/>
+   </properties>
+  </object>
+  <object id="7" name="Enemy1" x="-192" y="480" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="Footsteps_Casual_Grass.mp3, true, sound"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="8" name="Enemy2" x="192" y="64" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="13" name="Coin1" x="16.6083" y="657.939" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="coin_01.mp3, true, sound"/>
+    <property name="BoxCollider" value="32.0f, 32.0f,192.0f, 192.0f, 0.0f, false, false"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="16" name="Coin2" x="-14.5684" y="431.823" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="17" name="Coin3" x="17" y="211" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="18" name="Coin4" x="-17" y="47" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>
