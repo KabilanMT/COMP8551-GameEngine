@@ -5,8 +5,6 @@
             <properties>
                 <property name="ShaderComp" type="string" value="src/res/shaders/Basic.shader"/>          
                 <property name="TextureComp" type="string" value="src/res/textures/Sport.png"/>             
-<<<<<<< HEAD
-=======
             </properties>
         </object>
         <object id="2" name="LogoTest" type="Wall" x="200" y="100" width="485" height="76" rotate="130" visible="1">
@@ -19,7 +17,6 @@
             <properties>
                 <property name="ShaderComp" type="string" value="src/res/shaders/Basic.shader"/>          
                 <property name="TextureComp" type="string" value="src/res/textures/Temple.png"/>             
->>>>>>> 54104c1c92a59268b9789debb91850d6f58ced70
             </properties>
         </object>
     </objectgroup>
