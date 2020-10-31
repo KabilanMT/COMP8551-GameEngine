@@ -163,8 +163,10 @@ void Engine::start() {
 
         entityx::ComponentHandle<Transform> transform = e2.component<Transform>();
 
-        //LEEEEERP
-        transform.get()->x = transform.get()->x * (1.0 - alpha) + i * alpha;
+        //LEEEEERP horizontal left to right
+        //transform.get()->x = transform.get()->x * (1.0 - alpha) + i * alpha;
+        //LEEEEERP vertical down to top
+        transform.get()->y = transform.get()->y * (1.0 + alpha) - y * alpha;
 
         //Swap front and back buffers
         glfwSwapBuffers(window);
