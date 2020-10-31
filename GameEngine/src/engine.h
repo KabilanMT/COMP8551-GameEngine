@@ -6,16 +6,11 @@
 #include <chrono>
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
-#include "Systems/CustomScriptSystem.h"
-#include "Systems/PhysicsSystem.h"
-#include "Systems/SoundSystem.h"
-#include "Systems/InputSystem.h"
-#include "Systems/RenderingSystem.h"
-
-#include <Windows.h>
+#include <functional>
 
 using namespace entityx;
-class Engine : public EntityX {
+
+class Engine : public EntityX{
     public:
         static Engine& getInstance();
 
@@ -23,6 +18,7 @@ class Engine : public EntityX {
         const unsigned int SCR_WIDTH = 800;
         const unsigned int SCR_HEIGHT = 600;
         GLFWwindow* window;
+
     private:
         explicit Engine();
         std::chrono::high_resolution_clock clock;
@@ -31,18 +27,6 @@ class Engine : public EntityX {
         bool initialized = false;
         void initialize();
         void update();
-
-        //write your input function in call back function 
-        void keyCallback(GLFWwindow* window, int key, int action);
-        void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
-        void cursorEnterCallback(GLFWwindow* window, int entered);
-        void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
-        void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-        //void processKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods);
-
-
-        // settings
-        
     
     public:
         //remove other constructors
