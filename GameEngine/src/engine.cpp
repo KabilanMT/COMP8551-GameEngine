@@ -142,6 +142,7 @@ void Engine::start() {
         2,3,0
     );
 
+    entity.assign<Active>();
     entity.assign<ShaderComp>("src/res/shaders/Basic.shader");
     entity.assign<TextureComp>("src/res/textures/Sport.png");
     entity.assign<CustomScript>("src/CustomScripts/XmlExampleCustomScript.xml");

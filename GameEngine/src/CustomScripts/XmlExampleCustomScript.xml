@@ -2,7 +2,6 @@
     <variables>
         <int name="health" value="5"/>
         <bool name="isTrue" value="true"/>
-        <string name="wtf" value="wowyouasshole"/>
     </variables>
 
     <start>

@@ -47,6 +47,7 @@ public:
 
     void receive(const Trigger& tr) {
         if (tr.gotTriggered->has_component<CustomScript>()) {
+            currEntity = tr.gotTriggered;
             ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
 
             handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Name>().get()->getName();
@@ -59,6 +60,7 @@ public:
         }
 
         if (tr.triggeringEntity->has_component<CustomScript>()) {
+            currEntity = tr.triggeringEntity;
             ComponentHandle<CustomScript> handle = tr.triggeringEntity->component<CustomScript>();
 
             handle->strings.at("collisionObject-tag") = tr.gotTriggered->component<Name>().get()->getName();
@@ -95,13 +97,13 @@ public:
             currEntity = &e;
 
             // Error checking to avoid crashing 
-            // if (!e.has_component<Active>() && !e.has_component<CustomScript>())
-            //     continue;
+            if (!e.has_component<Active>() && !e.has_component<CustomScript>())
+                continue;
 
             // Skip if entity isn't active
-            // ComponentHandle<Active> active = e.component<Active>();
-            // if (!active.get()->getIfActive())
-            //     continue; 
+            ComponentHandle<Active> active = e.component<Active>();
+            if (!active.get()->getIfActive())
+                continue; 
 
             // Get update tag from xml and run commands
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
