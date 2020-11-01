@@ -73,6 +73,15 @@ struct CustomScript
             if (key == "KEY_SPACE")
                 return GLFW_KEY_SPACE;
 
+            if (key == "KEY_Q")
+                return GLFW_KEY_Q;
+
+            if (key == "KEY_R")
+                return GLFW_KEY_R;
+
+            if (key == "KEY_I")
+                return GLFW_KEY_I;
+
             return 0;
         }
 
