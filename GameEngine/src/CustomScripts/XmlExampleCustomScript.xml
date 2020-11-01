@@ -10,12 +10,13 @@
     </start>
 
     <update>
-        <ifVar name="health" value="7" type="int">
+        <!-- <ifVar name="health" value="7" type="int">
             <moveEntity x="0" y="0" z="0" />
-        </ifVar>
-        <moveEntity x="1" y="0" z="0"/>
+        </ifVar> -->
+        <keyPress value="KEY_W">
+            <moveEntity x="0.0" y="9.0" z="0.0"/>
+        </keyPress>
     </update>
-    
     <onCollision>
 
     </onCollision>

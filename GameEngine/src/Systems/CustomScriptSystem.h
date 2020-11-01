@@ -49,7 +49,7 @@ public:
         auto entities = es.entities_with_components<CustomScript>();
 
         //TEST - REMOVE
-        cout << Input::getInstance().isMousePressed(true) << "\n" << endl;;
+        // cout << Input::getInstance().isMousePressed(true) << "\n" << endl;;
 
         // Example of how to check if a key is pressed:
         // bool isSpacePressed = Input::getInstance().isKeyPressed(GLFW_KEY_SPACE)
@@ -68,13 +68,13 @@ public:
             currEntity = &e;
 
             // Error checking to avoid crashing 
-            if (!e.has_component<Active>() && !e.has_component<CustomScript>())
-                continue;
+            // if (!e.has_component<Active>() && !e.has_component<CustomScript>())
+            //     continue;
 
             // Skip if entity isn't active
-            ComponentHandle<Active> active = e.component<Active>();
-            if (!active.get()->getIfActive())
-                continue; 
+            // ComponentHandle<Active> active = e.component<Active>();
+            // if (!active.get()->getIfActive())
+            //     continue; 
 
             // Get update tag from xml and run commands
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
@@ -92,6 +92,11 @@ public:
         // TODO: Requires error checking and refactor, assumes that the first and second attrib is variable name and value
         void getVariables(XMLNode* variable, ComponentHandle<CustomScript> cScript) {
             while (variable != nullptr) {
+
+                if (variable->ToElement() == NULL) {
+                    variable = variable->NextSibling();
+                    continue;
+                }
                 
                 string name = variable->Value();
                 const XMLAttribute* attr = variable->ToElement()->FirstAttribute();
@@ -119,6 +124,11 @@ public:
 
         void runCommands(XMLNode* command, ComponentHandle<CustomScript> cScript) {
             while (command != NULL) {
+                
+                if (command->ToElement() == NULL) {
+                    command = command->NextSibling();
+                    continue;
+                }
                 
                 // Setup
                 string name = command->Value();
@@ -202,8 +212,15 @@ public:
                     moveEntity(x, y, z);
                 }
 
-                if (name == "removeEntity") {
+                if (name == "removeEntity")
                     removeEntity();
+
+                if (name == "keyPress") {
+                    string value = attributes.at("value");
+                    int keyValue = cScript->getValidKeyPress(value);
+                    
+                    if (Input::getInstance().isKeyPressed(keyValue))
+                        runCommands(command->FirstChild(), cScript);
                 }
 
                 command = command->NextSibling();

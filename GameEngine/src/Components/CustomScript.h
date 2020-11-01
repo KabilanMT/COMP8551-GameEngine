@@ -50,6 +50,28 @@ struct CustomScript
             return root->FirstChildElement("onCollision");
         }
 
+        int getValidKeyPress(string key) {
+            if (key == "KEY_W")
+                return GLFW_KEY_W;
+
+            if (key == "KEY_S")
+                return GLFW_KEY_S;
+
+            if (key == "KEY_A")
+                return GLFW_KEY_A;
+
+            if (key == "KEY_D")
+                return GLFW_KEY_D;
+            
+            if (key == "KEY_E")
+                return GLFW_KEY_E;
+
+            if (key == "KEY_SPACE")
+                return GLFW_KEY_SPACE;
+
+            return 0;
+        }
+
         ~CustomScript() {
             delete doc;
         }
@@ -65,4 +87,7 @@ struct CustomScript
         unordered_map<std::string, double> doubles;
         unordered_map<std::string, std::string> strings;
         unordered_map<std::string, bool> bools;
+
+        // Reserved Variables
+        
 };
