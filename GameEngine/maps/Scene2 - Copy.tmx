@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="left-down" width="12" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="23">
+ <layer id="1" name="Tile Layer 1" width="12" height="30">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="2" name="Object Layer 1">
+  <object id="20" name="Land" x="0" y="0" width="800" height="1011">
+   <properties>
+    <property name="Rotate" value="0, 0, 0, 1"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="SpriteVertices" value="-192.0f, -480.0f, 0.0f, 0.0f, 192.0f, -480.0f, 1.0f, 0.0f, 192.0f,  480.0f, 1.0f, 1.0f, -192.0f,  480.0f, 0.0f, 1.0f,  0,1,2, 2,3,0"/>
+    <property name="TextureComp" value="src/res/textures/Grass.png"/>
+    <property name="Translation" value="-192, -32, 0, 0, 0, 0, 1"/>
+   </properties>
+  </object>
+  <object id="1" name="TreeLeft" type="Wall" x="-513.788" y="35.6474" width="64" height="960">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="SpriteVertices" value="-50.0f, -50.0f, 0.0f, 0.0f, 50.0f, -50.0f, 1.0f, 0.0f, 50.0f,  50.0f, 1.0f, 1.0f, -50.0f,  50.0f, 0.0f, 1.0f,  0,1,2, 2,3,0"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+    <property name="Translation" value="0, 0, 0, 0, 0, 0, 1"/>
+   </properties>
+  </object>
+  <object id="2" name="TreeRight" type="Wall" x="-341.802" y="50.3713" width="64" height="960">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="SpriteVertices" value="-50.0f, -50.0f, 0.0f, 0.0f, 50.0f, -50.0f, 1.0f, 0.0f, 50.0f,  50.0f, 1.0f, 1.0f, -50.0f,  50.0f, 0.0f, 1.0f,  0,1,2, 2,3,0"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+    <property name="Translation" value="-320, 0, 0, 0, 0, 0, 1"/>
+   </properties>
+  </object>
+  <object id="3" name="TreeTop" type="Wall" x="-838.034" y="37.9722" width="256" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="SpriteVertices" value="-50.0f, -50.0f, 0.0f, 0.0f, 50.0f, -50.0f, 1.0f, 0.0f, 50.0f,  50.0f, 1.0f, 1.0f, -50.0f,  50.0f, 0.0f, 1.0f,  0,1,2, 2,3,0"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+    <property name="Translation" value="64, 896, 0, 0, 0, 0, 1"/>
+   </properties>
+  </object>
+  <object id="4" name="TreeDown" type="Wall" x="-823.31" y="289.994" width="256" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="SpriteVertices" value="-50.0f, -50.0f, 0.0f, 0.0f, 50.0f, -50.0f, 1.0f, 0.0f, 50.0f,  50.0f, 1.0f, 1.0f, -50.0f,  50.0f, 0.0f, 1.0f,  0,1,2, 2,3,0"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+    <property name="Translation" value="0, -64, 0, 0, 0, 0, 1"/>
+   </properties>
+  </object>
+  <object id="5" name="Road" x="-435.157" y="44.6264" width="64" height="832">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="SpriteVertices" value="-50.0f, -50.0f, 0.0f, 0.0f, 50.0f, -50.0f, 1.0f, 0.0f, 50.0f,  50.0f, 1.0f, 1.0f, -50.0f,  50.0f, 0.0f, 1.0f,  0,1,2, 2,3,0"/>
+    <property name="TextureComp" value="src/res/textures/Road.png"/>
+    <property name="Translation" value="0, 0, 0, 0, 0, 0, 1"/>
+   </properties>
+  </object>
+  <object id="7" name="Enemy1" x="-653.37" y="507.257" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="Footsteps_Casual_Grass_01.mp3, true, sound"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="8" name="Enemy2" x="-608.062" y="303.272" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="13" name="Coin1" x="-557.37" y="635.257" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="coin_01.mp3, true, sound"/>
+    <property name="BoxCollider" value="32.0f, 32.0f,192.0f, 192.0f, 0.0f, false, false"/>
+    <property name="Rotate" value="0, 0, 0, 1"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+    <property name="Translation" value="0, 0, 0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="16" name="Coin2" x="-589.37" y="443.257" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="17" name="Coin3" x="-661.988" y="401.049" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="18" name="Coin4" x="-700.962" y="210.826" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

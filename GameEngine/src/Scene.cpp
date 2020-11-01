@@ -74,8 +74,9 @@ void Scene::load() {
             }
             // Add rotation passing in a degrees (rotAngle)
             // Convert width and height to sprite vertices
-
-            ent.assign<Transform>(x, y, z, rotAngle, 0, 0, 1);
+            x = x + width/2;
+            y = (y + height/2) * -1;
+            ent.assign<Transform>(x, y, 0, rotAngle, 0, 0, 1);
             //TODO width and height need to be applied to sprite vertices
             ent.assign<SpriteVertices>(
                 -width/2, -height/2, 0.0f, 0.0f,
@@ -190,7 +191,7 @@ void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {
 }
 
 void Scene::addCamera(vector<string>& parameters, Entity& e) {
-    float lf, rf, bf, tf, dnp, dfp, x, y, z;
+    float lf, rf, bf, tf, dnp, dfp;
 
     stringstream str(parameters.at(0));
     str >> lf;
@@ -204,14 +205,8 @@ void Scene::addCamera(vector<string>& parameters, Entity& e) {
     str >> dnp;
 	str =  stringstream(parameters.at(5));
     str >> dfp;
-	str =  stringstream(parameters.at(6));
-    str >> x;
-	str =  stringstream(parameters.at(7));
-    str >> y;
-	str =  stringstream(parameters.at(8));
-    str >> z;
 
-    e.assign<Camera>(lf, rf, bf, tf, dnp, dfp, x, y, z);
+    e.assign<Camera>(lf, rf, bf, tf, dnp, dfp);
 
 }
 
