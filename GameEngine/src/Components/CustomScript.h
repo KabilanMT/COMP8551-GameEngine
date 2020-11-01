@@ -55,34 +55,7 @@ struct CustomScript
         }
 
         int getValidKeyPress(string key) {
-            if (key == "KEY_W")
-                return GLFW_KEY_W;
-
-            if (key == "KEY_S")
-                return GLFW_KEY_S;
-
-            if (key == "KEY_A")
-                return GLFW_KEY_A;
-
-            if (key == "KEY_D")
-                return GLFW_KEY_D;
-            
-            if (key == "KEY_E")
-                return GLFW_KEY_E;
-
-            if (key == "KEY_SPACE")
-                return GLFW_KEY_SPACE;
-
-            if (key == "KEY_Q")
-                return GLFW_KEY_Q;
-
-            if (key == "KEY_R")
-                return GLFW_KEY_R;
-
-            if (key == "KEY_I")
-                return GLFW_KEY_I;
-
-            return 0;
+            return possibleInputs.at(key);
         }
 
         void resetReservedVariables() {
@@ -115,6 +88,17 @@ struct CustomScript
         unordered_map<std::string, std::string> strings;
         unordered_map<std::string, bool> bools;
 
-        // Reserved Variables
-        
+    private:
+        const std::unordered_map<std::string, int> possibleInputs {
+            {"KEY_W", GLFW_KEY_W}, 
+            {"KEY_S", GLFW_KEY_S},
+            {"KEY_A", GLFW_KEY_A},
+            {"KEY_D", GLFW_KEY_D},
+            {"KEY_Q", GLFW_KEY_Q},
+            {"KEY_E", GLFW_KEY_E},
+            {"KEY_R", GLFW_KEY_R},
+            {"KEY_F", GLFW_KEY_F},
+            {"KEY_I", GLFW_KEY_I},
+            {"KEY_SPACE", GLFW_KEY_SPACE}
+        }; 
 };
