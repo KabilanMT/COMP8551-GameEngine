@@ -2,6 +2,7 @@
     <variables>
         <int name="health" value="5"/>
         <bool name="isTrue" value="true"/>
+        <string name="wtf" value="wowyouasshole"/>
     </variables>
 
     <start>
@@ -10,9 +11,9 @@
     </start>
 
     <update>
-        <!-- <ifVar name="health" value="7" type="int">
+        <ifVar name="health" value="7" type="int">
             <moveEntity x="0" y="0" z="0" />
-        </ifVar> -->
+        </ifVar>
         <keyPress value="KEY_W">
             <moveEntity x="0.0" y="9.0" z="0.0"/>
         </keyPress>

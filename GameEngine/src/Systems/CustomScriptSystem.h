@@ -46,7 +46,29 @@ public:
     }
 
     void receive(const Trigger& tr) {
+        if (tr.gotTriggered->has_component<CustomScript>()) {
+            ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
 
+            handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Name>().get()->getName();
+
+            XMLElement* collisionContent = handle->getOnCollision();
+            if (collisionContent != nullptr)
+                runCommands(collisionContent->FirstChild(), handle);
+
+            handle->resetReservedVariables();
+        }
+
+        if (tr.triggeringEntity->has_component<CustomScript>()) {
+            ComponentHandle<CustomScript> handle = tr.triggeringEntity->component<CustomScript>();
+
+            handle->strings.at("collisionObject-tag") = tr.gotTriggered->component<Name>().get()->getName();
+
+            XMLElement* collisionContent = handle->getOnCollision();
+            if (collisionContent != nullptr)
+                runCommands(collisionContent->FirstChild(), handle);
+
+            handle->resetReservedVariables();
+        }
     }
 
     void update(EntityManager& es, EventManager& events, TimeDelta dt) override 
