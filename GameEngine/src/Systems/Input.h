@@ -22,11 +22,11 @@ public:
         return instance;
     }
 
-   /* check if the key is pressed
-      parameter: integer for key input
-      return bool
-   */
-   inline bool isKeyPressed(int key) {
+    /* check if the key is pressed
+        parameter: integer for key input
+        return bool
+    */
+    inline bool isKeyPressed(int key) {
         for (int i = 0; i < pressedChar.size(); ++i) {
             if (pressedChar.at(i) == key) {
                 return true;

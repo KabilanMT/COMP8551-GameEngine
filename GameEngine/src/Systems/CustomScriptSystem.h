@@ -77,9 +77,6 @@ public:
     {
         auto entities = es.entities_with_components<CustomScript>();
 
-        //TEST - REMOVE
-        // cout << Input::getInstance().isMousePressed(true) << "\n" << endl;;
-
         // Example of how to check if a key is pressed:
         // bool isSpacePressed = Input::getInstance().isKeyPressed(GLFW_KEY_SPACE)
 
@@ -289,7 +286,6 @@ public:
         void loadScene(string sceneName) {
             SceneManager::getInstance().loadScene(sceneName);
         }
-
 
         // *********************************
         // Variable functions
