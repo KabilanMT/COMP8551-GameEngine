@@ -128,7 +128,7 @@ void Engine::start() {
     e2.assign<ShaderComp>("src/res/shaders/Basic.shader");
     e2.assign<TextureComp>("src/res/textures/platformChar_idle.png");
     e2.assign<Transform>(0.0f, 0.0f, 0.0f, 0, 0, 0, 1, 2);
-    e2.assign<Camera>((float)SCR_WIDTH / 2 * -1, (float)SCR_WIDTH / 2, (float)SCR_HEIGHT / 2 * -1, (float)SCR_HEIGHT / 2, -1.0f, 1.0f);
+    // e2.assign<Camera>((float)SCR_WIDTH / 2 * -1, (float)SCR_WIDTH / 2, (float)SCR_HEIGHT / 2 * -1, (float)SCR_HEIGHT / 2, -1.0f, 1.0f);
 
     entityx::Entity entity = Engine::getInstance().entities.create();
 
@@ -151,7 +151,7 @@ void Engine::start() {
     // Entity e1 = entities.create();
     // e1.assign<AudioSource>(new Sound("Red Dead Redemption 2 - See the Fire in Your Eyes.mp3"));
 
-    float i = 300.0f;
+    float i = 800.0f;
     float y = -300.0f;
     float alpha = 0.01;
     SceneManager::getInstance().start();
@@ -161,12 +161,10 @@ void Engine::start() {
     {   
         update();
 
-        entityx::ComponentHandle<Transform> transform = e2.component<Transform>();
+        //entityx::ComponentHandle<Transform> transform = e2.component<Transform>();
 
-        //LEEEEERP horizontal left to right
-        //transform.get()->x = transform.get()->x * (1.0 - alpha) + i * alpha;
-        //LEEEEERP vertical down to top
-        transform.get()->y = transform.get()->y * (1.0 + alpha) - y * alpha;
+        //LEEEEERP
+        //transform.get()->y = transform.get()->y * (1.0 - alpha) + i * alpha;
 
         //Swap front and back buffers
         glfwSwapBuffers(window);
