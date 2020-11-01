@@ -27,6 +27,11 @@ public:
         // call start methods
         for (Entity e : sl.entities) {
             currEntity = &e;
+
+            // Error checking to avoid crashing
+            if (!e.has_component<CustomScript>())
+                continue;
+
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
 
             XMLElement* variablesContent = handle->getVariables();
@@ -44,7 +49,7 @@ public:
         auto entities = es.entities_with_components<CustomScript>();
 
         //TEST - REMOVE
-        Logger::getInstance() << Input::getInstance().isMousePressed(true) << "\n";
+        cout << Input::getInstance().isMousePressed(true) << "\n" << endl;;
 
         // Example of how to check if a key is pressed:
         // bool isSpacePressed = Input::getInstance().isKeyPressed(GLFW_KEY_SPACE)
@@ -61,6 +66,17 @@ public:
 
         for (Entity e : entities) {
             currEntity = &e;
+
+            // Error checking to avoid crashing 
+            if (!e.has_component<Active>() && !e.has_component<CustomScript>())
+                continue;
+
+            // Skip if entity isn't active
+            ComponentHandle<Active> active = e.component<Active>();
+            if (!active.get()->getIfActive())
+                continue; 
+
+            // Get update tag from xml and run commands
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
             XMLElement* updateContent = handle->getUpdate();
 
@@ -195,14 +211,14 @@ public:
         }
 
         // CustomScript Functions
-        // Should update as there should be more than just 4 vertices
         void moveEntity(int x, int y, int z) {
-            if (currEntity->has_component<Transform>()) {
-                ComponentHandle<Transform> trans = currEntity->component<Transform>(); 
-                trans.get()->x += x;
-                trans.get()->y += y;
-                trans.get()->z += z;
-            }
+            if (!currEntity->has_component<Transform>()) 
+                return;
+            
+            ComponentHandle<Transform> trans = currEntity->component<Transform>(); 
+            trans.get()->x += x;
+            trans.get()->y += y;
+            trans.get()->z += z;
         }
 
         void removeEntity() {
@@ -212,16 +228,20 @@ public:
 
         void setActiveObject(bool active) {
             if (currEntity->has_component<Active>())
-            {
-                ComponentHandle<Active> _active = currEntity->component<Active>();
-                _active.get()->setActiveStatus(active);
-            }
+                return; 
+            
+            ComponentHandle<Active> _active = currEntity->component<Active>();
+            _active.get()->setActiveStatus(active);
         }
 
         void loadScene(string sceneName) {
             SceneManager::getInstance().loadScene(sceneName);
         }
 
+
+        // *********************************
+        // Variable functions
+        // *********************************
         void updateVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
             if (varType == "int")
                 cScript.get()->ints.at(varName) = stoi(value, nullptr, 0);
