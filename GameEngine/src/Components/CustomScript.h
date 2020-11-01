@@ -28,6 +28,10 @@ struct CustomScript
             }
 
             root = doc->FirstChildElement("root");
+
+            // Reserved variables
+            strings.insert(make_pair("collisionObject-tag", ""));
+            strings.insert(make_pair("collisionObject-name", ""));
         }
 
         XMLElement* getStart() {
@@ -70,6 +74,20 @@ struct CustomScript
                 return GLFW_KEY_SPACE;
 
             return 0;
+        }
+
+        void resetReservedVariables() {
+            strings.at("collisionObject-tag") = "";
+            strings.at("collisionObject-name") = "";
+        }
+
+        bool containsVariable(string varName) {
+            if (ints.find(varName) != ints.end() || floats.find(varName) != floats.end()
+                || doubles.find(varName) != doubles.end() || strings.find(varName) != strings.end()
+                || bools.find(varName) != bools.end())
+                return true; 
+            
+            return false;
         }
 
         ~CustomScript() {

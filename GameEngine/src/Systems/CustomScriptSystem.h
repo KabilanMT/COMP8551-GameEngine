@@ -19,6 +19,7 @@ class CustomScriptSystem : public System<CustomScriptSystem>, public Receiver<Cu
 public:
     void configure(EventManager& events) override {
         events.subscribe<SceneLoad>(*this);
+        events.subscribe<Trigger>(*this);
     }
 
     void receive(const SceneLoad& sl) {
@@ -42,6 +43,10 @@ public:
             if (startContent != nullptr)
                 runCommands(startContent->FirstChild(), handle);
         }
+    }
+
+    void receive(const Trigger& tr) {
+
     }
 
     void update(EntityManager& es, EventManager& events, TimeDelta dt) override 
@@ -103,7 +108,13 @@ public:
                 string var_name = attr->Value();
                 string var_value = attr->Next()->Value(); 
 
-                if (name.compare("int") == 0)
+                if (cScript->containsVariable(var_name)) {
+                    Logger::getInstance() << var_name << " is already defined or is a reserved variable. \n";
+                    variable = variable->NextSibling();
+                    continue;
+                }
+
+                if (name == "int")
                     cScript.get()->ints.insert(make_pair(var_name, stoi(var_value, nullptr, 0)));
 
                 if (name == "float")
