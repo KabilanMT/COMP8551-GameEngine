@@ -43,9 +43,6 @@ public:
     {
         auto entities = es.entities_with_components<CustomScript>();
 
-        //TEST - REMOVE
-        Logger::getInstance() << Input::getInstance().isMousePressed(true) << "\n";
-
         // Example of how to check if a key is pressed:
         // bool isSpacePressed = Input::getInstance().isKeyPressed(GLFW_KEY_SPACE)
 

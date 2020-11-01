@@ -123,6 +123,8 @@ void Scene::load() {
                         addShaderComp(parameters, ent);
                     } else if (compType == "TextureComp") {
                         addTextureComp(parameters, ent);
+                    } else if (compType == "Tag") {
+                        addTag(parameters, ent);
                     }
                     property = property->NextSibling();
                 }
@@ -361,4 +363,8 @@ void Scene::addTextureComp(vector<string>& parameters, Entity& e) {
     for (int i = 0; i < n; i++) 
         cout << chararray[i]; 
     e.assign<TextureComp>(chararray);
+}
+
+void Scene::addTag(vector<string>& parameters, Entity& e) {
+    e.assign<Tag>(parameters.at(0));
 }
