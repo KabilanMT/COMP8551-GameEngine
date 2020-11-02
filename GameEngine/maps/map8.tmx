@@ -1,183 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="273">
+<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="274">
  <tileset firstgid="1" source="Dungeon.tsx"/>
  <tileset firstgid="257" source="blobsprite_01.tsx"/>
  <objectgroup id="2" name="Object Layer - World">
-  <object id="2" gid="203" x="0" y="432" width="48" height="48"/>
-  <object id="3" gid="203" x="0" y="480" width="48" height="48"/>
-  <object id="4" gid="203" x="48" y="480" width="48" height="48"/>
-  <object id="5" gid="203" x="48" y="432" width="48" height="48"/>
-  <object id="6" gid="203" x="96" y="432" width="48" height="48"/>
-  <object id="7" gid="203" x="96" y="480" width="48" height="48"/>
-  <object id="8" gid="203" x="144" y="480" width="48" height="48"/>
-  <object id="9" gid="203" x="144" y="432" width="48" height="48"/>
-  <object id="10" gid="203" x="192" y="432" width="48" height="48"/>
-  <object id="11" gid="203" x="192" y="480" width="48" height="48"/>
-  <object id="12" gid="203" x="240" y="480" width="48" height="48"/>
-  <object id="26" gid="203" x="240" y="432" width="48" height="48"/>
-  <object id="27" gid="203" x="0" y="336" width="48" height="48"/>
-  <object id="28" gid="203" x="0" y="384" width="48" height="48"/>
-  <object id="29" gid="203" x="48" y="384" width="48" height="48"/>
-  <object id="30" gid="203" x="48" y="336" width="48" height="48"/>
-  <object id="31" gid="203" x="96" y="336" width="48" height="48"/>
-  <object id="32" gid="203" x="96" y="384" width="48" height="48"/>
-  <object id="33" gid="203" x="144" y="384" width="48" height="48"/>
-  <object id="34" gid="203" x="144" y="336" width="48" height="48"/>
-  <object id="35" gid="203" x="192" y="336" width="48" height="48"/>
-  <object id="36" gid="203" x="192" y="384" width="48" height="48"/>
-  <object id="37" gid="203" x="240" y="384" width="48" height="48"/>
-  <object id="38" gid="203" x="240" y="336" width="48" height="48"/>
-  <object id="39" gid="203" x="0" y="240" width="48" height="48"/>
-  <object id="40" gid="203" x="0" y="288" width="48" height="48"/>
-  <object id="41" gid="203" x="48" y="288" width="48" height="48"/>
-  <object id="42" gid="203" x="48" y="240" width="48" height="48"/>
-  <object id="43" gid="203" x="96" y="240" width="48" height="48"/>
-  <object id="44" gid="203" x="96" y="288" width="48" height="48"/>
-  <object id="45" gid="203" x="144" y="288" width="48" height="48"/>
-  <object id="46" gid="203" x="144" y="240" width="48" height="48"/>
-  <object id="47" gid="203" x="192" y="240" width="48" height="48"/>
-  <object id="48" gid="203" x="192" y="288" width="48" height="48"/>
-  <object id="49" gid="203" x="240" y="288" width="48" height="48"/>
-  <object id="50" gid="203" x="240" y="240" width="48" height="48"/>
-  <object id="51" gid="203" x="0" y="144" width="48" height="48"/>
-  <object id="52" gid="203" x="0" y="192" width="48" height="48"/>
-  <object id="53" gid="203" x="48" y="192" width="48" height="48"/>
-  <object id="54" gid="203" x="48" y="144" width="48" height="48"/>
-  <object id="55" gid="203" x="96" y="144" width="48" height="48"/>
-  <object id="56" gid="203" x="96" y="192" width="48" height="48"/>
-  <object id="57" gid="203" x="144" y="192" width="48" height="48"/>
-  <object id="58" gid="203" x="144" y="144" width="48" height="48"/>
-  <object id="59" gid="203" x="192" y="144" width="48" height="48"/>
-  <object id="60" gid="203" x="192" y="192" width="48" height="48"/>
-  <object id="61" gid="203" x="240" y="192" width="48" height="48"/>
-  <object id="62" gid="203" x="240" y="144" width="48" height="48"/>
-  <object id="63" gid="203" x="288" y="432" width="48" height="48"/>
-  <object id="64" gid="203" x="288" y="480" width="48" height="48"/>
-  <object id="65" gid="203" x="336" y="480" width="48" height="48"/>
-  <object id="66" gid="203" x="336" y="432" width="48" height="48"/>
-  <object id="67" gid="203" x="384" y="432" width="48" height="48"/>
-  <object id="68" gid="203" x="384" y="480" width="48" height="48"/>
-  <object id="69" gid="203" x="432" y="480" width="48" height="48"/>
-  <object id="70" gid="203" x="432" y="432" width="48" height="48"/>
-  <object id="71" gid="203" x="480" y="432" width="48" height="48"/>
-  <object id="72" gid="203" x="480" y="480" width="48" height="48"/>
-  <object id="73" gid="203" x="528" y="480" width="48" height="48"/>
-  <object id="74" gid="203" x="528" y="432" width="48" height="48"/>
-  <object id="75" gid="203" x="288" y="336" width="48" height="48"/>
-  <object id="76" gid="203" x="288" y="384" width="48" height="48"/>
-  <object id="77" gid="203" x="336" y="384" width="48" height="48"/>
-  <object id="78" gid="203" x="336" y="336" width="48" height="48"/>
-  <object id="79" gid="203" x="384" y="336" width="48" height="48"/>
-  <object id="80" gid="203" x="384" y="384" width="48" height="48"/>
-  <object id="81" gid="203" x="432" y="384" width="48" height="48"/>
-  <object id="82" gid="203" x="432" y="336" width="48" height="48"/>
-  <object id="83" gid="203" x="480" y="336" width="48" height="48"/>
-  <object id="84" gid="203" x="480" y="384" width="48" height="48"/>
-  <object id="85" gid="203" x="528" y="384" width="48" height="48"/>
-  <object id="86" gid="203" x="528" y="336" width="48" height="48"/>
-  <object id="87" gid="203" x="288" y="240" width="48" height="48"/>
-  <object id="88" gid="203" x="288" y="288" width="48" height="48"/>
-  <object id="89" gid="203" x="336" y="288" width="48" height="48"/>
-  <object id="90" gid="203" x="336" y="240" width="48" height="48"/>
-  <object id="91" gid="203" x="384" y="240" width="48" height="48"/>
-  <object id="92" gid="203" x="384" y="288" width="48" height="48"/>
-  <object id="93" gid="203" x="432" y="288" width="48" height="48"/>
-  <object id="94" gid="203" x="432" y="240" width="48" height="48"/>
-  <object id="95" gid="203" x="480" y="240" width="48" height="48"/>
-  <object id="96" gid="203" x="480" y="288" width="48" height="48"/>
-  <object id="97" gid="203" x="528" y="288" width="48" height="48"/>
-  <object id="98" gid="203" x="528" y="240" width="48" height="48"/>
-  <object id="99" gid="203" x="288" y="144" width="48" height="48"/>
-  <object id="100" gid="203" x="288" y="192" width="48" height="48"/>
-  <object id="101" gid="203" x="336" y="192" width="48" height="48"/>
-  <object id="102" gid="203" x="336" y="144" width="48" height="48"/>
-  <object id="103" gid="203" x="384" y="144" width="48" height="48"/>
-  <object id="104" gid="203" x="384" y="192" width="48" height="48"/>
-  <object id="105" gid="203" x="432" y="192" width="48" height="48"/>
-  <object id="106" gid="203" x="432" y="144" width="48" height="48"/>
-  <object id="107" gid="203" x="480" y="144" width="48" height="48"/>
-  <object id="108" gid="203" x="480" y="192" width="48" height="48"/>
-  <object id="109" gid="203" x="528" y="192" width="48" height="48"/>
-  <object id="110" gid="203" x="528" y="144" width="48" height="48"/>
-  <object id="159" gid="203" x="0" y="48" width="48" height="48"/>
-  <object id="160" gid="203" x="0" y="96" width="48" height="48"/>
-  <object id="161" gid="203" x="48" y="96" width="48" height="48"/>
-  <object id="162" gid="203" x="48" y="48" width="48" height="48"/>
-  <object id="163" gid="203" x="96" y="48" width="48" height="48"/>
-  <object id="164" gid="203" x="96" y="96" width="48" height="48"/>
-  <object id="165" gid="203" x="144" y="96" width="48" height="48"/>
-  <object id="166" gid="203" x="144" y="48" width="48" height="48"/>
-  <object id="167" gid="203" x="192" y="48" width="48" height="48"/>
-  <object id="168" gid="203" x="192" y="96" width="48" height="48"/>
-  <object id="169" gid="203" x="240" y="96" width="48" height="48"/>
-  <object id="170" gid="203" x="240" y="48" width="48" height="48"/>
-  <object id="171" gid="203" x="288" y="48" width="48" height="48"/>
-  <object id="172" gid="203" x="288" y="96" width="48" height="48"/>
-  <object id="173" gid="203" x="336" y="96" width="48" height="48"/>
-  <object id="174" gid="203" x="336" y="48" width="48" height="48"/>
-  <object id="175" gid="203" x="384" y="48" width="48" height="48"/>
-  <object id="176" gid="203" x="384" y="96" width="48" height="48"/>
-  <object id="177" gid="203" x="432" y="96" width="48" height="48"/>
-  <object id="178" gid="203" x="432" y="48" width="48" height="48"/>
-  <object id="179" gid="203" x="480" y="48" width="48" height="48"/>
-  <object id="180" gid="203" x="480" y="96" width="48" height="48"/>
-  <object id="181" gid="203" x="528" y="96" width="48" height="48"/>
-  <object id="182" gid="203" x="528" y="48" width="48" height="48"/>
-  <object id="189" gid="130" x="144" y="480" width="48" height="48"/>
-  <object id="190" gid="130" x="96" y="480" width="48" height="48"/>
-  <object id="191" gid="130" x="48" y="480" width="48" height="48"/>
-  <object id="192" gid="147" x="0" y="480" width="48" height="48"/>
-  <object id="193" gid="133" x="0" y="480" width="48" height="48"/>
-  <object id="196" gid="181" x="0" y="432" width="48" height="48"/>
-  <object id="197" gid="181" x="0" y="336" width="48" height="48"/>
-  <object id="201" gid="147" x="0" y="384" width="48" height="48"/>
-  <object id="204" gid="147" x="0" y="96" width="48" height="48"/>
-  <object id="205" gid="149" x="0" y="48" width="48" height="48"/>
-  <object id="206" gid="162" x="48" y="48" width="48" height="48"/>
-  <object id="207" gid="162" x="144" y="48" width="48" height="48"/>
-  <object id="208" gid="162" x="240" y="48" width="48" height="48"/>
-  <object id="209" gid="162" x="336" y="48" width="48" height="48"/>
-  <object id="210" gid="162" x="432" y="48" width="48" height="48"/>
-  <object id="211" gid="165" x="96" y="48" width="48" height="48"/>
-  <object id="212" gid="165" x="192" y="48" width="48" height="48"/>
-  <object id="213" gid="165" x="288" y="48" width="48" height="48"/>
-  <object id="214" gid="165" x="384" y="48" width="48" height="48"/>
-  <object id="215" gid="165" x="480" y="48" width="48" height="48"/>
-  <object id="216" gid="148" x="528" y="48" width="48" height="48"/>
-  <object id="217" gid="180" x="528" y="96" width="48" height="48"/>
-  <object id="218" gid="180" x="528" y="192" width="48" height="48"/>
-  <object id="219" gid="180" x="528" y="288" width="48" height="48"/>
-  <object id="220" gid="180" x="528" y="384" width="48" height="48"/>
-  <object id="221" gid="132" x="528" y="480" width="48" height="48"/>
-  <object id="223" gid="130" x="384" y="480" width="48" height="48"/>
-  <object id="224" gid="130" x="480" y="480" width="48" height="48"/>
-  <object id="225" gid="164" x="432" y="480" width="48" height="48"/>
-  <object id="227" gid="145" x="528" y="432" width="48" height="48"/>
-  <object id="228" gid="145" x="528" y="336" width="48" height="48"/>
-  <object id="229" gid="145" x="528" y="240" width="48" height="48"/>
-  <object id="230" gid="145" x="528" y="144" width="48" height="48"/>
-  <object id="249" gid="163" x="10.3215" y="141.166" width="48" height="48"/>
-  <object id="250" gid="163" x="0" y="144" width="48" height="48"/>
-  <object id="251" gid="131" x="0" y="288" width="48" height="48"/>
-  <object id="252" gid="130" x="240" y="480" width="48" height="48"/>
-  <object id="253" gid="164" x="192" y="480" width="48" height="48"/>
-  <object id="254" gid="164" x="288" y="480" width="48" height="48"/>
-  <object id="255" gid="164" x="336" y="480" width="48" height="48"/>
   <object id="256" name="Chest" x="336" y="144" width="48" height="48"/>
   <object id="257" name="Collider" x="0" y="432" width="576" height="48"/>
   <object id="258" name="Collider" x="528" y="48" width="48" height="384"/>
   <object id="259" name="Collider" x="0" y="0" width="576" height="48"/>
   <object id="260" name="Collider" x="0" y="48" width="48" height="96"/>
   <object id="261" name="Collider" x="0" y="240" width="48" height="192"/>
-  <object id="262" name="Coin" x="480" y="48" width="48" height="48"/>
-  <object id="263" name="Coin" x="480" y="96" width="48" height="48"/>
-  <object id="264" name="Coin" x="480" y="144" width="48" height="48"/>
-  <object id="265" name="Coin" x="480" y="192" width="48" height="48"/>
-  <object id="266" name="Coin" x="480" y="384" width="48" height="48"/>
-  <object id="267" name="Coin" x="480" y="336" width="48" height="48"/>
-  <object id="268" name="Coin" x="480" y="288" width="48" height="48"/>
-  <object id="269" name="Coin" x="480" y="240" width="48" height="48"/>
-  <object id="270" name="Fire Demon" x="144" y="144" width="48" height="48"/>
+  <object id="262" name="Coin" x="480" y="48" width="48" height="48">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/C.png"/>
+   </properties>
+  </object>
+  <object id="263" name="Coin" x="480" y="96" width="48" height="48">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/C.png"/>
+   </properties>
+  </object>
+  <object id="264" name="Coin" x="480" y="144" width="48" height="48">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/C.png"/>
+   </properties>
+  </object>
+  <object id="265" name="Coin" x="480" y="192" width="48" height="48">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/C.png"/>
+   </properties>
+  </object>
+  <object id="266" name="Coin" x="480" y="384" width="48" height="48">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/C.png"/>
+   </properties>
+  </object>
+  <object id="267" name="Coin" x="480" y="336" width="48" height="48">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/C.png"/>
+   </properties>
+  </object>
+  <object id="268" name="Coin" x="480" y="288" width="48" height="48">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/C.png"/>
+   </properties>
+  </object>
+  <object id="269" name="Coin" x="480" y="240" width="48" height="48">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/C.png"/>
+   </properties>
+  </object>
+  <object id="270" name="Fire Demon" x="144" y="144" width="48" height="48">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Villager2.png"/>
+   </properties>
+  </object>
   <object id="272" name="Fire Demon" x="240" y="288" width="48" height="48"/>
  </objectgroup>
 </map>
