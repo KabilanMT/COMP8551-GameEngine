@@ -1,5 +1,8 @@
 #pragma once
 
+#define _USE_MATH_DEFINES
+
+#include <math.h>
 #include "entityx/entityx.h"
 #include "../Components/Components.h"
 #include "../logger.h"
@@ -22,6 +25,48 @@ namespace Physics
         glm::vec2 AB = B - A;
         float t = glm::dot(Point - A, AB) / glm::dot(AB, AB);
         return A + min(max(t, 0.0f), 1.0f) * AB; // saturate(t) can be written as: min((max(t, 0), 1)
+    }
+
+    glm::vec2 ProjectionOnAnAxis(glm::vec2 line, glm::vec2 axis){
+        return glm::dot(line, axis) / glm::dot(axis, axis) * axis;
+    }
+
+    float ScalarOfProjectionOnAxis(glm::vec2 proj, glm::vec2 axis){
+        return glm::dot(proj, axis);
+    }
+
+    float minScalarOfProjectionsOnAxis(glm::vec2 TL, glm::vec2 TR, glm::vec2 BL, glm::vec2 BR, glm::vec2 axis){
+        float tlProj = glm::dot(TL, axis);
+        float trProj = glm::dot(TR, axis);
+        float blProj = glm::dot(BL, axis);
+        float brProj = glm::dot(BR, axis);
+
+        float min = tlProj;
+        if(trProj < min)
+            min = trProj;
+        if(blProj < min)
+            min = blProj;
+        if(brProj < min)
+            min = brProj;
+        
+        return min;
+    }
+
+    float maxScalarOfProjectionsOnAxis(glm::vec2 TL, glm::vec2 TR, glm::vec2 BL, glm::vec2 BR, glm::vec2 axis){
+        float tlProj = glm::dot(TL, axis);
+        float trProj = glm::dot(TR, axis);
+        float blProj = glm::dot(BL, axis);
+        float brProj = glm::dot(BR, axis);
+
+        float max = tlProj;
+        if(trProj > max)
+            max = trProj;
+        if(blProj > max)
+            max = blProj;
+        if(brProj > max)
+            max = brProj;
+        
+        return max;
     }
 
     //Circle - Circle
@@ -325,7 +370,52 @@ namespace Physics
         b2BottomRight = glm::rotate(b2BottomRight, b2Theta);
         b2BottomRight = glm::vec2(b2BottomRight.x + c1T->x, b2BottomRight.y + c1T->y);
 
-        return DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight);
+        //Set up the axis for projection from both boxes
+        glm::vec2 b1Axis1 = b1TopRight - b1TopLeft;
+        glm::vec2 b1Axis2 = b1TopRight - b1BottomRight;
+
+        glm::vec2 b2Axis1 = b2TopRight - b2TopLeft;
+        glm::vec2 b2Axis2 = b2TopLeft - b2BottomLeft;
+
+        //Get min and max scalar representatives for each point onto each axis:
+        //Axis b1a1:
+        float b1min = minScalarOfProjectionsOnAxis(b1TopLeft, b1TopRight, b1BottomLeft, b1BottomRight, b1Axis1);
+        float b1max = maxScalarOfProjectionsOnAxis(b1TopLeft, b1TopRight, b1BottomLeft, b1BottomRight, b1Axis1);
+        float b2min = minScalarOfProjectionsOnAxis(b2TopLeft, b2TopRight, b2BottomLeft, b2BottomRight, b1Axis1);
+        float b2max = maxScalarOfProjectionsOnAxis(b2TopLeft, b2TopRight, b2BottomLeft, b2BottomRight, b1Axis1);
+
+        if(!(b2min <= b1max && b2max >= b1min))
+            return false;
+
+        //Axis b1a2:
+        b1min = minScalarOfProjectionsOnAxis(b1TopLeft, b1TopRight, b1BottomLeft, b1BottomRight, b1Axis2);
+        b1max = maxScalarOfProjectionsOnAxis(b1TopLeft, b1TopRight, b1BottomLeft, b1BottomRight, b1Axis2);
+        b2min = minScalarOfProjectionsOnAxis(b2TopLeft, b2TopRight, b2BottomLeft, b2BottomRight, b1Axis2);
+        b2max = maxScalarOfProjectionsOnAxis(b2TopLeft, b2TopRight, b2BottomLeft, b2BottomRight, b1Axis2);
+
+        if(!(b2min <= b1max && b2max >= b1min))
+            return false;
+
+        //Axis b2a1:
+        b1min = minScalarOfProjectionsOnAxis(b1TopLeft, b1TopRight, b1BottomLeft, b1BottomRight, b2Axis1);
+        b1max = maxScalarOfProjectionsOnAxis(b1TopLeft, b1TopRight, b1BottomLeft, b1BottomRight, b2Axis1);
+        b2min = minScalarOfProjectionsOnAxis(b2TopLeft, b2TopRight, b2BottomLeft, b2BottomRight, b2Axis1);
+        b2max = maxScalarOfProjectionsOnAxis(b2TopLeft, b2TopRight, b2BottomLeft, b2BottomRight, b2Axis1);
+
+        if(!(b2min <= b1max && b2max >= b1min))
+            return false;
+
+        //Axis b2a2:
+        b1min = minScalarOfProjectionsOnAxis(b1TopLeft, b1TopRight, b1BottomLeft, b1BottomRight, b2Axis2);
+        b1max = maxScalarOfProjectionsOnAxis(b1TopLeft, b1TopRight, b1BottomLeft, b1BottomRight, b2Axis2);
+        b2min = minScalarOfProjectionsOnAxis(b2TopLeft, b2TopRight, b2BottomLeft, b2BottomRight, b2Axis2);
+        b2max = maxScalarOfProjectionsOnAxis(b2TopLeft, b2TopRight, b2BottomLeft, b2BottomRight, b2Axis2);
+
+        if(!(b2min <= b1max && b2max >= b1min))
+            return false;
+        
+        return true;
+        //return DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight);
     }
 
     //Capsule - Box (Calls Box - Capsule)

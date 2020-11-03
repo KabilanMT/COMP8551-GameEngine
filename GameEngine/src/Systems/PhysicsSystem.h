@@ -47,7 +47,6 @@ class PhysicsSystem : public System<PhysicsSystem> {
     public:
         void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
             //Step 1: Apply rigidbody movement (velocity)
-            //TODO
             auto physicsEntities = es.entities_with_components<Rigidbody_2D>();
 
             for(Entity e : physicsEntities){
@@ -72,11 +71,15 @@ class PhysicsSystem : public System<PhysicsSystem> {
                 if(collidingPairs.at(i).a.has_component<Rigidbody_2D>() && collidingPairs.at(i).b.has_component<Rigidbody_2D>())
                     PerformCollisionCalculations(collidingPairs.at(i));
                 else if(collidingPairs.at(i).a.has_component<Rigidbody_2D>())
-                    PerformPhysicsWithOneRigidBody(collidingPairs.at(i).a, collidingPairs.at(i).b);
+                    PerformPhysicsWithOneRigidBody(collidingPairs.at(i).a, collidingPairs.at(i).b, events);
                 else if(collidingPairs.at(i).b.has_component<Rigidbody_2D>())
-                    PerformPhysicsWithOneRigidBody(collidingPairs.at(i).b, collidingPairs.at(i).a);
-                else
-                    ;//Notify for triggers on both entities
+                    PerformPhysicsWithOneRigidBody(collidingPairs.at(i).b, collidingPairs.at(i).a, events);
+                else{
+                    Trigger aTrigger = Trigger(collidingPairs.at(i).a, collidingPairs.at(i).b);
+                    Trigger bTrigger = Trigger(collidingPairs.at(i).b, collidingPairs.at(i).a);
+                    events.emit(aTrigger);
+                    events.emit(bTrigger);
+                }
             }
             auto entities = es.entities_with_components<Rigidbody_2D>();
 
@@ -271,9 +274,8 @@ class PhysicsSystem : public System<PhysicsSystem> {
         }
 
         #pragma region //Collision algorithms
-      
 
-        void PerformCollisionCalculations(EntityPair collision) {
+        void PerformCollisionCalculations(EntityPair& collision) {
 
             ComponentHandle<Transform> aTrans = collision.a.component<Transform>();
             ComponentHandle<Transform> bTrans = collision.b.component<Transform>();
@@ -313,7 +315,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
         }
 
         //Updates the move on the rigidbody with detection of collisions along the way
-        void RigidbodyMoveTo(EntityManager& es, Entity e, float x, float y){
+        void RigidbodyMoveTo(EntityManager& es, Entity& e, float x, float y){
             int checkInterval = 10;
             ComponentHandle<Transform>transform = e.component<Transform>();
             float xStep = (x - transform->x) / checkInterval;
@@ -344,7 +346,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             }
         }
 
-        void UpdateVelocityAndAcceleration(Entity e, TimeDelta dt, float thrust = 0.0f){
+        void UpdateVelocityAndAcceleration(Entity& e, TimeDelta dt, float thrust = 0.0f){
             ComponentHandle<Rigidbody_2D> rb = e.component<Rigidbody_2D>();
             float tau = rb->mass / rb->linDrag;
             float t = (float)dt;
@@ -358,7 +360,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             return;
         }
 
-        void PerformPhysicsWithOneRigidBody(Entity hasRigidbody, Entity noRigidbody){
+        void PerformPhysicsWithOneRigidBody(Entity& hasRigidbody, Entity& noRigidbody, EventManager& events){
             
             ComponentHandle<Transform> hRBTrans = hasRigidbody.component<Transform>();
             ComponentHandle<Transform> nRBTrans = noRigidbody.component<Transform>();
@@ -372,21 +374,24 @@ class PhysicsSystem : public System<PhysicsSystem> {
             if(hasRigidbody.has_component<CircleCollider>()){
                 hRBCC = hasRigidbody.component<CircleCollider>();
                 if(hRBCC->isTrigger){
-                    //Notify
+                    Trigger rbTrigger = Trigger(hasRigidbody, noRigidbody);
+                    events.emit(rbTrigger);//Notify
                     return;
                 }
             }
             if(hasRigidbody.has_component<BoxCollider>()){
                 hRBBC = hasRigidbody.component<BoxCollider>();
                 if(hRBBC->isTrigger){
-                    //Notify;
+                    Trigger rbTrigger = Trigger(hasRigidbody, noRigidbody);
+                    events.emit(rbTrigger);//Notify
                     return;
                 }
             }
             if(hasRigidbody.has_component<CapsuleCollider>()){
                 hRBCapC = hasRigidbody.component<CapsuleCollider>();
                 if(hRBCapC->isTrigger){
-                    //Notify
+                    Trigger rbTrigger = Trigger(hasRigidbody, noRigidbody);
+                    events.emit(rbTrigger);//Notify
                     return;
                 }
             }
@@ -395,7 +400,8 @@ class PhysicsSystem : public System<PhysicsSystem> {
                 ComponentHandle<CircleCollider> nRBCollider = noRigidbody.component<CircleCollider>();
                 //Check for trigger:
                 if(nRBCollider->isTrigger){
-                    //Notify
+                    Trigger noRBTrigger = Trigger(noRigidbody, hasRigidbody);
+                    events.emit(noRBTrigger);//Notify
                     return;
                 }
 
@@ -420,7 +426,8 @@ class PhysicsSystem : public System<PhysicsSystem> {
                     ComponentHandle<BoxCollider> nRBCollider = noRigidbody.component<BoxCollider>();
                     //Check for trigger:
                     if(nRBCollider->isTrigger){
-                        //Notify
+                        Trigger noRBTrigger = Trigger(noRigidbody, hasRigidbody);
+                        events.emit(noRBTrigger);//Notify
                         return;
                     }
                     float theta = nRBTrans->angle * M_PI / 180.0f;
@@ -437,7 +444,8 @@ class PhysicsSystem : public System<PhysicsSystem> {
                     ComponentHandle<CapsuleCollider> nRBCollider = noRigidbody.component<CapsuleCollider>();
                     //Check for trigger:
                     if(nRBCollider->isTrigger){
-                        //Notify
+                        Trigger noRBTrigger = Trigger(noRigidbody, hasRigidbody);
+                        events.emit(noRBTrigger);//Notify
                         return;
                     }
                     float theta = nRBTrans->angle * M_PI / 180.0f;
