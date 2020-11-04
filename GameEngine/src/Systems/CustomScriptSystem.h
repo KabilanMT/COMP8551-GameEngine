@@ -202,15 +202,40 @@ public:
                         if (val)
                             runCommands(command->FirstChild(), cScript);   
                     }
+                }
 
+                if (name == "ifVarGreater" && attributes.find("name") != attributes.end() && attributes.find("value") != attributes.end()) {
+                    string type = attributes.at("type");
+
+                    if (type == "int" && cScript.get()->ints.find(attributes.at("name")) != cScript.get()->ints.end()) {
+                        int val = cScript.get()->ints.at(attributes.at("name"));
+                        int valToCompare = stoi(attributes.at("value"), nullptr, 0);
+
+                        if (val > valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "float" && cScript.get()->floats.find(attributes.at("name")) != cScript.get()->floats.end()) {
+                        float val = cScript.get()->floats.at(attributes.at("name"));
+                        float valToCompare = stof(attributes.at("value"));
+
+                        if (val > valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "double" && cScript.get()->doubles.find(attributes.at("name")) != cScript.get()->doubles.end()) {
+                        double val = cScript.get()->doubles.at(attributes.at("name"));
+                        double valToCompare = stod(attributes.at("value"));
+
+                        if (val > valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
                 }
 
                 if (name == "updateVar") {
-                    cout << "Test" << endl;
                     string varName = attributes.at("name");
                     string varType = attributes.at("type");
                     string value = attributes.at("value");
-                    cout << "Test" << endl;
 
                     updateVar(varName, varType, value, cScript);
                 }
@@ -240,6 +265,12 @@ public:
                     
                     if (Input::getInstance().isKeyPressed(keyValue))
                         runCommands(command->FirstChild(), cScript);
+                }
+
+                if (name == "changeSprite") {
+                    string filepath = attributes.at("name");
+
+                    // changeSprite(filepath);
                 }
 
                 command = command->NextSibling();
@@ -272,6 +303,23 @@ public:
 
         void loadScene(string sceneName) {
             SceneManager::getInstance().loadScene(sceneName);
+        }
+
+        void onEntity(string entityName) {
+            
+        }
+
+        void callFunction(string functionName) {
+
+        }
+
+        void changeSprite(string texturePath) {
+            if (!currEntity->has_component<TextureComp>())
+                return;
+            
+            ComponentHandle<TextureComp> sprite = currEntity->component<TextureComp>();
+            if (sprite.get()->getFilepath() != texturePath.c_str())
+                sprite.get()->setTexturePath(texturePath.c_str());
         }
 
         // *********************************
