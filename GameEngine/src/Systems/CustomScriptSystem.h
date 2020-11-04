@@ -273,6 +273,14 @@ public:
                     // changeSprite(filepath);
                 }
 
+                if (name == "callFunction") {
+                    string functionName = attributes.at("name");
+                    XMLElement* updateContent = cScript->getCustomFunction(functionName);
+
+                    if (updateContent != nullptr)
+                        runCommands(updateContent->FirstChild(), cScript);
+                }
+
                 command = command->NextSibling();
             }
         }
@@ -307,10 +315,6 @@ public:
 
         void onEntity(string entityName) {
             
-        }
-
-        void callFunction(string functionName) {
-
         }
 
         void changeSprite(string texturePath) {

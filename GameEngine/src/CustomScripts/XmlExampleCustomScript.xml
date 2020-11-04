@@ -2,6 +2,7 @@
     <variables>
         <int name="health" value="5"/>
         <bool name="isTrue" value="true"/>
+        <entity name="weaponEntity" value="weaponEntity" />
     </variables>
 
     <start>
@@ -10,14 +11,18 @@
     </start>
 
     <update>
-        <ifVar name="health" value="7" type="int">
-            <moveEntity x="0" y="0" z="0" />
-        </ifVar>
+        <ifVarGreater name="health" value="6" type="int">
+            <callFunction name="extraFunction" />
+        </ifVarGreater>
         <keyPress value="KEY_W">
             <moveEntity x="0.0" y="9.0" z="0.0"/>
         </keyPress>
+        <changeSprite name="src/res/textures/Road.png" />
     </update>
     <onCollision>
 
     </onCollision>
+    <extraFunction>
+        <moveEntity x="0" y="-1.0" z="0" />
+    </extraFunction>
 </root>
