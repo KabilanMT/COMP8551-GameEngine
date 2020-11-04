@@ -19,6 +19,7 @@ class CustomScriptSystem : public System<CustomScriptSystem>, public Receiver<Cu
 public:
     void configure(EventManager& events) override {
         events.subscribe<SceneLoad>(*this);
+        events.subscribe<Trigger>(*this);
     }
 
     void receive(const SceneLoad& sl) {
@@ -27,6 +28,11 @@ public:
         // call start methods
         for (Entity e : sl.entities) {
             currEntity = &e;
+
+            // Error checking to avoid crashing
+            if (!e.has_component<CustomScript>())
+                continue;
+
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
 
             XMLElement* variablesContent = handle->getVariables();
@@ -39,12 +45,24 @@ public:
         }
     }
 
+    void receive(const Trigger& tr) {
+        if (tr.gotTriggered->has_component<CustomScript>()) {
+            currEntity = tr.gotTriggered;
+            ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
+
+            handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Name>().get()->getName();
+
+            XMLElement* collisionContent = handle->getOnCollision();
+            if (collisionContent != nullptr)
+                runCommands(collisionContent->FirstChild(), handle);
+
+            handle->resetReservedVariables();
+        }
+    }
+
     void update(EntityManager& es, EventManager& events, TimeDelta dt) override 
     {
         auto entities = es.entities_with_components<CustomScript>();
-
-        //TEST - REMOVE
-        Logger::getInstance() << Input::getInstance().isMousePressed(true) << "\n";
 
         // Example of how to check if a key is pressed:
         // bool isSpacePressed = Input::getInstance().isKeyPressed(GLFW_KEY_SPACE)
@@ -61,6 +79,17 @@ public:
 
         for (Entity e : entities) {
             currEntity = &e;
+
+            // Error checking to avoid crashing 
+            if (!e.has_component<Active>() && !e.has_component<CustomScript>())
+                continue;
+
+            // Skip if entity isn't active
+            ComponentHandle<Active> active = e.component<Active>();
+            if (!active.get()->getIfActive())
+                continue; 
+
+            // Get update tag from xml and run commands
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
             XMLElement* updateContent = handle->getUpdate();
 
@@ -76,13 +105,24 @@ public:
         // TODO: Requires error checking and refactor, assumes that the first and second attrib is variable name and value
         void getVariables(XMLNode* variable, ComponentHandle<CustomScript> cScript) {
             while (variable != nullptr) {
+
+                if (variable->ToElement() == NULL) {
+                    variable = variable->NextSibling();
+                    continue;
+                }
                 
                 string name = variable->Value();
                 const XMLAttribute* attr = variable->ToElement()->FirstAttribute();
                 string var_name = attr->Value();
                 string var_value = attr->Next()->Value(); 
 
-                if (name.compare("int") == 0)
+                if (cScript->containsVariable(var_name)) {
+                    Logger::getInstance() << var_name << " is already defined or is a reserved variable. \n";
+                    variable = variable->NextSibling();
+                    continue;
+                }
+
+                if (name == "int")
                     cScript.get()->ints.insert(make_pair(var_name, stoi(var_value, nullptr, 0)));
 
                 if (name == "float")
@@ -103,6 +143,11 @@ public:
 
         void runCommands(XMLNode* command, ComponentHandle<CustomScript> cScript) {
             while (command != NULL) {
+                
+                if (command->ToElement() == NULL) {
+                    command = command->NextSibling();
+                    continue;
+                }
                 
                 // Setup
                 string name = command->Value();
@@ -186,8 +231,15 @@ public:
                     moveEntity(x, y, z);
                 }
 
-                if (name == "removeEntity") {
+                if (name == "removeEntity")
                     removeEntity();
+
+                if (name == "keyPress") {
+                    string value = attributes.at("value");
+                    int keyValue = cScript->getValidKeyPress(value);
+                    
+                    if (Input::getInstance().isKeyPressed(keyValue))
+                        runCommands(command->FirstChild(), cScript);
                 }
 
                 command = command->NextSibling();
@@ -195,14 +247,14 @@ public:
         }
 
         // CustomScript Functions
-        // Should update as there should be more than just 4 vertices
         void moveEntity(int x, int y, int z) {
-            if (currEntity->has_component<Transform>()) {
-                ComponentHandle<Transform> trans = currEntity->component<Transform>(); 
-                trans.get()->x += x;
-                trans.get()->y += y;
-                trans.get()->z += z;
-            }
+            if (!currEntity->has_component<Transform>()) 
+                return;
+            
+            ComponentHandle<Transform> trans = currEntity->component<Transform>(); 
+            trans.get()->x += x;
+            trans.get()->y += y;
+            trans.get()->z += z;
         }
 
         void removeEntity() {
@@ -212,16 +264,19 @@ public:
 
         void setActiveObject(bool active) {
             if (currEntity->has_component<Active>())
-            {
-                ComponentHandle<Active> _active = currEntity->component<Active>();
-                _active.get()->setActiveStatus(active);
-            }
+                return; 
+            
+            ComponentHandle<Active> _active = currEntity->component<Active>();
+            _active.get()->setActiveStatus(active);
         }
 
         void loadScene(string sceneName) {
             SceneManager::getInstance().loadScene(sceneName);
         }
 
+        // *********************************
+        // Variable functions
+        // *********************************
         void updateVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
             if (varType == "int")
                 cScript.get()->ints.at(varName) = stoi(value, nullptr, 0);
