@@ -54,6 +54,10 @@ struct CustomScript
             return root->FirstChildElement("onCollision");
         }
 
+        XMLElement* getCustomFunction(std::string functionName) {
+            return root->FirstChildElement(functionName.c_str());
+        }
+
         int getValidKeyPress(string key) {
             return possibleInputs.at(key);
         }
@@ -87,6 +91,7 @@ struct CustomScript
         unordered_map<std::string, double> doubles;
         unordered_map<std::string, std::string> strings;
         unordered_map<std::string, bool> bools;
+        unordered_map<std::string, entityx::Entity*> entities;
 
     private:
         const std::unordered_map<std::string, int> possibleInputs {
