@@ -75,8 +75,8 @@ class PhysicsSystem : public System<PhysicsSystem> {
                 else if(collidingPairs.at(i).b.has_component<Rigidbody_2D>())
                     PerformPhysicsWithOneRigidBody(collidingPairs.at(i).b, collidingPairs.at(i).a, events);
                 else{
-                    Trigger aTrigger = Trigger(collidingPairs.at(i).a, collidingPairs.at(i).b);
-                    Trigger bTrigger = Trigger(collidingPairs.at(i).b, collidingPairs.at(i).a);
+                    Trigger aTrigger = Trigger(&collidingPairs.at(i).a, &collidingPairs.at(i).b);
+                    Trigger bTrigger = Trigger(&collidingPairs.at(i).b, &collidingPairs.at(i).a);
                     events.emit(aTrigger);
                     events.emit(bTrigger);
                 }
@@ -374,7 +374,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             if(hasRigidbody.has_component<CircleCollider>()){
                 hRBCC = hasRigidbody.component<CircleCollider>();
                 if(hRBCC->isTrigger){
-                    Trigger rbTrigger = Trigger(hasRigidbody, noRigidbody);
+                    Trigger rbTrigger = Trigger(&hasRigidbody, &noRigidbody);
                     events.emit(rbTrigger);//Notify
                     return;
                 }
@@ -382,7 +382,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             if(hasRigidbody.has_component<BoxCollider>()){
                 hRBBC = hasRigidbody.component<BoxCollider>();
                 if(hRBBC->isTrigger){
-                    Trigger rbTrigger = Trigger(hasRigidbody, noRigidbody);
+                    Trigger rbTrigger = Trigger(&hasRigidbody, &noRigidbody);
                     events.emit(rbTrigger);//Notify
                     return;
                 }
@@ -390,7 +390,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
             if(hasRigidbody.has_component<CapsuleCollider>()){
                 hRBCapC = hasRigidbody.component<CapsuleCollider>();
                 if(hRBCapC->isTrigger){
-                    Trigger rbTrigger = Trigger(hasRigidbody, noRigidbody);
+                    Trigger rbTrigger = Trigger(&hasRigidbody, &noRigidbody);
                     events.emit(rbTrigger);//Notify
                     return;
                 }
@@ -400,7 +400,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                 ComponentHandle<CircleCollider> nRBCollider = noRigidbody.component<CircleCollider>();
                 //Check for trigger:
                 if(nRBCollider->isTrigger){
-                    Trigger noRBTrigger = Trigger(noRigidbody, hasRigidbody);
+                    Trigger noRBTrigger = Trigger(&noRigidbody, &hasRigidbody);
                     events.emit(noRBTrigger);//Notify
                     return;
                 }
@@ -426,7 +426,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                     ComponentHandle<BoxCollider> nRBCollider = noRigidbody.component<BoxCollider>();
                     //Check for trigger:
                     if(nRBCollider->isTrigger){
-                        Trigger noRBTrigger = Trigger(noRigidbody, hasRigidbody);
+                        Trigger noRBTrigger = Trigger(&noRigidbody, &hasRigidbody);
                         events.emit(noRBTrigger);//Notify
                         return;
                     }
@@ -444,7 +444,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
                     ComponentHandle<CapsuleCollider> nRBCollider = noRigidbody.component<CapsuleCollider>();
                     //Check for trigger:
                     if(nRBCollider->isTrigger){
-                        Trigger noRBTrigger = Trigger(noRigidbody, hasRigidbody);
+                        Trigger noRBTrigger = Trigger(&noRigidbody, &hasRigidbody);
                         events.emit(noRBTrigger);//Notify
                         return;
                     }

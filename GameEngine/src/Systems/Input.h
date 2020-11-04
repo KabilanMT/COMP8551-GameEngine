@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-
+#include <functional>
 
 /*
 
@@ -22,11 +22,11 @@ public:
         return instance;
     }
 
-   /* check if the key is pressed
-      parameter: integer for key input
-      return bool
-   */
-   inline bool isKeyPressed(int key) {
+    /* check if the key is pressed
+        parameter: integer for key input
+        return bool
+    */
+    inline bool isKeyPressed(int key) {
         for (int i = 0; i < pressedChar.size(); ++i) {
             if (pressedChar.at(i) == key) {
                 return true;
@@ -51,46 +51,46 @@ public:
         }
     }
 
-   inline void pressKey(int key) {
+    inline void pressKey(int key) {
         pressedChar.push_back(key);
-   }
+    }
 
-   inline void releaseKey(int key) {
+    inline void releaseKey(int key) {
         for (auto i = pressedChar.begin(); i != pressedChar.end(); ++i) {
             if (*i == key) {
                 pressedChar.erase(i);
                 return;
             }
         }
-   }
-   
-   inline void pressMouseButton(int button) {
-       if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-           rightMousePressed = true;
-       }
+    }
 
-       if (button == GLFW_MOUSE_BUTTON_LEFT) {
-           leftMousePressed = true;
-       }
-   }
-   
-   inline void cursorPositionCallback(double xpos, double ypos) {
-       mousePosX = xpos;
-       mousePosY = ypos;
-   }
-   
-   inline void cursorEnterCallback(int entered) {
-       //std::cout << "Entered window" << std::endl;
-   }
+    inline void pressMouseButton(int button) {
+        if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+            rightMousePressed = true;
+        }
 
-   inline void scrollCallback(double xoffset, double yoffset) {
-       //std::cout << "scroll x offset: " << xoffset << " yoffset: " << yoffset << std::endl;
-   }
+        if (button == GLFW_MOUSE_BUTTON_LEFT) {
+            leftMousePressed = true;
+        }
+    }
 
-   inline void clear() {
-       leftMousePressed = false;
-       rightMousePressed = false;
-   }
+    inline void cursorPositionCallback(double xpos, double ypos) {
+        mousePosX = xpos;
+        mousePosY = ypos;
+    }
+
+    inline void cursorEnterCallback(int entered) {
+        //std::cout << "Entered window" << std::endl;
+    }
+
+    inline void scrollCallback(double xoffset, double yoffset) {
+        //std::cout << "scroll x offset: " << xoffset << " yoffset: " << yoffset << std::endl;
+    }
+
+    inline void clear() {
+        leftMousePressed = false;
+        rightMousePressed = false;
+    }
 
 private:
     Input() {}
