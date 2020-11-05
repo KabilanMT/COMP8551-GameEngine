@@ -49,7 +49,7 @@ public:
             currEntity = tr.gotTriggered;
             ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
 
-            handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Name>().get()->getName();
+            handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Tag>().get()->getTag();
 
             XMLElement* collisionContent = handle->getOnCollision();
             if (collisionContent != nullptr)

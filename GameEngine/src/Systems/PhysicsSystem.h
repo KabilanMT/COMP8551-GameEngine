@@ -51,6 +51,17 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
 
         void receive(const MoveTo& mt) {
             RigidbodyMoveTo(Engine::getInstance().entities, mt.e, mt.x, mt.y);
+
+            for (Entity e : Engine::getInstance().entities.entities_with_components<Name>()) {
+                ComponentHandle<Name> handle = e.component<Name>();
+                if (handle.get()->getName() == "Enemy1") {
+                    ComponentHandle<Transform> pT = mt.e.component<Transform>();
+                    ComponentHandle<Transform> eT = e.component<Transform>();
+                    Logger::getInstance() << "Player: " << pT.get()->x << ", " << pT.get()->y << "\n";
+                    Logger::getInstance() << "Enemy: " << eT.get()->x << ", " << eT.get()->y << "\n";
+                    break;
+                }
+            }
         }
 
         void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
@@ -68,6 +79,8 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
 
             //Step 2: Detect collisions
             std::vector<EntityPair> pairs = broadphase(es); //returns pairs of possible collisions
+
+            Logger::getInstance() << "broadphase(update) collisions: " << pairs.size() << "\n";
             std::vector<EntityPair> collidingPairs = narrowphase(pairs); //should return pairs of entities that are colliding
 
             for (int i = 0; i < collidingPairs.size(); ++i) {
@@ -342,8 +355,12 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                         collideWithMe.push_back(p);
                 }
 
+                Logger::getInstance() << "broadphase collisions: " << collideWithMe.size() << "\n";
+
                 if(collideWithMe.size() > 0)
                     narrowPhaseCollisions = narrowphase(collideWithMe);
+
+                Logger::getInstance() << "Narrowphase collisions: " << narrowPhaseCollisions.size() << "\n";
 
                 if(narrowPhaseCollisions.size() > 0){
                     //Reverse step:

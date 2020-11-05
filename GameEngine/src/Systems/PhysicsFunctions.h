@@ -77,7 +77,7 @@ namespace Physics
         float c1PosY = c1->y + c1T->y;
         float c2PosY = c2->y + c2T->y;
         float distance = abs(sqrtf(powf(c2PosX - c1PosX, 2) + powf(c2PosY - c1PosY, 2)));
-        if(distance - (c1->radius + c2->radius))
+        if(distance <= c1->radius + c2->radius)
             return true;
         return false;
     }
