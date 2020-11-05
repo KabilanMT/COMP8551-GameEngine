@@ -1,0 +1,179 @@
+<root>
+    <update>
+        <!-- If attacking, add to a timer and not allow new input -->
+        <ifVar name="isAttacking" value="true">
+            <addVar name="attackTimer" value="deltaTime"/>
+            <ifVarGreater name="attackTimer" value="0.5"> <!-- if half a second has passed, not attacking anymore -->
+                <updateVar name="attackTimer" value="0.0"/>
+                <updateVar name="isAttacking" value="false"/>
+                <onEntity name="weaponEntity">
+                    <setActive value="false"/>
+                </onEntity>
+                <!-- Check player direction to move weaponEntity -->
+                <ifVar name="playerDirection" value="0">
+                    <!-- Up -->
+                    <onEntity name="weaponEntity">
+                        <moveCharacter x="0.0" y="-5.0" z="0.0"/>
+                    </onEntity>
+                </ifVar>
+                <ifVar name="playerDirection" value="1">
+                    <!-- Right -->
+                    <onEntity name="weaponEntity">
+                        <moveCharacter x="-5.0" y="0.0" z="0.0"/>
+                    </onEntity>
+                </ifVar>
+                <ifVar name="playerDirection" value="2">
+                    <!-- Down -->
+                    <onEntity name="weaponEntity">
+                        <moveCharacter x="0.0" y="5.0" z="0.0"/>
+                    </onEntity>
+                </ifVar>
+                <ifVar name="playerDirection" value="3">
+                    <!-- Left -->
+                    <onEntity name="weaponEntity">
+                        <moveCharacter x="5.0" y="0.0" z="0.0"/>
+                    </onEntity>
+                </ifVar>
+            </ifVarGreater>
+        </ifVar>
+
+        <!-- attack -->
+        <ifVar name="isAttacking" value="false">
+            <keyPress value="KEY_SPACE">
+                <updateVar name="isAttacking" value="true"/>
+                <onEntity name="weaponEntity">
+                    <setActive value="true"/>
+                </onEntity>
+                <!-- Check player direction to move weaponEntity -->
+                <ifVar name="playerDirection" value="0">
+                    <!-- Up -->
+                    <onEntity name="weaponEntity">
+                        <moveCharacter x="0.0" y="5.0" z="0.0"/>
+                        <changeSprite name="swordAttackUp.png"/>
+                    </onEntity>
+                </ifVar>
+                <ifVar name="playerDirection" value="1">
+                    <!-- Right -->
+                    <onEntity name="weaponEntity">
+                        <moveCharacter x="5.0" y="0.0" z="0.0"/>
+                        <changeSprite name="swordAttackRight.png"/>
+                    </onEntity>
+                </ifVar>
+                <ifVar name="playerDirection" value="2">
+                    <!-- Down -->
+                    <onEntity name="weaponEntity">
+                        <moveCharacter x="0.0" y="-5.0" z="0.0"/>
+                        <changeSprite name="swordAttackDown.png"/>
+                    </onEntity>
+                </ifVar>
+                <ifVar name="playerDirection" value="3">
+                    <!-- Left -->
+                    <onEntity name="weaponEntity">
+                        <moveCharacter x="-5.0" y="0.0" z="0.0"/>
+                        <changeSprite name="swordAttackLeft.png"/>
+                    </onEntity>
+                </ifVar>
+            </keyPress>
+        </ifVar>
+
+        <!-- movement -->
+        <ifVar name="isAttacking" value="false">
+            <keyPress value="KEY_W">
+                <changeSprite value="playerUp.png"/>
+                <moveCharacter x="0.0" y="1.0" z="0.0"/>
+                <onEntity name="weaponEntity">
+                    <moveCharacter x="0.0" y="1.0" z="0.0"/>
+                </onEntity>
+                <updateVar name="playerDirection" value="0"/>
+            </keyPress>
+            <keyPress value="KEY_S">
+                <changeSprite value="playerDown.png"/>
+                <moveCharacter x="0.0" y="-1.0" z="0.0"/>
+                <onEntity name="weaponEntity">
+                    <moveCharacter x="0.0" y="-1.0" z="0.0"/>
+                </onEntity>
+                <updateVar name="playerDirection" value="2"/>
+            </keyPress>
+            <keyPress value="KEY_A">
+                <changeSprite value="playerLeft.png"/>
+                <moveCharacter x="-1.0" y="0.0" z="0.0"/>
+                <onEntity name="weaponEntity">
+                    <moveCharacter x="-1.0" y="0.0" z="0.0"/>
+                </onEntity>
+                <updateVar name="playerDirection" value="3"/>
+            </keyPress>
+            <keyPress value="KEY_D">
+                <changeSprite value="playerRight.png"/>
+                <moveCharacter x="1.0" y="0.0" z="0.0"/>
+                <onEntity name="weaponEntity">
+                    <moveCharacter x="1.0" y="0.0" z="0.0"/>
+                </onEntity>
+                <updateVar name="playerDirection" value="1"/>
+            </keyPress>
+        </ifVar>
+
+        <!-- interact -->
+        <keyPress value="KEY_E">
+            <onEntity name="interactEntity">
+                <callMethod name="interacted"/>
+            </onEntity>
+        </keyPress>
+    </update>
+    <variables>
+        <bool name="isAttacking" value="false"/>
+        <float name="attackTimer" value="0.0"/>
+        <int name="playerDirection" value="2"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
+        <entity name="weaponEntity" value="weaponEntity"/>
+        <int name="health" value="5"/>
+        <!-- <entity name="scoreEntity" value="score"/> -->
+        <entity name="interactEntity" value=""/> <!-- No entity to start -->
+    </variables>
+    <start>
+
+    </start>
+    <onCollision>
+        <ifVar name="collisionObject-tag" value="Enemy">
+            <addVar name="health" value="-1"/>
+            <ifVar name="health" value="0">
+                <loadScene name="gameoverScene"/>
+            </ifVar>
+        </ifVar>
+        <ifVar name="collisionObject-tag" value="Coin">
+            <!-- <onEntity name="scoreEntity">
+                <addVar name="score" value="100"/>
+            </onEntity> -->
+        </ifVar>
+        <ifVar name="collisionObject-tag" value="Interactable">
+            <updateVar name="interactEntity" value="collisionObject-name"/>
+        </ifVar>
+    </onCollision>
+</root>
+
+<!-- 
+Reserved:
+Variable Names:
+    collisionObject-tag -> the value of the tag component on the other object
+keyPress Input values:
+    KEY_W - w
+    KEY_S - s
+    KEY_A - a
+    KEY_D - d
+    KEY_SPACE - space
+Reserved other value names:
+    deltaTime - the deltaTime during the update
+    collisionObject-name -> the value of the name component of the other object
+
+New Commands:
+onEntity name="nameOfEntityVariable" :
+    perform the sub-section of commands in the context of the entity stored in the variable specified
+entity name="nameOfVariable" value="nameOfEntityToBeStored" :
+    variable type for storing entities, entities are found by name
+callMethod name="methodName" :
+    runs the code within the node with the name matching the name attribute, custom methods should be siblings to update, start, variables, onCollision, etc.
+changeSprite name="texturePathName.png" :
+    changes the texture of the texture component of this entity to the one specified
+ifVarGreater name="variableName" value="someNumber" :
+    same as if (variableName > someNumber) {
+keyPress value="keyCode" :
+    if statement but checks if a key is being pressed
+-->

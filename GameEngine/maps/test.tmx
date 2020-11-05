@@ -10,7 +10,8 @@
         <object id="2" name="LogoTest" type="Wall" x="200" y="100" width="485" height="76" rotate="130" visible="1">
             <properties>
                 <property name="ShaderComp" type="string" value="src/res/shaders/Basic.shader"/>          
-                <property name="TextureComp" type="string" value="src/res/textures/LogoTest2.png"/>             
+                <property name="TextureComp" type="string" value="src/res/textures/LogoTest2.png"/>
+                <property name="Tag" type="string" value="Logo"/>
             </properties>
         </object>
         <object id="3" name="Temple" type="Wall" x="300" y="-200" width="420" height="210" rotate="130" visible="1">
