@@ -70,7 +70,7 @@ struct CustomScript
         bool containsVariable(string varName) {
             if (ints.find(varName) != ints.end() || floats.find(varName) != floats.end()
                 || doubles.find(varName) != doubles.end() || strings.find(varName) != strings.end()
-                || bools.find(varName) != bools.end())
+                || bools.find(varName) != bools.end() || entities.find(varName) != entities.end())
                 return true; 
             
             return false;
@@ -91,7 +91,7 @@ struct CustomScript
         unordered_map<std::string, double> doubles;
         unordered_map<std::string, std::string> strings;
         unordered_map<std::string, bool> bools;
-        unordered_map<std::string, entityx::Entity*> entities;
+        unordered_map<std::string, entityx::Entity> entities;
 
     private:
         const std::unordered_map<std::string, int> possibleInputs {

@@ -137,6 +137,18 @@ public:
                 if (name == "bool") 
                     cScript.get()->bools.insert(make_pair(var_name, (var_value == "true") ? true : false));
 
+                if (name == "entity") {
+                    auto entities = Engine::getInstance().entities.entities_with_components<Name>();
+
+                    for (Entity e : entities) {
+                        ComponentHandle<Name> entityName = e.component<Name>();
+                        if (entityName.get()->getName().compare(var_value) == 0) {
+                            cScript.get()->entities.insert(make_pair(var_value, e));
+                            break;
+                        }
+                    }
+                }
+
                 variable = variable->NextSibling();
             }
         }
@@ -275,10 +287,24 @@ public:
 
                 if (name == "callFunction") {
                     string functionName = attributes.at("name");
-                    XMLElement* updateContent = cScript->getCustomFunction(functionName);
+                    XMLElement* customFunction = cScript->getCustomFunction(functionName);
 
-                    if (updateContent != nullptr)
-                        runCommands(updateContent->FirstChild(), cScript);
+                    if (customFunction != nullptr)
+                        runCommands(customFunction->FirstChild(), cScript);
+                }
+
+                if (name == "onEntity") {
+                    string entityName = attributes.at("name");
+                    Entity* temp = currEntity;
+
+                    if (cScript.get()->containsVariable(entityName)) {
+                        currEntity = &cScript.get()->entities.at(entityName);
+                        runCommands(command->FirstChild(), cScript);
+                    } else {
+                        cout << endl << "onEntity: entity " << entityName << " not found" << endl;
+                    }
+
+                    currEntity = temp;
                 }
 
                 command = command->NextSibling();
@@ -311,10 +337,6 @@ public:
 
         void loadScene(string sceneName) {
             SceneManager::getInstance().loadScene(sceneName);
-        }
-
-        void onEntity(string entityName) {
-            
         }
 
         void changeSprite(string texturePath) {
