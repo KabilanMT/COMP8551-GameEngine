@@ -49,7 +49,8 @@ public:
             currEntity = tr.gotTriggered;
             ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
 
-            handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Name>().get()->getName();
+            handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Tag>().get()->getTag();
+            handle->strings.at("collisionObject-name") = tr.triggeringEntity->component<Name>().get()->getName();
 
             XMLElement* collisionContent = handle->getOnCollision();
             if (collisionContent != nullptr)
@@ -425,6 +426,21 @@ public:
 
             if (varType == "bool") 
                 cScript.get()->bools.at(varName) = (value == "true") ? true : false;
+
+            if (varType == "entity") {
+                auto entities = Engine::getInstance().entities.entities_with_components<Name>();
+
+                if (value == "collisionObject-name")
+                    value = cScript.get()->strings.at("collisionObject-name");
+
+                for (Entity e : entities) {
+                    ComponentHandle<Name> entityName = e.component<Name>();
+                    if (entityName.get()->getName().compare(value) == 0) {
+                        cScript.get()->entities.at(varName) = e;
+                        break;
+                    }
+                }
+            }
         }
 
         void addVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
