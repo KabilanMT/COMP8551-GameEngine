@@ -307,6 +307,12 @@ public:
                     currEntity = temp;
                 }
 
+                if (name == "setActive") {
+                    string value = attributes.at("value");
+                    
+                    setActive((value == "true") ? true : false);
+                }
+
                 command = command->NextSibling();
             }
         }
@@ -327,7 +333,7 @@ public:
             currEntity->destroy();
         }
 
-        void setActiveObject(bool active) {
+        void setActive(bool active) {
             if (currEntity->has_component<Active>())
                 return; 
             
