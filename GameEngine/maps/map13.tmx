@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="244">
+ <tileset firstgid="1" source="Dungeon.tsx"/>
+ <tileset firstgid="257" source="blobsprite_01.tsx"/>
+ <objectgroup id="2" name="Object Layer - World">
+  <object id="233" name="Collider" x="0" y="0" width="48" height="480"/>
+  <object id="235" name="Collider" x="528" y="0" width="48" height="480"/>
+  <object id="236" name="Collider" x="0" y="0" width="600" height="48"/>
+  <object id="237" name="Collider" x="337.297" y="432" width="262.703" height="48"/>
+  <object id="238" name="Collider" x="0" y="432" width="229.565" height="48"/>
+  <object id="241" name="Trigger Final Boss" x="110.065" y="115.983" width="299.425" height="204.745"/>
+  <object id="242" name="Hidden Collider - Boss" x="203.562" y="432" width="162.105" height="48"/>
+  <object id="243" name="FinalBoss" x="240" y="192" width="48" height="48"/>
+ </objectgroup>
+</map>

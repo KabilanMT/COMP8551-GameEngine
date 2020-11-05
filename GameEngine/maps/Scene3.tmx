@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="left-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="31">
+ <objectgroup id="2" name="Scene 3">
+  <object id="1" name="Land" x="64" y="64" width="832" height="832">
+   <properties>
+    <property name="AudioSource" value="29-Dark fantasy studio- You are fighting with me.mp3, true, bgm"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Grass.png"/>
+   </properties>
+  </object>
+  <object id="2" name="TreeWallDown" type="Wall" x="0" y="896" width="960" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="3" name="TreeWallLeft" type="Wall" x="0" y="64" width="64" height="832">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="4" name="TreeWallRight" type="Wall" x="896" y="64" width="64" height="832">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="7" name="TempleGate" type="Door" x="352" y="0" width="256" height="64"/>
+  <object id="8" name="TempleWallLeft" type="Wall" x="0" y="0" width="352" height="64"/>
+  <object id="9" name="TempleWallRight" type="Wall" x="608" y="0" width="352" height="64"/>
+  <object id="10" name="Coin1" x="96" y="96" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="coin_01.mp3, false, sound"/>
+    <property name="BoxCollider" value="32.0f, 32.0f,192.0f, 192.0f, 0.0f, false, false"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="11" name="Coin2" x="192" y="96" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="12" name="Coin3" x="288" y="96" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="13" name="Coin4" x="640" y="96" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="14" name="Coin5" x="736" y="96" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="16" name="Coin6" x="832" y="96" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="19" name="RiddleSign" x="448" y="416" width="64" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/RiddleSign.png"/>
+   </properties>
+  </object>
+  <object id="22" name="CatStatueLeft" x="192" y="448" width="64" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/CatStatue.png"/>
+   </properties>
+  </object>
+  <object id="23" name="CatStatueRight" x="704" y="448" width="64" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/CatStatue.png"/>
+   </properties>
+  </object>
+  <object id="24" name="Monster1" x="288" y="192" width="64" height="64">
+   <properties>
+    <property name="AudioSource" value="Lion Roar.mp3, false, sound"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Monster.png"/>
+   </properties>
+  </object>
+  <object id="26" name="Monster2" x="703.91" y="674.597" width="64" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Monster.png"/>
+   </properties>
+  </object>
+  <object id="27" name="Monster3" x="193.247" y="736.309" width="64" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Monster.png"/>
+   </properties>
+  </object>
+  <object id="28" name="DogStatue" x="352" y="576" width="64" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/DogStatue.png"/>
+   </properties>
+  </object>
+  <object id="29" name="ChickenStatue" x="546.546" y="261.13" width="64" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/ChickenStatue.png"/>
+   </properties>
+  </object>
+  <object id="30" name="Player" x="464" y="480" width="32" height="32">
+   <properties>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Player.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
