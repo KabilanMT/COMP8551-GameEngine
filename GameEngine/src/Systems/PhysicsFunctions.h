@@ -355,20 +355,20 @@ namespace Physics
         b1BottomRight = glm::rotate(b1BottomRight, b1Theta);
         b1BottomRight = glm::vec2(b1BottomRight.x + c1T->x, b1BottomRight.y + c1T->y);
         //Box 2 Setup
-        glm::vec2 b2TopLeft = glm::vec2(0 - c1->width / 2, 0 + c1->height / 2);
-        glm::vec2 b2TopRight = glm::vec2(0 + c1->width / 2, 0 + c1->height / 2);
-        glm::vec2 b2BottomLeft = glm::vec2(0 - c1->width / 2, 0 - c1->height / 2);
-        glm::vec2 b2BottomRight = glm::vec2(0 + c1->width / 2, 0 - c1->height / 2);
+        glm::vec2 b2TopLeft = glm::vec2(0 - c2->width / 2, 0 + c2->height / 2);
+        glm::vec2 b2TopRight = glm::vec2(0 + c2->width / 2, 0 + c2->height / 2);
+        glm::vec2 b2BottomLeft = glm::vec2(0 - c2->width / 2, 0 - c2->height / 2);
+        glm::vec2 b2BottomRight = glm::vec2(0 + c2->width / 2, 0 - c2->height / 2);
         //Rotate box corners and move to actual position:
-        float b2Theta = c1T->angle * M_PI / 180.0f;
+        float b2Theta = c2T->angle * M_PI / 180.0f;
         b2TopLeft = glm::rotate(b2TopLeft, b2Theta);
-        b2TopLeft = glm::vec2(b2TopLeft.x + c1T->x, b2TopLeft.y + c1T->y);
+        b2TopLeft = glm::vec2(b2TopLeft.x + c2T->x, b2TopLeft.y + c2T->y);
         b2TopRight = glm::rotate(b2TopRight, b2Theta);
-        b2TopRight = glm::vec2(b2TopRight.x + c1T->x, b2TopRight.y + c1T->y);
+        b2TopRight = glm::vec2(b2TopRight.x + c2T->x, b2TopRight.y + c2T->y);
         b2BottomLeft = glm::rotate(b2BottomLeft, b2Theta);
-        b2BottomLeft = glm::vec2(b2BottomLeft.x + c1T->x, b2BottomLeft.y + c1T->y);
+        b2BottomLeft = glm::vec2(b2BottomLeft.x + c2T->x, b2BottomLeft.y + c2T->y);
         b2BottomRight = glm::rotate(b2BottomRight, b2Theta);
-        b2BottomRight = glm::vec2(b2BottomRight.x + c1T->x, b2BottomRight.y + c1T->y);
+        b2BottomRight = glm::vec2(b2BottomRight.x + c2T->x, b2BottomRight.y + c2T->y);
 
         //Set up the axis for projection from both boxes
         glm::vec2 b1Axis1 = b1TopRight - b1TopLeft;

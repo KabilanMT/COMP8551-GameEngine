@@ -16,7 +16,7 @@
   </object>
   <object id="2" name="TreeRight" type="Wall" x="0" y="0" width="64" height="992">
    <properties>
-    <property name="BoxCollider" value="128,992,0,0,0,false,false"/>
+    <property name="BoxCollider" value="64,992,0,0,0,false,false"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="src/res/textures/Tree.png"/>
    </properties>
@@ -82,7 +82,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="23" name="weaponEntity" x="472" y="890" width="16" height="16">
+  <object id="23" name="weaponEntity" x="472" y="890" width="16" height="16" visible="0">
    <properties>
     <property name="BoxCollider" value="16,16,0,0,0,true,false"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>

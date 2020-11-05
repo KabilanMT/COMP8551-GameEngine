@@ -23,7 +23,6 @@ void SceneManager::loadScene(string sceneName) {
         if (scene->getName() == sceneName) {
             if (isSceneLoaded) {
                 Engine::getInstance().events.emit<SceneUnload>(sceneLoaded);
-                auto es = Engine::getInstance().entities.entities_with_components<AudioSource>();
                 Engine::getInstance().entities.reset();
             }
 

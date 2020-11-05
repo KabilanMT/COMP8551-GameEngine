@@ -296,12 +296,19 @@ public:
                     changeSprite(filepath);
                 }
 
-                if (name == "callFunction") {
+                 if (name == "callFunction") {
                     string functionName = attributes.at("name");
-                    XMLElement* customFunction = cScript->getCustomFunction(functionName);
+
+                    if (!currEntity->has_component<CustomScript>()) {
+                        command = command->NextSibling();
+                        continue;
+                    }
+
+                    ComponentHandle<CustomScript> handle = currEntity->component<CustomScript>();
+                    XMLElement* customFunction = handle->getCustomFunction(functionName);
 
                     if (customFunction != nullptr)
-                        runCommands(customFunction->FirstChild(), cScript);
+                        runCommands(customFunction->FirstChild(), handle);
                 }
 
                 if (name == "onEntity") {
