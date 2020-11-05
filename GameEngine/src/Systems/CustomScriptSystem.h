@@ -282,7 +282,7 @@ public:
                 if (name == "changeSprite") {
                     string filepath = attributes.at("name");
 
-                    // changeSprite(filepath);
+                    changeSprite(filepath);
                 }
 
                 if (name == "callFunction") {
@@ -344,8 +344,13 @@ public:
                 return;
             
             ComponentHandle<TextureComp> sprite = currEntity->component<TextureComp>();
-            if (sprite.get()->getFilepath() != texturePath.c_str())
-                sprite.get()->setTexturePath(texturePath.c_str());
+            if (sprite.get()->filepath != texturePath.c_str()) {
+                int n = texturePath.length();
+                char *chararray= new char [n+1];
+                strcpy(chararray, texturePath.c_str());
+
+                sprite.get()->filepath = chararray;
+            }
         }
 
         // *********************************
