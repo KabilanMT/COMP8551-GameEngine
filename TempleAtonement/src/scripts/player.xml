@@ -2,38 +2,13 @@
     <update>
         <!-- If attacking, add to a timer and not allow new input -->
         <ifVar name="isAttacking" value="true" type="bool">
-            <addVar name="attackTimer" value="deltaTime"/>
-            <ifVarGreater name="attackTimer" value="0.5" type="float"> <!-- if half a second has passed, not attacking anymore -->
-                <updateVar name="attackTimer" value="0.0" type="float"/>
+            <addVar name="attackTimer" value="deltaTime" type="double"/>
+            <ifVarGreater name="attackTimer" value="0.15" type="double">
+                <updateVar name="attackTimer" value="0.0" type="double"/>
                 <updateVar name="isAttacking" value="false" type="bool" />
                 <onEntity name="weaponEntity">
                     <setActive value="false"/>
                 </onEntity>
-                <!-- Check player direction to move weaponEntity -->
-                <ifVar name="playerDirection" value="0" type="int">
-                    <!-- Up -->
-                    <onEntity name="weaponEntity">
-                        <moveEntity x="0.0" y="-5.0" z="0.0"/>
-                    </onEntity>
-                </ifVar>
-                <ifVar name="playerDirection" value="1" type="int">
-                    <!-- Right -->
-                    <onEntity name="weaponEntity">
-                        <moveEntity x="-5.0" y="0.0" z="0.0"/>
-                    </onEntity>
-                </ifVar>
-                <ifVar name="playerDirection" value="2" type="int">
-                    <!-- Down -->
-                    <onEntity name="weaponEntity">
-                        <moveEntity x="0.0" y="5.0" z="0.0"/>
-                    </onEntity>
-                </ifVar>
-                <ifVar name="playerDirection" value="3" type="int">
-                    <!-- Left -->
-                    <onEntity name="weaponEntity">
-                        <moveEntity x="5.0" y="0.0" z="0.0"/>
-                    </onEntity>
-                </ifVar>
             </ifVarGreater>
         </ifVar>
 
@@ -45,69 +20,58 @@
                     <setActive value="true"/>
                 </onEntity>
                 <!-- Check player direction to move weaponEntity -->
+                <matchEntityPos name="weaponEntity"/>
                 <ifVar name="playerDirection" value="0" type="int">
                     <!-- Up -->
                     <onEntity name="weaponEntity">
-                        <moveEntity x="0.0" y="5.0" z="0.0"/>
+                        <moveEntity x="0.0" y="24.0" z="0.0"/>
                         <changeSprite name="../TempleAtonement/texture/blobsprite_10.png"/>
                     </onEntity>
                 </ifVar>
                 <ifVar name="playerDirection" value="1" type="int">
                     <!-- Right -->
                     <onEntity name="weaponEntity">
-                        <moveEntity x="5.0" y="0.0" z="0.0"/>
-                        <changeSprite name=="../TempleAtonement/texture/blobsprite_07.png"/>
+                        <moveEntity x="24.0" y="0.0" z="0.0"/>
+                        <changeSprite name="../TempleAtonement/texture/blobsprite_07.png"/>
                     </onEntity>
                 </ifVar>
                 <ifVar name="playerDirection" value="2" type="int">
                     <!-- Down -->
                     <onEntity name="weaponEntity">
-                        <moveEntity x="0.0" y="-5.0" z="0.0"/>
-                        <changeSprite name=="../TempleAtonement/texture/blobsprite_01.png"/>
+                        <moveEntity x="0.0" y="-24.0" z="0.0"/>
+                        <changeSprite name="../TempleAtonement/texture/blobsprite_01.png"/>
                     </onEntity>
                 </ifVar>
                 <ifVar name="playerDirection" value="3" type="int">
                     <!-- Left -->
                     <onEntity name="weaponEntity">
-                        <moveEntity x="-5.0" y="0.0" z="0.0"/>
-                        <changeSprite name=="../TempleAtonement/texture/blobsprite_04.png"/>
+                        <moveEntity x="-24.0" y="0.0" z="0.0"/>
+                        <changeSprite name="../TempleAtonement/texture/blobsprite_04.png"/>
                     </onEntity>
                 </ifVar>
             </keyPress>
         </ifVar>
 
         <!-- movement -->
-        <ifVar name="isAttacking" value="false">
+        <ifVar name="isAttacking" value="false" type="bool">
             <keyPress value="KEY_W">
-                <changeSprite value=="../TempleAtonement/texture/blobsprite_10.png"/>
-                <moveEntity x="0.0" y="1.0" z="0.0"/>
-                <onEntity name="weaponEntity">
-                    <moveEntity x="0.0" y="1.0" z="0.0"/>
-                </onEntity>
+                <changeSprite name="../TempleAtonement/texture/blobsprite_10.png"/>
+                <moveEntity x="0.0" y="8.0" z="0.0"/>
                 <updateVar name="playerDirection" value="0" type="int"/>
             </keyPress>
             <keyPress value="KEY_S">
-                <changeSprite value=="../TempleAtonement/texture/blobsprite_01.png"/>
-                <moveEntity x="0.0" y="-1.0" z="0.0"/>
-                <onEntity name="weaponEntity">
-                    <moveEntity x="0.0" y="-1.0" z="0.0"/>
-                </onEntity>
+                <changeSprite name="../TempleAtonement/texture/blobsprite_01.png"/>
+                <moveEntity x="0.0" y="-8.0" z="0.0"/>
                 <updateVar name="playerDirection" value="2" type="int"/>
             </keyPress>
             <keyPress value="KEY_A">
-                <changeSprite value=="../TempleAtonement/texture/blobsprite_04.png"/>
-                <moveEntity x="-1.0" y="0.0" z="0.0"/>
-                <onEntity name="weaponEntity">
-                    <moveEntity x="-1.0" y="0.0" z="0.0"/>
-                </onEntity>
+                <changeSprite name="../TempleAtonement/texture/blobsprite_04.png"/>
+                <moveEntity x="-8.0" y="0.0" z="0.0"/>
                 <updateVar name="playerDirection" value="3" type="int"/>
             </keyPress>
             <keyPress value="KEY_D">
-                <changeSprite value=="../TempleAtonement/texture/blobsprite_07.png"/>
-                <moveEntity x="1.0" y="0.0" z="0.0"/>
-                <onEntity name="weaponEntity">
-                    <moveEntity x="1.0" y="0.0" z="0.0"/>
-                </onEntity>
+                <changeSprite name="../TempleAtonement/texture/blobsprite_07.png"/>
+                <moveEntity x="8.0" y="0.0" z="0.0"/>
                 <updateVar name="playerDirection" value="1" type="int"/>
             </keyPress>
         </ifVar>
@@ -121,7 +85,7 @@
     </update>
     <variables>
         <bool name="isAttacking" value="false"/>
-        <float name="attackTimer" value="0.0"/>
+        <double name="attackTimer" value="0.0"/>
         <int name="playerDirection" value="2"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
         <entity name="weaponEntity" value="weaponEntity"/>
         <int name="health" value="5"/>
@@ -135,20 +99,20 @@
 
     </start>
     <onCollision>
-        <ifVar name="collisionObject-tag" value="Enemy">
-            <addVar name="health" value="-1"/>
-            <ifVar name="health" value="0">
+        <ifVar name="collisionObject-tag" value="Enemy" type="string">
+            <addVar name="health" value="-1" type="int"/>
+            <ifVar name="health" value="0" type="int">
                 <loadScene name="gameoverScene"/>
             </ifVar>
         </ifVar>
-        <ifVar name="collisionObject-tag" value="Coin">
+        <ifVar name="collisionObject-tag" value="Coin" type="string">
             <!-- <onEntity name="scoreEntity">
                 <addVar name="score" value="100"/>
             </onEntity> -->
         </ifVar>
-        <ifVar name="collisionObject-tag" value="Interactable">
-            <updateVar name="interactEntity" value="collisionObject-name"/>
-        </ifVar>
+        <!-- <ifVar name="collisionObject-tag" value="Interactable" type="string">
+            <updateVar name="interactEntity" value="collisionObject-name" type=""/>
+        </ifVar> -->
     </onCollision>
 </root>
 
@@ -179,4 +143,6 @@ ifVarGreater name="variableName" value="someNumber" :
     same as if (variableName > someNumber) {
 keyPress value="keyCode" :
     if statement but checks if a key is being pressed
+matchEntityPos name="nameOfEntityVariable"
+    set the entity's pos to the current entity's pos
 -->

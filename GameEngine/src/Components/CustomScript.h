@@ -32,6 +32,7 @@ struct CustomScript
             // Reserved variables
             strings.insert(make_pair("collisionObject-tag", ""));
             strings.insert(make_pair("collisionObject-name", ""));
+            doubles.insert(make_pair("deltaTime", 0.0f));
         }
 
         XMLElement* getStart() {

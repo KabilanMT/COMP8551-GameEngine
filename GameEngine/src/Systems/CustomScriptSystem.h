@@ -34,7 +34,6 @@ public:
                 continue;
 
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
-
             XMLElement* variablesContent = handle->getVariables();
             if (variablesContent != nullptr)
                 getVariables(variablesContent->FirstChild(), handle);
@@ -93,8 +92,10 @@ public:
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
             XMLElement* updateContent = handle->getUpdate();
 
-            if (updateContent != nullptr)
+            if (updateContent != nullptr) {
+                handle.get()->doubles.at("deltaTime") = dt;
                 runCommands(updateContent->FirstChild(), handle);
+            }
         }
     }
 
@@ -194,7 +195,12 @@ public:
 
                     if (type == "double" && cScript.get()->doubles.find(attributes.at("name")) != cScript.get()->doubles.end()) {
                         double val = cScript.get()->doubles.at(attributes.at("name"));
-                        double valToCompare = stod(attributes.at("value"));
+                        double valToCompare = 0;
+                        if (attributes.at("value") == "deltaTime") {
+                            valToCompare = cScript.get()->doubles.at("deltaTime");
+                        } else {
+                            valToCompare = stod(attributes.at("value"));
+                        }
 
                         if (val == valToCompare)
                             runCommands(command->FirstChild(), cScript);
@@ -211,7 +217,7 @@ public:
                     if (type == "bool" && cScript.get()->bools.find(attributes.at("name")) != cScript.get()->bools.end()) { 
                         bool val = cScript.get()->bools.at(attributes.at("name"));
 
-                        if (val)
+                        if (val == (attributes.at("value") == "true" ? true : false))
                             runCommands(command->FirstChild(), cScript);   
                     }
                 }
@@ -237,7 +243,12 @@ public:
 
                     if (type == "double" && cScript.get()->doubles.find(attributes.at("name")) != cScript.get()->doubles.end()) {
                         double val = cScript.get()->doubles.at(attributes.at("name"));
-                        double valToCompare = stod(attributes.at("value"));
+                        double valToCompare = 0;
+                        if (attributes.at("value") == "deltaTime") {
+                            valToCompare = cScript.get()->doubles.at("deltaTime");
+                        } else {
+                            valToCompare = stod(attributes.at("value"));
+                        }
 
                         if (val > valToCompare)
                             runCommands(command->FirstChild(), cScript);
@@ -261,9 +272,9 @@ public:
                 }
 
                 if (name == "moveEntity") {
-                    int x = stoi(attributes.at("x"), nullptr, 0);
-                    int y = stoi(attributes.at("y"), nullptr, 0);
-                    int z = stoi(attributes.at("z"), nullptr, 0);
+                    float x = stof(attributes.at("x"));
+                    float y = stof(attributes.at("y"));
+                    float z = stof(attributes.at("z"));
 
                     moveEntity(x, y, z);
                 }
@@ -310,7 +321,13 @@ public:
                 if (name == "setActive") {
                     string value = attributes.at("value");
                     
-                    setActive((value == "true") ? true : false);
+                    setActive(value == "true" ? true : false);
+                }
+
+                if (name == "matchEntityPos") {
+                    string value = attributes.at("name");
+
+                    matchEntityPos(value, cScript);
                 }
 
                 command = command->NextSibling();
@@ -318,14 +335,15 @@ public:
         }
 
         // CustomScript Functions
-        void moveEntity(int x, int y, int z) {
-            if (!currEntity->has_component<Transform>()) 
+        void moveEntity(float x, float y, float z) {
+            if (!currEntity->has_component<Transform>()) {
                 return;
-            
-            ComponentHandle<Transform> trans = currEntity->component<Transform>(); 
-            trans.get()->x += x;
-            trans.get()->y += y;
-            trans.get()->z += z;
+            }
+            ComponentHandle<Transform> handle = currEntity->component<Transform>();
+            float newX = handle.get()->x + x;
+            float newY = handle.get()->y + y;
+            float newZ = handle.get()->z + z;
+            Engine::getInstance().events.emit<MoveTo>(*currEntity, newX, newY, newZ);
         }
 
         void removeEntity() {
@@ -334,7 +352,7 @@ public:
         }
 
         void setActive(bool active) {
-            if (currEntity->has_component<Active>())
+            if (!currEntity->has_component<Active>())
                 return; 
             
             ComponentHandle<Active> _active = currEntity->component<Active>();
@@ -359,6 +377,24 @@ public:
             }
         }
 
+        void matchEntityPos(string& value, ComponentHandle<CustomScript>& cScript) {
+
+            if (!cScript.get()->containsVariable(value))
+                return;
+
+            entityx::Entity other = cScript.get()->entities.at(value);
+
+            if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
+                return;
+
+            ComponentHandle<Transform> otherT = other.component<Transform>();
+            ComponentHandle<Transform> thisT = currEntity->component<Transform>();
+
+            otherT.get()->x = thisT.get()->x;
+            otherT.get()->y = thisT.get()->y;
+            otherT.get()->z = thisT.get()->z;
+        }
+
         // *********************************
         // Variable functions
         // *********************************
@@ -369,8 +405,13 @@ public:
             if (varType == "float")
                 cScript.get()->floats.at(varName) = stof(value);
 
-            if (varType == "double")
-                cScript.get()->doubles.at(varName) = stod(value);
+            if (varType == "double") {
+                if (value == "deltaTime") {
+                    cScript.get()->doubles.at(varName) = cScript.get()->doubles.at("deltaTime");
+                } else {
+                    cScript.get()->doubles.at(varName) = stod(value);
+                }
+            }
             
             if (varType == "string")
                 cScript.get()->strings.at(varName) = value;
@@ -386,8 +427,13 @@ public:
             if (varType == "float")
                 cScript.get()->floats.at(varName) += stof(value);
 
-            if (varType == "double")
-                cScript.get()->doubles.at(varName) += stod(value);
+            if (varType == "double") {
+                if (value == "deltaTime") {
+                    cScript.get()->doubles.at(varName) += cScript.get()->doubles.at("deltaTime");
+                } else {
+                    cScript.get()->doubles.at(varName) += stod(value);
+                }
+            }
 
             if (varType == "string")
                 cScript.get()->strings.at(varName) += value;
@@ -400,8 +446,13 @@ public:
             if (varType == "float")
                 cScript.get()->floats.at(varName) -= stof(value);
 
-            if (varType == "double")
-                cScript.get()->doubles.at(varName) -= stod(value);
+            if (varType == "double") {
+                if (value == "deltaTime") {
+                    cScript.get()->doubles.at(varName) -= cScript.get()->doubles.at("deltaTime");
+                } else {
+                    cScript.get()->doubles.at(varName) -= stod(value);
+                }
+            }
         }
 
         void multiVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
@@ -411,8 +462,13 @@ public:
             if (varType == "float")
                 cScript.get()->floats.at(varName) *= stof(value);
 
-            if (varType == "double")
-                cScript.get()->doubles.at(varName) *= stod(value);
+            if (varType == "double") {
+                if (value == "deltaTime") {
+                    cScript.get()->doubles.at(varName) *= cScript.get()->doubles.at("deltaTime");
+                } else {
+                    cScript.get()->doubles.at(varName) *= stod(value);
+                }
+            }
         }
 
         void divideVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
@@ -422,7 +478,12 @@ public:
             if (varType == "float")
                 cScript.get()->floats.at(varName) /= stof(value);
 
-            if (varType == "double")
-                cScript.get()->doubles.at(varName) /= stod(value);
+            if (varType == "double") {
+                if (value == "deltaTime") {
+                    cScript.get()->doubles.at(varName) /= cScript.get()->doubles.at("deltaTime");
+                } else {
+                    cScript.get()->doubles.at(varName) /= stod(value);
+                }
+            }
         }
 }; 

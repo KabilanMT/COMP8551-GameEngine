@@ -43,8 +43,16 @@ struct EntityPair {
     ColliderType bType;
 };
 
-class PhysicsSystem : public System<PhysicsSystem> {
+class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSystem> {
     public:
+        void configure(EventManager& events) override {
+            events.subscribe<MoveTo>(*this);
+        }
+
+        void receive(const MoveTo& mt) {
+            RigidbodyMoveTo(Engine::getInstance().entities, mt.e, mt.x, mt.y);
+        }
+
         void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
             //Step 1: Apply rigidbody movement (velocity)
             auto physicsEntities = es.entities_with_components<Rigidbody_2D>();
@@ -339,6 +347,7 @@ class PhysicsSystem : public System<PhysicsSystem> {
 
                 if(narrowPhaseCollisions.size() > 0){
                     //Reverse step:
+                    Logger::getInstance() << "Collision!\n";
                     transform->x -= xStep;
                     transform->y -= yStep;
                     return;     //Leave function after backstep instead of continuing

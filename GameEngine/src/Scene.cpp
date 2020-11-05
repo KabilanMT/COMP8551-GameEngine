@@ -42,10 +42,9 @@ void Scene::load() {
             const XMLAttribute* attr = elem->FirstAttribute(); //get the object's attributes
 
             float x = 0, y = 0, z = 0, width = 0, height = 0, rotAngle = 0;
-
+            bool isVisible = true;
             while (attr != NULL) { //loop through object attributes, assign certain components based on them
                 string aName = attr->Name();
-
                 if (aName == "name") {
                     ent.assign<Name>(attr->Value());
                 } else if (aName == "x") {
@@ -65,13 +64,12 @@ void Scene::load() {
                     str >> rotAngle;
                 } else if (aName == "visible") {
                     stringstream str(attr->Value());
-                    int temp;
-                    str >> temp;
-                    ent.assign<Active>((bool)temp);
+                    isVisible = false;
                 }
 
                 attr = attr->Next();
             }
+            ent.assign<Active>(isVisible);
             // Add rotation passing in a degrees (rotAngle)
             // Convert width and height to sprite vertices
             x = x + width/2;
@@ -274,7 +272,7 @@ void Scene::addCircleCollider(vector<string>& parameters, Entity& e) {
 }
 
 void Scene::addCustomScript(vector<string>& parameters, Entity& e) {
-    //e.assign<CustomScript>(parameters.at(0));
+    e.assign<CustomScript>(parameters.at(0));
 }
 
 void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
@@ -344,8 +342,6 @@ void Scene::addShaderComp(vector<string>& parameters, Entity& e) {
     char *chararray= new char [n+1];
     strcpy(chararray,temp.c_str());
   
-    for (int i = 0; i < n; i++) 
-        cout << chararray[i]; 
     e.assign<ShaderComp>(chararray);
 }
 
@@ -355,8 +351,6 @@ void Scene::addTextureComp(vector<string>& parameters, Entity& e) {
     char *chararray= new char [n+1];
     strcpy(chararray,temp.c_str());
   
-    for (int i = 0; i < n; i++) 
-        cout << chararray[i]; 
     e.assign<TextureComp>(chararray);
 }
 
