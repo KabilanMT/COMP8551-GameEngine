@@ -338,6 +338,12 @@ public:
                     matchEntityPos(value, cScript);
                 }
 
+                if (name == "log") {
+                    string value = attributes.at("value");
+
+                    log(value);
+                }
+
                 command = command->NextSibling();
             }
         }
@@ -401,6 +407,10 @@ public:
             otherT.get()->x = thisT.get()->x;
             otherT.get()->y = thisT.get()->y;
             otherT.get()->z = thisT.get()->z;
+        }
+
+        void log(string value) {
+            Logger::getInstance() << value << "\n";
         }
 
         // *********************************
