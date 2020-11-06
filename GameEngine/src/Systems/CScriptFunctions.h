@@ -13,48 +13,85 @@ namespace CScript
     // Variables
     entityx::Entity* currEntity;    
 
-    // Functions
-    void moveEntity(float x, float y, float z) {
+    /**
+     * Moves the current entity to relative position by x, y and/or z. It does this by calculating the new coordinates
+     * and passing it into the physics system to handle movement and collisions.
+     * PARAM: x direction
+     * PARAM: y direction
+     * PARAM: z direction  
+     */
+    void moveEntity(float x, float y, float z) 
+    {
         if (!currEntity->has_component<Transform>()) {
             return;
         }
+
+        // Calculate new coordinates
         ComponentHandle<Transform> handle = currEntity->component<Transform>();
         float newX = handle.get()->x + x;
         float newY = handle.get()->y + y;
         float newZ = handle.get()->z + z;
+
+        // Emit event to send to physics system
         Engine::getInstance().events.emit<MoveTo>(*currEntity, newX, newY, newZ);
     }
 
-    void removeEntity() {
+    /**
+     * Removes the entity from the current scene.  
+     */
+    void removeEntity() 
+    {
         currEntity->destroy();
     }
 
-    void setActive(bool active) {
+    /**
+     * Sets the entity's active.
+     * PARAM: active the state to set the active to.  
+     */
+    void setActive(bool active) 
+    {
         if (!currEntity->has_component<Active>())
             return; 
         
-        ComponentHandle<Active> _active = currEntity->component<Active>();
-        _active.get()->setActiveStatus(active);
+        ComponentHandle<Active> activeHandle = currEntity->component<Active>();
+        activeHandle.get()->setActiveStatus(active);
     }
 
-    void loadScene(string sceneName) {
+    /**
+     * Loads a scene.
+     * PARAM: sceneName name of the scene to load.
+     */
+    void loadScene(string sceneName) 
+    {
         SceneManager::getInstance().loadScene(sceneName);
     }
 
-    void changeSprite(string texturePath) {
+    /**
+     * Changes sprite to new sprite.
+     * PARAM: texturePath path to new sprite texture.  
+     */
+    void changeSprite(string texturePath) 
+    {
         if (!currEntity->has_component<TextureComp>())
             return;
         
         ComponentHandle<TextureComp> sprite = currEntity->component<TextureComp>();
         if (sprite.get()->filepath != texturePath.c_str()) {
+            // The texturePath to char *
             int n = texturePath.length();
             char *chararray= new char [n+1];
             strcpy(chararray, texturePath.c_str());
 
+            // Change texture path to new texture path
             sprite.get()->filepath = chararray;
         }
     }
 
+    /**
+     * Matches the specified entity's position with the current entity's position.
+     * PARAM: value name of the specified entity.
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
     void matchEntityPos(string& value, ComponentHandle<CustomScript>& cScript) {
 
         if (!cScript.get()->containsVariable(value))
@@ -73,18 +110,21 @@ namespace CScript
         otherT.get()->z = thisT.get()->z;
     }
 
+    /**
+     * Logs the value to a log file.
+     * PARAM: value string to be logged the log file.
+     */
     void log(string value) {
         Logger::getInstance() << value << "\n";
     }
 
-    Entity* getCurrEntity() {
-        return currEntity;
-    }
-
-    void setCurrEntity(Entity* e) {
-        currEntity = e;
-    }
-
+    /**
+     * Updates a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
     void updateVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
         if (varType == "int")
             cScript.get()->ints.at(varName) = stoi(value, nullptr, 0);
@@ -122,6 +162,13 @@ namespace CScript
         }
     }
 
+    /**
+     * Add a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
     void addVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
         if (varType == "int")
             cScript.get()->ints.at(varName) += stoi(value, nullptr, 0);
@@ -141,6 +188,13 @@ namespace CScript
             cScript.get()->strings.at(varName) += value;
     }
 
+    /**
+     * Subtract a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
     void subVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
         if (varType == "int")
             cScript.get()->ints.at(varName) -= stoi(value, nullptr, 0);
@@ -157,6 +211,13 @@ namespace CScript
         }
     }
 
+    /**
+     * Multiple a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
     void multiVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
         if (varType == "int")
             cScript.get()->ints.at(varName) *= stoi(value, nullptr, 0);
@@ -173,6 +234,13 @@ namespace CScript
         }
     }
 
+    /**
+     * Divide a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
     void divideVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
         if (varType == "int")
             cScript.get()->ints.at(varName) /= stoi(value, nullptr, 0);
@@ -187,5 +255,20 @@ namespace CScript
                 cScript.get()->doubles.at(varName) /= stod(value);
             }
         }
+    }
+
+    /**
+     * Getter function for getting the current entity that we are using the custom script on.  
+     * RETURN: The current entity
+     */
+    Entity* getCurrEntity() {
+        return currEntity;
+    }
+
+    /**
+     * Setter function for setting the current entity that we are using the custom script on.  
+     */
+    void setCurrEntity(Entity* e) {
+        currEntity = e;
     }
 }

@@ -30,15 +30,17 @@ public:
         for (Entity e : sl.entities) {
             CScript::setCurrEntity(&e);
 
-            // Error checking to avoid crashing
             if (!e.has_component<CustomScript>())
                 continue;
 
             ComponentHandle<CustomScript> handle = e.component<CustomScript>();
+
+            // Gets variables specified in the entity's custom script 
             XMLElement* variablesContent = handle->getVariables();
             if (variablesContent != nullptr)
                 getVariables(variablesContent->FirstChild(), handle);
 
+            // Runs commands in the start tag in the entity's custom script 
             XMLElement* startContent = handle->getStart();
             if (startContent != nullptr)
                 runCommands(startContent->FirstChild(), handle);
@@ -48,6 +50,7 @@ public:
     void receive(const Trigger& tr) {
         if (tr.gotTriggered->has_component<CustomScript>()) {
             CScript::setCurrEntity(tr.gotTriggered);
+            
             ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
 
             handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Tag>().get()->getTag();
@@ -64,19 +67,6 @@ public:
     void update(EntityManager& es, EventManager& events, TimeDelta dt) override 
     {
         auto entities = es.entities_with_components<CustomScript>();
-
-        // Example of how to check if a key is pressed:
-        // bool isSpacePressed = Input::getInstance().isKeyPressed(GLFW_KEY_SPACE)
-
-        // Full list of key_press codes are here
-        // https://www.glfw.org/docs/3.3/group__keys.html
-
-        // Example of how to check if a mouse button was pressed
-        // bool isLeftMousePressed = Input::getInstance().isMousePressed(true) //left mouse button
-
-        // Example to check the position of the cursor
-        // int xpos = Input::getInstance().getCursorPosition(true) //xcoord
-        // int ypos = Input::getInstance().getCursorPosition(false) //ycoord
 
         for (Entity e : entities) {
             CScript::setCurrEntity(&e);
