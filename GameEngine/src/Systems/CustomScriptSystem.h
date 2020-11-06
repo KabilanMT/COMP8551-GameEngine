@@ -50,7 +50,7 @@ public:
     void receive(const Trigger& tr) {
         if (tr.gotTriggered->has_component<CustomScript>()) {
             CScript::setCurrEntity(tr.gotTriggered);
-            
+
             ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
 
             handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Tag>().get()->getTag();
@@ -130,14 +130,19 @@ public:
 
                 if (name == "entity") {
                     auto entities = Engine::getInstance().entities.entities_with_components<Name>();
+                    bool entityFound = false;
 
                     for (Entity e : entities) {
                         ComponentHandle<Name> entityName = e.component<Name>();
                         if (entityName.get()->getName().compare(var_value) == 0) {
-                            cScript.get()->entities.insert(make_pair(var_value, e));
+                            cScript.get()->entities.insert(make_pair(var_name, e));
+                            entityFound = true;
                             break;
                         }
                     }
+
+                    if (!entityFound)
+                        cScript.get()->entities[var_name];
                 }
 
                 variable = variable->NextSibling();
