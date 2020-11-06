@@ -12,6 +12,7 @@
 #include "Input.h"
 #include <glfw/glfw3.h>
 #include "../logger.h"
+#include "CScriptFunctions.h"
 
 using namespace entityx;
 
@@ -27,7 +28,7 @@ public:
 
         // call start methods
         for (Entity e : sl.entities) {
-            currEntity = &e;
+            CScript::setCurrEntity(&e);
 
             // Error checking to avoid crashing
             if (!e.has_component<CustomScript>())
@@ -46,7 +47,7 @@ public:
 
     void receive(const Trigger& tr) {
         if (tr.gotTriggered->has_component<CustomScript>()) {
-            currEntity = tr.gotTriggered;
+            CScript::setCurrEntity(tr.gotTriggered);
             ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
 
             handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Tag>().get()->getTag();
@@ -78,7 +79,7 @@ public:
         // int ypos = Input::getInstance().getCursorPosition(false) //ycoord
 
         for (Entity e : entities) {
-            currEntity = &e;
+            CScript::setCurrEntity(&e);
 
             // Error checking to avoid crashing 
             if (!e.has_component<Active>() && !e.has_component<CustomScript>())
@@ -101,8 +102,6 @@ public:
     }
 
    private:
-        Entity* currEntity;
-
         // Should be ran in start
         // TODO: Requires error checking and refactor, assumes that the first and second attrib is variable name and value
         void getVariables(XMLNode* variable, ComponentHandle<CustomScript> cScript) {
@@ -256,32 +255,34 @@ public:
                     }
                 }
 
-                if (name == "updateVar") {
-                    string varName = attributes.at("name");
-                    string varType = attributes.at("type");
-                    string value = attributes.at("value");
+                if (name == "callFunction") {
+                    string functionName = attributes.at("name");
 
-                    updateVar(varName, varType, value, cScript);
+                    if (!CScript::getCurrEntity()->has_component<CustomScript>()) {
+                        command = command->NextSibling();
+                        continue;
+                    }
+
+                    ComponentHandle<CustomScript> handle = CScript::getCurrEntity()->component<CustomScript>();
+                    XMLElement* customFunction = handle->getCustomFunction(functionName);
+
+                    if (customFunction != nullptr)
+                        runCommands(customFunction->FirstChild(), handle);
                 }
 
-                if (name == "addVar") {
-                    string varName = attributes.at("name");
-                    string varType = attributes.at("type");
-                    string value = attributes.at("value");
+                if (name == "onEntity") {
+                    string entityName = attributes.at("name");
+                    Entity* temp = CScript::getCurrEntity();
 
-                    addVar(varName, varType, value, cScript);
+                    if (cScript.get()->containsVariable(entityName)) {
+                        CScript::setCurrEntity(&cScript.get()->entities.at(entityName));
+                        runCommands(command->FirstChild(), cScript);
+                    } else {
+                        cout << endl << "onEntity: entity " << entityName << " not found" << endl;
+                    }
+
+                    CScript::setCurrEntity(temp);
                 }
-
-                if (name == "moveEntity") {
-                    float x = stof(attributes.at("x"));
-                    float y = stof(attributes.at("y"));
-                    float z = stof(attributes.at("z"));
-
-                    moveEntity(x, y, z);
-                }
-
-                if (name == "removeEntity")
-                    removeEntity();
 
                 if (name == "keyPress") {
                     string value = attributes.at("value");
@@ -291,232 +292,32 @@ public:
                         runCommands(command->FirstChild(), cScript);
                 }
 
-                if (name == "changeSprite") {
-                    string filepath = attributes.at("name");
+                if (name == "changeSprite") 
+                    CScript::changeSprite(attributes.at("name"));
 
-                    changeSprite(filepath);
-                }
+                if (name == "updateVar")
+                    CScript::updateVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
-                 if (name == "callFunction") {
-                    string functionName = attributes.at("name");
+                if (name == "addVar") 
+                    CScript::addVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
-                    if (!currEntity->has_component<CustomScript>()) {
-                        command = command->NextSibling();
-                        continue;
-                    }
+                if (name == "moveEntity")
+                    CScript::moveEntity(stof(attributes.at("x")), stof(attributes.at("y")), stof(attributes.at("z")));
 
-                    ComponentHandle<CustomScript> handle = currEntity->component<CustomScript>();
-                    XMLElement* customFunction = handle->getCustomFunction(functionName);
+                if (name == "removeEntity")
+                    CScript::removeEntity();
 
-                    if (customFunction != nullptr)
-                        runCommands(customFunction->FirstChild(), handle);
-                }
+                if (name == "setActive") 
+                    CScript::setActive(attributes.at("value") == "true" ? true : false);
 
-                if (name == "onEntity") {
-                    string entityName = attributes.at("name");
-                    Entity* temp = currEntity;
+                if (name == "matchEntityPos") 
+                    CScript::matchEntityPos(attributes.at("name"), cScript);
 
-                    if (cScript.get()->containsVariable(entityName)) {
-                        currEntity = &cScript.get()->entities.at(entityName);
-                        runCommands(command->FirstChild(), cScript);
-                    } else {
-                        cout << endl << "onEntity: entity " << entityName << " not found" << endl;
-                    }
-
-                    currEntity = temp;
-                }
-
-                if (name == "setActive") {
-                    string value = attributes.at("value");
-                    
-                    setActive(value == "true" ? true : false);
-                }
-
-                if (name == "matchEntityPos") {
-                    string value = attributes.at("name");
-
-                    matchEntityPos(value, cScript);
-                }
-
-                if (name == "log") {
-                    string value = attributes.at("value");
-
-                    log(value);
-                }
+                if (name == "log")
+                    CScript::log(attributes.at("value"));
 
                 command = command->NextSibling();
             }
         }
 
-        // CustomScript Functions
-        void moveEntity(float x, float y, float z) {
-            if (!currEntity->has_component<Transform>()) {
-                return;
-            }
-            ComponentHandle<Transform> handle = currEntity->component<Transform>();
-            float newX = handle.get()->x + x;
-            float newY = handle.get()->y + y;
-            float newZ = handle.get()->z + z;
-            Engine::getInstance().events.emit<MoveTo>(*currEntity, newX, newY, newZ);
-        }
-
-        void removeEntity() {
-            // Flag Current entity for deletion
-            currEntity->destroy();
-        }
-
-        void setActive(bool active) {
-            if (!currEntity->has_component<Active>())
-                return; 
-            
-            ComponentHandle<Active> _active = currEntity->component<Active>();
-            _active.get()->setActiveStatus(active);
-        }
-
-        void loadScene(string sceneName) {
-            SceneManager::getInstance().loadScene(sceneName);
-        }
-
-        void changeSprite(string texturePath) {
-            if (!currEntity->has_component<TextureComp>())
-                return;
-            
-            ComponentHandle<TextureComp> sprite = currEntity->component<TextureComp>();
-            if (sprite.get()->filepath != texturePath.c_str()) {
-                int n = texturePath.length();
-                char *chararray= new char [n+1];
-                strcpy(chararray, texturePath.c_str());
-
-                sprite.get()->filepath = chararray;
-            }
-        }
-
-        void matchEntityPos(string& value, ComponentHandle<CustomScript>& cScript) {
-
-            if (!cScript.get()->containsVariable(value))
-                return;
-
-            entityx::Entity other = cScript.get()->entities.at(value);
-
-            if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
-                return;
-
-            ComponentHandle<Transform> otherT = other.component<Transform>();
-            ComponentHandle<Transform> thisT = currEntity->component<Transform>();
-
-            otherT.get()->x = thisT.get()->x;
-            otherT.get()->y = thisT.get()->y;
-            otherT.get()->z = thisT.get()->z;
-        }
-
-        void log(string value) {
-            Logger::getInstance() << value << "\n";
-        }
-
-        // *********************************
-        // Variable functions
-        // *********************************
-        void updateVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
-            if (varType == "int")
-                cScript.get()->ints.at(varName) = stoi(value, nullptr, 0);
-
-            if (varType == "float")
-                cScript.get()->floats.at(varName) = stof(value);
-
-            if (varType == "double") {
-                if (value == "deltaTime") {
-                    cScript.get()->doubles.at(varName) = cScript.get()->doubles.at("deltaTime");
-                } else {
-                    cScript.get()->doubles.at(varName) = stod(value);
-                }
-            }
-            
-            if (varType == "string")
-                cScript.get()->strings.at(varName) = value;
-
-            if (varType == "bool") 
-                cScript.get()->bools.at(varName) = (value == "true") ? true : false;
-
-            if (varType == "entity") {
-                auto entities = Engine::getInstance().entities.entities_with_components<Name>();
-
-                if (value == "collisionObject-name")
-                    value = cScript.get()->strings.at("collisionObject-name");
-
-                for (Entity e : entities) {
-                    ComponentHandle<Name> entityName = e.component<Name>();
-                    if (entityName.get()->getName().compare(value) == 0) {
-                        cScript.get()->entities.at(varName) = e;
-                        break;
-                    }
-                }
-            }
-        }
-
-        void addVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
-            if (varType == "int")
-                cScript.get()->ints.at(varName) += stoi(value, nullptr, 0);
-
-            if (varType == "float")
-                cScript.get()->floats.at(varName) += stof(value);
-
-            if (varType == "double") {
-                if (value == "deltaTime") {
-                    cScript.get()->doubles.at(varName) += cScript.get()->doubles.at("deltaTime");
-                } else {
-                    cScript.get()->doubles.at(varName) += stod(value);
-                }
-            }
-
-            if (varType == "string")
-                cScript.get()->strings.at(varName) += value;
-        }
-
-        void subVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
-            if (varType == "int")
-                cScript.get()->ints.at(varName) -= stoi(value, nullptr, 0);
-
-            if (varType == "float")
-                cScript.get()->floats.at(varName) -= stof(value);
-
-            if (varType == "double") {
-                if (value == "deltaTime") {
-                    cScript.get()->doubles.at(varName) -= cScript.get()->doubles.at("deltaTime");
-                } else {
-                    cScript.get()->doubles.at(varName) -= stod(value);
-                }
-            }
-        }
-
-        void multiVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
-            if (varType == "int")
-                cScript.get()->ints.at(varName) *= stoi(value, nullptr, 0);
-
-            if (varType == "float")
-                cScript.get()->floats.at(varName) *= stof(value);
-
-            if (varType == "double") {
-                if (value == "deltaTime") {
-                    cScript.get()->doubles.at(varName) *= cScript.get()->doubles.at("deltaTime");
-                } else {
-                    cScript.get()->doubles.at(varName) *= stod(value);
-                }
-            }
-        }
-
-        void divideVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
-            if (varType == "int")
-                cScript.get()->ints.at(varName) /= stoi(value, nullptr, 0);
-
-            if (varType == "float")
-                cScript.get()->floats.at(varName) /= stof(value);
-
-            if (varType == "double") {
-                if (value == "deltaTime") {
-                    cScript.get()->doubles.at(varName) /= cScript.get()->doubles.at("deltaTime");
-                } else {
-                    cScript.get()->doubles.at(varName) /= stod(value);
-                }
-            }
-        }
 }; 
