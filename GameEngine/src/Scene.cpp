@@ -268,7 +268,7 @@ void Scene::addCircleCollider(vector<string>& parameters, Entity& e) {
     bool render;
     str >> render;
 
-    e.assign<CapsuleCollider>(radius, x, y, z, isTrigger, render);
+    e.assign<CircleCollider>(radius, x, y, z, isTrigger, render);
 }
 
 void Scene::addCustomScript(vector<string>& parameters, Entity& e) {

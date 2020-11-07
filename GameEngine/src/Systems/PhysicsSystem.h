@@ -51,7 +51,7 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
 
         void receive(const MoveTo& mt) {
             RigidbodyMoveTo(Engine::getInstance().entities, mt.e, mt.x, mt.y);
-
+            /*
             for (Entity e : Engine::getInstance().entities.entities_with_components<Name>()) {
                 ComponentHandle<Name> handle = e.component<Name>();
                 if (handle.get()->getName() == "Enemy1") {
@@ -62,6 +62,7 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                     break;
                 }
             }
+            */
         }
 
         void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
@@ -80,7 +81,7 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
             //Step 2: Detect collisions
             std::vector<EntityPair> pairs = broadphase(es); //returns pairs of possible collisions
 
-            Logger::getInstance() << "broadphase(update) collisions: " << pairs.size() << "\n";
+            //Logger::getInstance() << "broadphase(update) collisions: " << pairs.size() << "\n";
             std::vector<EntityPair> collidingPairs = narrowphase(pairs); //should return pairs of entities that are colliding
 
             for (int i = 0; i < collidingPairs.size(); ++i) {
@@ -180,6 +181,30 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
             auto circleEntities = es.entities_with_components<CircleCollider>();
             auto capsuleEntities = es.entities_with_components<CapsuleCollider>();
 
+            /*
+            ComponentHandle<CircleCollider> circleHandle;
+            ComponentHandle<BoxCollider> boxHandle;
+            ComponentHandle<CapsuleCollider> capHandle;
+            std::vector<ComponentHandle<CircleCollider>> circColliders;
+            std::vector<ComponentHandle<BoxCollider>> boxColliders;
+            std::vector<ComponentHandle<CapsuleCollider>> capColliders;
+            for(Entity e : circleEntities){
+                circleHandle = e.component<CircleCollider>();
+                circColliders.push_back(circleHandle);
+            }
+            for(Entity e : boxEntities){
+                boxHandle = e.component<BoxCollider>();
+                boxColliders.push_back(boxHandle);
+            }
+            for(Entity e : capsuleEntities){
+                capHandle = e.component<CapsuleCollider>();
+                capColliders.push_back(capHandle);
+            }
+            Logger::getInstance() << "Num circle colliders: " << circColliders.size() << "\n";
+            Logger::getInstance() << "Num box colliders: " << boxColliders.size() << "\n";
+            Logger::getInstance() << "Num cap colliders: " << capColliders.size() << "\n";
+            */
+
             // colliders require b and e attributes (along x) - type float
             //get each collider's b & e
             //and put all b & e in a list
@@ -258,6 +283,7 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                                     }
                                 } else if ((*it2).type == Circle) {
                                     ComponentHandle<CircleCollider> c2 = e2.component<CircleCollider>();
+                                    //Logger::getInstance() << "Circle AABB inputs: " << c1->x + c1T->x << ", " << c1->y + c1T->y << ", " << c1->bbWidth << ", " << c1->bbHeight << ", " << c2->x + c2T->x << ", " << c2->y + c2T->y << ", " << c2->bbWidth << ", " << c2->bbHeight << "\n";
                                     if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
                                         possibleCollides.emplace_back(EntityPair((*it).e, Circle, (*it2).e, Circle));
                                     }
@@ -291,6 +317,7 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                     active.erase(oToRemove);
                 }
             }
+            //Logger::getInstance() << "Size of possible collides: " << possibleCollides.size() << "\n";
             return possibleCollides;
         }
 
@@ -355,12 +382,12 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                         collideWithMe.push_back(p);
                 }
 
-                Logger::getInstance() << "broadphase collisions: " << collideWithMe.size() << "\n";
+                //Logger::getInstance() << "broadphase collisions: " << collideWithMe.size() << "\n";
 
                 if(collideWithMe.size() > 0)
                     narrowPhaseCollisions = narrowphase(collideWithMe);
 
-                Logger::getInstance() << "Narrowphase collisions: " << narrowPhaseCollisions.size() << "\n";
+                //Logger::getInstance() << "Narrowphase collisions: " << narrowPhaseCollisions.size() << "\n";
 
                 if(narrowPhaseCollisions.size() > 0){
                     //Reverse step:
