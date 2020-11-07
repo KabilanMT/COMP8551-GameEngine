@@ -16,6 +16,7 @@
   </object>
   <object id="2" name="TreeRight" type="Wall" x="0" y="0" width="64" height="992">
    <properties>
+    <property name="BoxCollider" value="64,992,0,0,0,false,false"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="src/res/textures/Tree.png"/>
    </properties>
@@ -38,16 +39,16 @@
     <property name="TextureComp" value="src/res/textures/Road.png"/>
    </properties>
   </object>
-  <object id="7" name="Enemy1" x="183" y="706" width="32" height="60">
+  <object id="7" name="Enemy1" x="221" y="288" width="32" height="32">
    <properties>
     <property name="AudioSource" value="Footsteps_Casual_Grass.mp3, true, sound"/>
-    <property name="CapsuleCollider" value="16,60,0,0,0,false,false"/>
+    <property name="CircleCollider" value="16,0,0,0,false,false"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="Enemy"/>
     <property name="TextureComp" value="src/res/textures/Enemy.png"/>
    </properties>
   </object>
-  <object id="8" name="Enemy2" x="697" y="640" width="32" height="32">
+  <object id="8" name="Enemy2" x="701" y="640" width="32" height="32">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="src/res/textures/Enemy.png"/>
@@ -56,6 +57,7 @@
   <object id="13" name="Coin1" x="477" y="160" width="32" height="32">
    <properties>
     <property name="AudioSource" value="coin_01.mp3, false, sound"/>
+    <property name="BoxCollider" value="32.0f, 32.0f,192.0f, 192.0f, 0.0f, false, false"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
@@ -84,14 +86,15 @@
   </object>
   <object id="23" name="weaponEntity" x="472" y="890" width="16" height="16" visible="0">
    <properties>
+    <property name="BoxCollider" value="16,16,0,0,0,true,false"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="../TempleAtonement/texture/blobsprite_01.png"/>
    </properties>
   </object>
-  <object id="24" name="Player" x="464" y="882.5" width="32" height="60">
+  <object id="24" name="Player" x="464" y="882.5" width="32" height="32">
    <properties>
     <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
-    <property name="CapsuleCollider" value="16,60,0,0,0,false,false"/>
+    <property name="CircleCollider" value="16,0,0,0,false,false"/>
     <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="../TempleAtonement/texture/blobsprite_01.png"/>
