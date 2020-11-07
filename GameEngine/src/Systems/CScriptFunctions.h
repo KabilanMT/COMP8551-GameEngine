@@ -179,6 +179,15 @@ namespace CScript
         }
     }
 
+    void flipBool(string varName, ComponentHandle<CustomScript> cScript) {
+        bool val = cScript->bools.at(varName);
+        if (val == true) {
+            cScript->bools.at(varName) = false;
+        } else {
+            cScript->bools.at(varName) = true;
+        }
+    }
+
     /**
      * Add a stored variable's value to a new value.
      * PARAM: varName variable's name

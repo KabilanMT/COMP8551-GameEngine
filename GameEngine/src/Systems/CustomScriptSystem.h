@@ -332,6 +332,9 @@ public:
                     
                 if (name == "loadScene")
                     CScript::loadScene(attributes.at("name"));
+                
+                if (name == "flipBool")
+                    CScript::flipBool(attributes.at("name"), cScript);
 
                 command = command->NextSibling();
             }
