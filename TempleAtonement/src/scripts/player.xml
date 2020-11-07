@@ -102,6 +102,7 @@
         <ifVar name="collisionObject-tag" value="Enemy" type="string">
             <addVar name="health" value="-1" type="int"/>
             <ifVar name="health" value="0" type="int">
+                <log value="Health is at 0!"/>
                 <loadScene name="gameoverScene"/>
             </ifVar>
         </ifVar>
