@@ -20,17 +20,25 @@ namespace CScript
      * PARAM: y direction
      * PARAM: z direction  
      */
-    void moveEntity(float x, float y, float z) 
+    void moveEntity(float x, float y, float z, string applyDt, double dt) 
     {
         if (!currEntity->has_component<Transform>()) {
             return;
         }
-
+        bool isApplyDt = applyDt == "true" ? true : false;
         // Calculate new coordinates
         ComponentHandle<Transform> handle = currEntity->component<Transform>();
-        float newX = handle.get()->x + x;
-        float newY = handle.get()->y + y;
-        float newZ = handle.get()->z + z;
+        float actualX = x;
+        float actualY = y;
+        float actualZ = z;
+        if (isApplyDt) {
+            actualX = x * dt * 10.0;
+            actualY = y * dt * 10.0;
+            actualZ = z * dt * 10.0;
+        }
+        float newX = handle.get()->x + actualX;
+        float newY = handle.get()->y + actualY;
+        float newZ = handle.get()->z + actualZ;
 
         // Emit event to send to physics system
         Engine::getInstance().events.emit<MoveTo>(*currEntity, newX, newY, newZ);
