@@ -297,7 +297,7 @@ public:
                     CScript::addVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
                 if (name == "moveEntity")
-                    CScript::moveEntity(stof(attributes.at("x")), stof(attributes.at("y")), stof(attributes.at("z")));
+                    CScript::moveEntity(stof(attributes.at("x")), stof(attributes.at("y")), stof(attributes.at("z")), attributes.at("applyDt"), cScript.get()->doubles.at("deltaTime"));
 
                 if (name == "removeEntity")
                     CScript::removeEntity();
