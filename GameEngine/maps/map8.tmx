@@ -3,6 +3,13 @@
  <tileset firstgid="1" source="Dungeon.tsx"/>
  <tileset firstgid="257" source="blobsprite_01.tsx"/>
  <objectgroup id="2" name="Object Layer - World">
+   <object id="1" name="Land" x="64" y="64" width="832" height="832">
+   <properties>
+    <property name="AudioSource" value="29-Dark fantasy studio- You are fighting with me.mp3, true, bgm"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/RockFloor.png"/>
+   </properties>
+  </object>
   <object id="256" name="Chest" x="336" y="144" width="48" height="48"/>
   <object id="257" name="Collider" x="0" y="432" width="576" height="48"/>
   <object id="258" name="Collider" x="528" y="48" width="48" height="384"/>
@@ -12,58 +19,69 @@
   <object id="262" name="Coin" x="480" y="48" width="48" height="48">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/C.png"/>
-    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="263" name="Coin" x="480" y="96" width="48" height="48">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/C.png"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="264" name="Coin" x="480" y="144" width="48" height="48">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/C.png"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="265" name="Coin" x="480" y="192" width="48" height="48">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/C.png"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="266" name="Coin" x="480" y="384" width="48" height="48">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/C.png"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="267" name="Coin" x="480" y="336" width="48" height="48">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/C.png"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="268" name="Coin" x="480" y="288" width="48" height="48">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/C.png"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="269" name="Coin" x="480" y="240" width="48" height="48">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/C.png"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="270" name="Fire Demon" x="144" y="144" width="48" height="48">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/Villager2.png"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
    </properties>
   </object>
-  <object id="272" name="Fire Demon" x="240" y="288" width="48" height="48"/>
+  <object id="272" name="Fire Demon" x="240" y="288" width="48" height="48">
+    <properties>
+     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+     <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="22" name="Player" x="160" y="864" width="64" height="64">
+   <properties>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Player.png"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
