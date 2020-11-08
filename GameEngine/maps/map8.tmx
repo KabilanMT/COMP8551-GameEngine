@@ -13,6 +13,7 @@
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="src/res/textures/C.png"/>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
    </properties>
   </object>
   <object id="263" name="Coin" x="480" y="96" width="48" height="48">
