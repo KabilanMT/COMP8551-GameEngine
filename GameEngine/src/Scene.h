@@ -29,4 +29,5 @@ class Scene {
         void addRigidBody_2D(vector<string>& parameters, Entity& e);
         void addShaderComp(vector<string>& parameters, Entity& e);
         void addTextureComp(vector<string>& parameters, Entity& e);
+        void addTag(vector<string>& parameters, Entity& e);
 };
