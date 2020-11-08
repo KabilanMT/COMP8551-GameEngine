@@ -14,10 +14,16 @@ namespace Physics
 {
     bool DetectAABB(float x1, float y1, float width1, float height1,
     float x2, float y2, float width2, float height2){
-        if (x1 < x2 + width2 && x1 + width1 > x2 && y1 < y2 + height2 &&
-        y1 + height1 > height2){
-            return true;
-        }
+        width1 = width1 / 2.0;
+        width2 = width2 / 2.0;
+        height1 = height1 / 2.0;
+        height2 = height2 / 2.0;
+        if (x1 + width1 > x2 - width2 &&
+            x1 - width1 < x2 + width2 &&
+            y1 + height1 > y2 - height2 &&
+            y1 - height1 < y2 + height2) {
+                return true;
+            }
         return false;
     }
 
@@ -77,7 +83,7 @@ namespace Physics
         float c1PosY = c1->y + c1T->y;
         float c2PosY = c2->y + c2T->y;
         float distance = abs(sqrtf(powf(c2PosX - c1PosX, 2) + powf(c2PosY - c1PosY, 2)));
-        if(distance - (c1->radius + c2->radius))
+        if(distance <= c1->radius + c2->radius)
             return true;
         return false;
     }
@@ -206,6 +212,7 @@ namespace Physics
 
     //Box - Capsule
     bool CheckCollision(ComponentHandle<BoxCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
+        Logger::getInstance() << "Testing box-capsule" << "\n";
         //TODO
         //Box c1:
         glm::vec2 topLeft = glm::vec2(0 - c1->width / 2, 0 + c1->height / 2);
@@ -225,8 +232,10 @@ namespace Physics
 
         //Capsule c2:
         float c2Rotation = c2T->angle * M_PI / 180.0f;
-        glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y + (c2->a)/2), c2Rotation);
-        glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y - (c2->a)/2), c2Rotation);
+        glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x, c2->y + (c2->a)/2), c2Rotation);
+        c2Tip = glm::vec2(c2Tip.x + c2T->x, c2Tip.y + c2T->y);
+        glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x, c2->y - (c2->a)/2), c2Rotation);
+        c2Base = glm::vec2(c2Base.x + c2T->x, c2Base.y + c2T->y);
         glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
         glm::vec2 c2LineEndOffset = c2Normal * c2->radius;
         glm::vec2 c2_A = c2Base + c2LineEndOffset;
@@ -339,6 +348,7 @@ namespace Physics
 
     //Box - Box
     bool CheckCollision(ComponentHandle<BoxCollider>& c1, ComponentHandle<BoxCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
+        
         //Box 1 Setup
         glm::vec2 b1TopLeft = glm::vec2(0 - c1->width / 2, 0 + c1->height / 2);
         glm::vec2 b1TopRight = glm::vec2(0 + c1->width / 2, 0 + c1->height / 2);
@@ -355,20 +365,20 @@ namespace Physics
         b1BottomRight = glm::rotate(b1BottomRight, b1Theta);
         b1BottomRight = glm::vec2(b1BottomRight.x + c1T->x, b1BottomRight.y + c1T->y);
         //Box 2 Setup
-        glm::vec2 b2TopLeft = glm::vec2(0 - c1->width / 2, 0 + c1->height / 2);
-        glm::vec2 b2TopRight = glm::vec2(0 + c1->width / 2, 0 + c1->height / 2);
-        glm::vec2 b2BottomLeft = glm::vec2(0 - c1->width / 2, 0 - c1->height / 2);
-        glm::vec2 b2BottomRight = glm::vec2(0 + c1->width / 2, 0 - c1->height / 2);
+        glm::vec2 b2TopLeft = glm::vec2(0 - c2->width / 2, 0 + c2->height / 2);
+        glm::vec2 b2TopRight = glm::vec2(0 + c2->width / 2, 0 + c2->height / 2);
+        glm::vec2 b2BottomLeft = glm::vec2(0 - c2->width / 2, 0 - c2->height / 2);
+        glm::vec2 b2BottomRight = glm::vec2(0 + c2->width / 2, 0 - c2->height / 2);
         //Rotate box corners and move to actual position:
-        float b2Theta = c1T->angle * M_PI / 180.0f;
+        float b2Theta = c2T->angle * M_PI / 180.0f;
         b2TopLeft = glm::rotate(b2TopLeft, b2Theta);
-        b2TopLeft = glm::vec2(b2TopLeft.x + c1T->x, b2TopLeft.y + c1T->y);
+        b2TopLeft = glm::vec2(b2TopLeft.x + c2T->x, b2TopLeft.y + c2T->y);
         b2TopRight = glm::rotate(b2TopRight, b2Theta);
-        b2TopRight = glm::vec2(b2TopRight.x + c1T->x, b2TopRight.y + c1T->y);
+        b2TopRight = glm::vec2(b2TopRight.x + c2T->x, b2TopRight.y + c2T->y);
         b2BottomLeft = glm::rotate(b2BottomLeft, b2Theta);
-        b2BottomLeft = glm::vec2(b2BottomLeft.x + c1T->x, b2BottomLeft.y + c1T->y);
+        b2BottomLeft = glm::vec2(b2BottomLeft.x + c2T->x, b2BottomLeft.y + c2T->y);
         b2BottomRight = glm::rotate(b2BottomRight, b2Theta);
-        b2BottomRight = glm::vec2(b2BottomRight.x + c1T->x, b2BottomRight.y + c1T->y);
+        b2BottomRight = glm::vec2(b2BottomRight.x + c2T->x, b2BottomRight.y + c2T->y);
 
         //Set up the axis for projection from both boxes
         glm::vec2 b1Axis1 = b1TopRight - b1TopLeft;
@@ -415,7 +425,6 @@ namespace Physics
             return false;
         
         return true;
-        //return DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight);
     }
 
     //Capsule - Box (Calls Box - Capsule)
