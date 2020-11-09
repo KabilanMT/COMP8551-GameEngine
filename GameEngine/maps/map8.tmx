@@ -38,49 +38,65 @@
   </object>
   <object id="262" name="Coin" x="432" y="0" width="48" height="48">
    <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
     <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="263" name="Coin" x="432" y="48" width="48" height="48">
    <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
     <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="264" name="Coin" x="432" y="96" width="48" height="48">
    <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
     <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="265" name="Coin" x="432" y="144" width="48" height="48">
    <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
     <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="266" name="Coin" x="432" y="336" width="48" height="48">
    <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
     <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="267" name="Coin" x="432" y="288" width="48" height="48">
    <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
     <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="268" name="Coin" x="432" y="240" width="48" height="48">
    <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
     <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>
   <object id="269" name="Coin" x="432" y="192" width="48" height="48">
    <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
     <property name="TextureComp" value="src/res/textures/Coin.png"/>
    </properties>
   </object>

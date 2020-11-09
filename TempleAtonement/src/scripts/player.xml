@@ -146,7 +146,7 @@
             </ifVar>
         </ifVar>
         <ifVar name="collisionObject-tag" value="Coin" type="string">
-            <!-- <onEntity name="scoreEntity">
+			<!-- <onEntity name="scoreEntity">
                 <addVar name="score" value="100"/>
             </onEntity> -->
         </ifVar>
