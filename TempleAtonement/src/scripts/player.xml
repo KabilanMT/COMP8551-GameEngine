@@ -26,28 +26,28 @@
                     <!-- Up -->
                     <onEntity name="weaponEntity">
                         <moveEntity x="0.0" y="24.0" z="0.0" applyDt="false"/>
-                        <changeSprite name="../TempleAtonement/texture/blobsprite_10.png"/>
+                        <changeSprite name="../TempleAtonement/texture/player_up.png"/>
                     </onEntity>
                 </ifVar>
                 <ifVar name="playerDirection" value="1" type="int">
                     <!-- Right -->
                     <onEntity name="weaponEntity">
                         <moveEntity x="24.0" y="0.0" z="0.0" applyDt="false"/>
-                        <changeSprite name="../TempleAtonement/texture/blobsprite_07.png"/>
+                        <changeSprite name="../TempleAtonement/texture/player_right.png"/>
                     </onEntity>
                 </ifVar>
                 <ifVar name="playerDirection" value="2" type="int">
                     <!-- Down -->
                     <onEntity name="weaponEntity">
                         <moveEntity x="0.0" y="-24.0" z="0.0" applyDt="false"/>
-                        <changeSprite name="../TempleAtonement/texture/blobsprite_01.png"/>
+                        <changeSprite name="../TempleAtonement/texture/player_down.png"/>
                     </onEntity>
                 </ifVar>
                 <ifVar name="playerDirection" value="3" type="int">
                     <!-- Left -->
                     <onEntity name="weaponEntity">
                         <moveEntity x="-24.0" y="0.0" z="0.0" applyDt="false"/>
-                        <changeSprite name="../TempleAtonement/texture/blobsprite_04.png"/>
+                        <changeSprite name="../TempleAtonement/texture/player_left.png"/>
                     </onEntity>
                 </ifVar>
             </keyPress>
@@ -56,22 +56,22 @@
         <!-- movement -->
         <ifVar name="isAttacking" value="false" type="bool">
             <keyPress value="KEY_W">
-                <changeSprite name="../TempleAtonement/texture/blobsprite_10.png"/>
+                <changeSprite name="../TempleAtonement/texture/player_up.png"/>
                 <moveEntity x="0.0" y="12.0" z="0.0" applyDt="true"/>
                 <updateVar name="playerDirection" value="0" type="int"/>
             </keyPress>
             <keyPress value="KEY_S">
-                <changeSprite name="../TempleAtonement/texture/blobsprite_01.png"/>
+                <changeSprite name="../TempleAtonement/texture/player_down.png"/>
                 <moveEntity x="0.0" y="-12.0" z="0.0" applyDt="true"/>
                 <updateVar name="playerDirection" value="2" type="int"/>
             </keyPress>
             <keyPress value="KEY_A">
-                <changeSprite name="../TempleAtonement/texture/blobsprite_04.png"/>
+                <changeSprite name="../TempleAtonement/texture/player_left.png"/>
                 <moveEntity x="-12.0" y="0.0" z="0.0" applyDt="true"/>
                 <updateVar name="playerDirection" value="3" type="int"/>
             </keyPress>
             <keyPress value="KEY_D">
-                <changeSprite name="../TempleAtonement/texture/blobsprite_07.png"/>
+                <changeSprite name="../TempleAtonement/texture/player_right.png"/>
                 <moveEntity x="12.0" y="0.0" z="0.0" applyDt="true"/>
                 <updateVar name="playerDirection" value="1" type="int"/>
             </keyPress>
@@ -96,19 +96,19 @@
             <ifVar name="blink" type="bool" value="false">
                 <ifVar name="playerDirection" value="0" type="int">
                     <!-- Up -->
-                    <changeSprite name="../TempleAtonement/texture/blobsprite_10.png"/>
+                    <changeSprite name="../TempleAtonement/texture/player_up.png"/>
                 </ifVar>
                 <ifVar name="playerDirection" value="1" type="int">
                     <!-- Right -->
-                    <changeSprite name="../TempleAtonement/texture/blobsprite_07.png"/>
+                    <changeSprite name="../TempleAtonement/texture/player_right.png"/>
                 </ifVar>
                 <ifVar name="playerDirection" value="2" type="int">
                     <!-- Down -->
-                    <changeSprite name="../TempleAtonement/texture/blobsprite_01.png"/>
+                    <changeSprite name="../TempleAtonement/texture/player_down.png"/>
                 </ifVar>
                 <ifVar name="playerDirection" value="3" type="int">
                     <!-- Left -->
-                    <changeSprite name="../TempleAtonement/texture/blobsprite_04.png"/>
+                    <changeSprite name="../TempleAtonement/texture/player_left.png"/>
                 </ifVar>
             </ifVar>
             <ifVar name="blink" type="bool" value="true">

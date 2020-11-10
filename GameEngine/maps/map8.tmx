@@ -121,7 +121,7 @@
     <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
     <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="../TempleAtonement/texture/blobsprite_01.png"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/player_down.png"/>
    </properties>
   </object>
   <object id="274" name="Chest" x="336" y="144" width="48" height="48">
