@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="274">
+<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="275">
  <tileset firstgid="1" source="Dungeon.tsx"/>
  <tileset firstgid="257" source="blobsprite_01.tsx"/>
  <objectgroup id="2" name="Object Layer - World">
@@ -10,7 +10,6 @@
     <property name="TextureComp" value="src/res/textures/RockFloor.png"/>
    </properties>
   </object>
-  <object id="256" name="Chest" x="336" y="144" width="48" height="48"/>
   <object id="257" name="Collider" x="0" y="418" width="576" height="48">
    <properties>
     <property name="BoxCollider" value="576,48,0,0,0,0,0"/>
@@ -123,6 +122,13 @@
     <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="../TempleAtonement/texture/blobsprite_01.png"/>
+   </properties>
+  </object>
+  <object id="274" name="Chest" x="336" y="144" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Chest.png"/>
    </properties>
   </object>
  </objectgroup>
