@@ -98,7 +98,7 @@
     <property name="TextureComp" value="src/res/textures/GrandMa.png"/>
    </properties>
   </object>
-  <object id="22" name="Player" x="160" y="864" width="32" height="32">
+  <object id="22" name="Player" x="160" y="864" width="64" height="64">
    <properties>
     <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
