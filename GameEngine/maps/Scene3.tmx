@@ -116,7 +116,7 @@
     <property name="TextureComp" value="src/res/textures/ChickenStatue.png"/>
    </properties>
   </object>
-  <object id="30" name="Player" x="464" y="480" width="32" height="32">
+  <object id="30" name="Player" x="464" y="480" width="64" height="64">
    <properties>
     <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
