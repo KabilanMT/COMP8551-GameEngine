@@ -1,19 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="308">
+<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="309">
  <tileset firstgid="1" source="Dungeon.tsx"/>
  <tileset firstgid="257" source="blobsprite_01.tsx"/>
  <objectgroup id="2" name="Object Layer - World">
-  <object id="266" name="Chest" x="240" y="192" width="48" height="48"/>
-  <object id="267" name="Collider" x="144" y="144" width="48" height="336"/>
-  <object id="268" name="Collider" x="384" y="144" width="48" height="336"/>
-  <object id="269" name="Collider" x="192" y="144" width="192" height="48"/>
-  <object id="270" name="Collider" x="192" y="432" width="48" height="48"/>
-  <object id="271" name="Collider" x="336" y="432" width="48" height="48"/>
-  <object id="302" name="Coin" x="336" y="192" width="48" height="48"/>
-  <object id="303" name="Coin" x="192" y="192" width="48" height="48"/>
-  <object id="304" name="Archer" x="48" y="288" width="48" height="48"/>
-  <object id="305" name="Archer" x="432" y="192" width="48" height="48"/>
-  <object id="306" name="Archer" x="432" y="384" width="48" height="48"/>
-  <object id="307" name="Archer" x="288" y="48" width="48" height="48"/>
+  <object id="308" name="Land" x="0" y="0" width="572" height="480">
+   <properties>
+    <property name="AudioSource" value="29-Dark fantasy studio- You are fighting with me.mp3, true, bgm"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/RockFloor.png"/>
+   </properties>
+  </object>
+  <object id="266" name="Chest" x="240" y="192" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Chest.png"/>
+   </properties>
+  </object>
+  <object id="267" name="Collider" x="144" y="144" width="48" height="336">
+   <properties>
+    <property name="BoxCollider" value="48,336,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
+   </properties>
+  </object>
+  <object id="268" name="Collider" x="384" y="144" width="48" height="336">
+   <properties>
+    <property name="BoxCollider" value="48,336,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
+   </properties>
+  </object>
+  <object id="269" name="Collider" x="192" y="144" width="192" height="48">
+   <properties>
+    <property name="BoxCollider" value="192,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
+   </properties>
+  </object>
+  <object id="270" name="Collider" x="192" y="432" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
+   </properties>
+  </object>
+  <object id="271" name="Collider" x="336" y="432" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
+   </properties>
+  </object>
+  <object id="302" name="Coin" x="336" y="192" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="303" name="Coin" x="192" y="192" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="304" name="Archer" x="48" y="288" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Enemy"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="305" name="Archer" x="432" y="192" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Enemy"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="306" name="Archer" x="432" y="384" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Enemy"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="307" name="Archer" x="288" y="48" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Enemy"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="24" name="Player" x="288" y="384" width="32" height="32">
+   <properties>
+    <property name="BoxCollider" value="32,32,0,0,0,0,0"/>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/blobsprite_01.png"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
