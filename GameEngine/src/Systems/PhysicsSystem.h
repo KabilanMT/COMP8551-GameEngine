@@ -87,6 +87,10 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
             //Logger::getInstance() << "physics!\n";
             //Step 3: apply physics to all entities and resolve all collisions from pairs
             for(int i = 0; i < collidingPairs.size(); ++i) {
+                if (!collidingPairs.at(i).a.valid() || !collidingPairs.at(i).b.valid()) {
+                    continue;
+                }
+
                 if(collidingPairs.at(i).a.has_component<Rigidbody_2D>() && collidingPairs.at(i).b.has_component<Rigidbody_2D>())
                     PerformCollisionCalculations(collidingPairs.at(i));
                 else if(collidingPairs.at(i).a.has_component<Rigidbody_2D>())
@@ -206,18 +210,24 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
             //and put all b & e in a list
             std::vector<SASObject> sas;
             for (Entity e : boxEntities) {
+                if (e.has_component<Active>() && !e.component<Active>()->getIfActive())
+                    continue;
                 ComponentHandle<BoxCollider> handle = e.component<BoxCollider>();
                 ComponentHandle<Transform> handleT = e.component<Transform>();
                 sas.emplace_back(SASObject(handle->b + handleT->x, e, true, Box));
                 sas.emplace_back(SASObject(handle->e + handleT->x, e, false, Box));
             }
             for (Entity e : circleEntities) {
+                if (e.has_component<Active>() && !e.component<Active>()->getIfActive())
+                    continue;
                 ComponentHandle<CircleCollider> handle = e.component<CircleCollider>();
                 ComponentHandle<Transform> handleT = e.component<Transform>();
                 sas.emplace_back(SASObject(handle->b + handleT->x, e, true, Circle));
                 sas.emplace_back(SASObject(handle->e + handleT->x, e, false, Circle));
             }
             for (Entity e : capsuleEntities) {
+                if (e.has_component<Active>() && !e.component<Active>()->getIfActive())
+                    continue;
                 ComponentHandle<CapsuleCollider> handle = e.component<CapsuleCollider>();
                 ComponentHandle<Transform> handleT = e.component<Transform>();
                 sas.emplace_back(SASObject(handle->b + handleT->x, e, true, Capsule));

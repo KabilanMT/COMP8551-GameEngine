@@ -8,7 +8,7 @@
 using namespace std;
 
 struct AudioSource {
-	AudioSource(string name, bool ifLoop = false, string tag = "") : sound{new Sound(name, ifLoop)}, name(name), tag(tag) {
+	AudioSource(string name, bool playOnStart = true, bool ifLoop = false, string tag = "") : sound{new Sound(name, ifLoop)}, name(name), tag(tag), playOnStart(playOnStart) {
 		sound->setUpSound();
 	}
 	~AudioSource() {
@@ -19,6 +19,7 @@ struct AudioSource {
 	string name;
 	float volume = 1;
 	string tag;
+	bool playOnStart;
 
 	void setVolume(float vol) {
 		volume = vol;

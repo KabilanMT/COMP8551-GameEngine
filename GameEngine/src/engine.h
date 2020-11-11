@@ -7,6 +7,7 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 #include <functional>
+#include <string>
 
 using namespace entityx;
 
@@ -19,6 +20,8 @@ class Engine : public EntityX{
         const unsigned int SCR_HEIGHT = 600;
         GLFWwindow* window;
 
+        void loadScene(std::string sceneName);
+
     private:
         explicit Engine();
         std::chrono::high_resolution_clock clock;
@@ -27,6 +30,9 @@ class Engine : public EntityX{
         bool initialized = false;
         void initialize();
         void update();
+
+        std::string sceneToLoad;
+        bool willLoadScene = false;
     
     public:
         //remove other constructors

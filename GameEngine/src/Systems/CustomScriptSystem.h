@@ -48,7 +48,7 @@ public:
     }
 
     void receive(const Trigger& tr) {
-        if (tr.gotTriggered->has_component<CustomScript>()) {
+        if (tr.gotTriggered->valid() && tr.gotTriggered->has_component<CustomScript>()) {
             CScript::setCurrEntity(tr.gotTriggered);
 
             ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
@@ -70,8 +70,9 @@ public:
             XMLElement* collisionContent = handle->getOnCollision();
             if (collisionContent != nullptr)
                 runCommands(collisionContent->FirstChild(), handle);
-
-            handle->resetReservedVariables();
+            if (handle.valid()) {
+                handle->resetReservedVariables();
+            }
         }
     }
 
@@ -183,6 +184,9 @@ public:
                 if (name == "ifVar" && attributes.find("name") != attributes.end() && attributes.find("value") != attributes.end()) {
                     string type = attributes.at("type");
 
+                    if (!cScript.valid()) {
+                        break;
+                    }
                     if (type == "int" && cScript.get()->ints.find(attributes.at("name")) != cScript.get()->ints.end()) {
                         int val = cScript.get()->ints.at(attributes.at("name"));
                         int valToCompare = stoi(attributes.at("value"), nullptr, 0);
@@ -239,6 +243,9 @@ public:
                 if (name == "ifVarGreater" && attributes.find("name") != attributes.end() && attributes.find("value") != attributes.end()) {
                     string type = attributes.at("type");
 
+                    if (!cScript.valid()) {
+                        break;
+                    }
                     if (type == "int" && cScript.get()->ints.find(attributes.at("name")) != cScript.get()->ints.end()) {
                         int val = cScript.get()->ints.at(attributes.at("name"));
                         int valToCompare = stoi(attributes.at("value"), nullptr, 0);
@@ -270,6 +277,9 @@ public:
                 }
 
                 if (name == "callFunction") {
+                    if (!cScript.valid()) {
+                        break;
+                    }
                     string functionName = attributes.at("name");
 
                     if (!CScript::getCurrEntity()->has_component<CustomScript>()) {
@@ -285,6 +295,9 @@ public:
                 }
 
                 if (name == "onEntity") {
+                    if (!cScript.valid()) {
+                        break;
+                    }
                     string entityName = attributes.at("name");
                     Entity* temp = CScript::getCurrEntity();
 
@@ -299,6 +312,9 @@ public:
                 }
 
                 if (name == "keyPress") {
+                    if (!cScript.valid()) {
+                        break;
+                    }
                     string value = attributes.at("value");
                     int keyValue = cScript->getValidKeyPress(value);
                     
@@ -318,8 +334,10 @@ public:
                 if (name == "moveEntity")
                     CScript::moveEntity(stof(attributes.at("x")), stof(attributes.at("y")), stof(attributes.at("z")), attributes.at("applyDt"), cScript.get()->doubles.at("deltaTime"));
 
-                if (name == "removeEntity")
+                if (name == "removeEntity") {
                     CScript::removeEntity();
+                    break;
+                }
 
                 if (name == "setActive") 
                     CScript::setActive(attributes.at("value") == "true" ? true : false);
@@ -330,14 +348,25 @@ public:
                 if (name == "log")
                     CScript::log(attributes.at("value"));
                     
-                if (name == "loadScene")
+                if (name == "loadScene") {
                     CScript::loadScene(attributes.at("name"));
+                    break;
+                }
                 
                 if (name == "flipBool")
                     CScript::flipBool(attributes.at("name"), cScript);
+
+                if (name == "playAudio")
+                    CScript::playAudio();
+                    
+                if (name == "pauseAudio")
+                    CScript::pauseAudio();
+                    
+                if (name == "stopAudio")
+                    CScript::stopAudio();
 
                 command = command->NextSibling();
             }
         }
 
-}; 
+};

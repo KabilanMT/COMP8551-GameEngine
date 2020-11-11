@@ -181,14 +181,14 @@ namespace Physics
         else if(circleX > boxPosX + c1->width / 2)
             testX = boxPosX + c1->width / 2;  //Testing right edge of box
         else
-            testX = boxPosX;  //In this case the circle is between left and right edges
+            testX = circleX;  //In this case the circle is between left and right edges
         
         if(circleY > boxPosY + c1->height / 2)
             testY = boxPosY + c1->height / 2;   //Testing top edge of box
         else if(circleY < boxPosY - c1->height / 2)
             testY = boxPosY - c1->height / 2;   //Testing bottom edge of box
         else
-            testY = boxPosY;  //Circle is between the top and bottom edges;
+            testY = circleY;  //Circle is between the top and bottom edges;
         
         float distX = circleX - testX;
         float distY = circleY - testY;

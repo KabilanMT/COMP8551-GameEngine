@@ -11,7 +11,7 @@
 namespace CScript 
 {
     // Variables
-    entityx::Entity* currEntity;   
+    entityx::Entity* currEntity;
 
     /**
      * Setter function for setting the current entity that we are using the custom script on.  
@@ -29,6 +29,9 @@ namespace CScript
      */
     void moveEntity(float x, float y, float z, string applyDt, double dt) 
     {
+        if (!currEntity->valid()) {
+            return;
+        }
         if (!currEntity->has_component<Transform>()) {
             return;
         }
@@ -58,7 +61,12 @@ namespace CScript
      */
     void removeEntity() 
     {
-        currEntity->destroy();
+        if (!currEntity->valid()) {
+            return;
+        }
+        Entity& e = *currEntity;
+        currEntity = nullptr;
+        e.destroy();
     }
 
     /**
@@ -67,6 +75,9 @@ namespace CScript
      */
     void setActive(bool active) 
     {
+        if (!currEntity->valid()) {
+            return;
+        }
         if (!currEntity->has_component<Active>())
             return; 
         
@@ -80,7 +91,10 @@ namespace CScript
      */
     void loadScene(string sceneName) 
     {
-        SceneManager::getInstance().loadScene(sceneName);
+        if (!currEntity->valid()) {
+            return;
+        }
+        Engine::getInstance().loadScene(sceneName);
     }
 
     /**
@@ -89,6 +103,10 @@ namespace CScript
      */
     void changeSprite(string texturePath) 
     {
+        if (!currEntity->valid()) {
+            return;
+        }
+
         if (!currEntity->has_component<TextureComp>())
             return;
         
@@ -110,7 +128,9 @@ namespace CScript
      * PARAM: cScript handle to current entity's CustomScript handle  
      */
     void matchEntityPos(string& value, ComponentHandle<CustomScript>& cScript) {
-
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
         if (!cScript.get()->containsVariable(value))
             return;
 
@@ -143,6 +163,9 @@ namespace CScript
      * PARAM: cScript handle to current entity's CustomScript handle  
      */
     void updateVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
         if (varType == "int")
             cScript.get()->ints.at(varName) = stoi(value, nullptr, 0);
 
@@ -180,6 +203,9 @@ namespace CScript
     }
 
     void flipBool(string varName, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
         bool val = cScript->bools.at(varName);
         if (val == true) {
             cScript->bools.at(varName) = false;
@@ -196,6 +222,9 @@ namespace CScript
      * PARAM: cScript handle to current entity's CustomScript handle  
      */
     void addVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
         if (varType == "int")
             cScript.get()->ints.at(varName) += stoi(value, nullptr, 0);
 
@@ -222,6 +251,9 @@ namespace CScript
      * PARAM: cScript handle to current entity's CustomScript handle  
      */
     void subVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
         if (varType == "int")
             cScript.get()->ints.at(varName) -= stoi(value, nullptr, 0);
 
@@ -245,6 +277,9 @@ namespace CScript
      * PARAM: cScript handle to current entity's CustomScript handle  
      */
     void multiVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
         if (varType == "int")
             cScript.get()->ints.at(varName) *= stoi(value, nullptr, 0);
 
@@ -268,6 +303,9 @@ namespace CScript
      * PARAM: cScript handle to current entity's CustomScript handle  
      */
     void divideVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
         if (varType == "int")
             cScript.get()->ints.at(varName) /= stoi(value, nullptr, 0);
 
@@ -281,6 +319,18 @@ namespace CScript
                 cScript.get()->doubles.at(varName) /= stod(value);
             }
         }
+    }
+
+    void playAudio() {
+        Engine::getInstance().events.emit<AudioCommand>(*currEntity, AudioCommandType::PLAY);
+    }
+
+    void pauseAudio() {
+        Engine::getInstance().events.emit<AudioCommand>(*currEntity, AudioCommandType::PAUSE);
+    }
+
+    void stopAudio() {
+        Engine::getInstance().events.emit<AudioCommand>(*currEntity, AudioCommandType::STOP);
     }
 
     /**

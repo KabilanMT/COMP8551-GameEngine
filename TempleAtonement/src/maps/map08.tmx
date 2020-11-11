@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="275">
+ <tileset firstgid="1" source="Dungeon.tsx"/>
+ <tileset firstgid="257" source="blobsprite_01.tsx"/>
+ <objectgroup id="2" name="Object Layer - World">
+  <object id="1" name="Land" x="64" y="0" width="416" height="416">
+   <properties>
+    <property name="AudioSource" value="29-Dark fantasy studio- You are fighting with me.mp3, true, bgm"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/RockFloor.png"/>
+   </properties>
+  </object>
+  <object id="257" name="Collider" x="0" y="418" width="576" height="48">
+   <properties>
+    <property name="BoxCollider" value="576,48,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="258" name="Collider" x="480" y="0" width="48" height="418">
+   <properties>
+    <property name="BoxCollider" value="48,418,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="259" name="Collider" x="0" y="-48" width="576" height="48">
+   <properties>
+    <property name="BoxCollider" value="576,48,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="260" name="Collider" x="16" y="48" width="48" height="96">
+   <properties>
+    <property name="BoxCollider" value="48,96,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="261" name="Collider" x="16" y="240" width="48" height="192">
+   <properties>
+    <property name="BoxCollider" value="48,192,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="262" name="Coin" x="432" y="0" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="263" name="Coin" x="432" y="48" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="264" name="Coin" x="432" y="96" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="265" name="Coin" x="432" y="144" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="266" name="Coin" x="432" y="336" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="267" name="Coin" x="432" y="288" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="268" name="Coin" x="432" y="240" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="269" name="Coin" x="432" y="192" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="src/res/textures/Coin.png"/>
+   </properties>
+  </object>
+  <object id="270" name="Fire Demon" x="144" y="144" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Enemy"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="272" name="Fire Demon" x="240" y="288" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Enemy"/>
+    <property name="TextureComp" value="src/res/textures/Enemy.png"/>
+   </properties>
+  </object>
+  <object id="24" name="Player" x="64" y="300" width="32" height="32">
+   <properties>
+    <property name="BoxCollider" value="32,32,0,0,0,0,0"/>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/player_down.png"/>
+   </properties>
+  </object>
+  <object id="274" name="Chest" x="336" y="144" width="48" height="48">
+   <properties>
+    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Chest.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

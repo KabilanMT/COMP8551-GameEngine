@@ -98,6 +98,11 @@ void Engine::update() {
         initialize();
     }
 
+    if (willLoadScene) {
+        SceneManager::getInstance().loadScene(sceneToLoad);
+        willLoadScene = false;
+    }
+
     deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(clock.now().time_since_epoch()) - lastTime;
     lastTime += deltaTime;
     TimeDelta dt = deltaTime.count();
@@ -110,6 +115,11 @@ void Engine::update() {
     systems.update<CustomScriptSystem>(dt);
     systems.update<RenderingSystem>(dt);
    
+}
+
+void Engine::loadScene(std::string sceneName) {
+    willLoadScene = true;
+    sceneToLoad = sceneName;
 }
 
 void Engine::start() {

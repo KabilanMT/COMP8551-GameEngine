@@ -12,7 +12,7 @@ struct Sound {
 
     HSTREAM sound;
     string name; //path of the file
-    string path = "src/res/sounds/";    //path to store the sound
+    string path = "";    //path to store the sound
     bool ifLoop; //set if loop the sound
     bool ifReverb = false; //set if reverb the sound
     float volume = -1; //volumn of the sound

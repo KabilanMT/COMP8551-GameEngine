@@ -17,6 +17,7 @@ class SoundSystem : public System<SoundSystem>, public Receiver<SoundSystem> {
 
         void configure(EventManager& events) override {
             events.subscribe<ScenePreLoad>(*this);
+            events.subscribe<AudioCommand>(*this);
         }
 
         //this method will be called right before the scene loads
@@ -28,6 +29,27 @@ class SoundSystem : public System<SoundSystem>, public Receiver<SoundSystem> {
 
             newScene = true;
         }
+
+        void receive(const AudioCommand& comm) {
+            //error checking
+            if (!comm.entityWithAudioSource.valid())
+                return;
+            if (!comm.entityWithAudioSource.has_component<AudioSource>())
+                return;
+
+            ComponentHandle<AudioSource> handle = comm.entityWithAudioSource.component<AudioSource>();
+            switch(comm.type) {
+                case AudioCommandType::PLAY:
+                    handle->sound->play();
+                    break;
+                case AudioCommandType::PAUSE:
+                    handle->sound->pause();
+                    break;
+                case AudioCommandType::STOP:
+                    handle->sound->stop();
+                    break;
+            }
+        }
  
         void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
             //update loop
@@ -37,7 +59,8 @@ class SoundSystem : public System<SoundSystem>, public Receiver<SoundSystem> {
                 newScene = false;
                 for (Entity e : entities) {
                     ComponentHandle<AudioSource> handle = e.component<AudioSource>();
-                    handle->sound->play();
+                    if (handle->playOnStart)
+                        handle->sound->play();
 
                     //audiomix->Setchorus(handle->sound->sound, true);
                     //audiomix->chorusproperties(100, 100, 99, 10, 1, 20, BASS_DX8_PHASE_90);
