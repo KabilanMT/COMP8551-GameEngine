@@ -11,7 +11,7 @@ using namespace entityx;
 class Scene {
     public:
         string getName();
-        void load();
+        void load(vector<Entity>& persistentEntities);
 
         Scene(string sceneName, string tmxFile);
     private:
@@ -30,4 +30,5 @@ class Scene {
         void addShaderComp(vector<string>& parameters, Entity& e);
         void addTextureComp(vector<string>& parameters, Entity& e);
         void addTag(vector<string>& parameters, Entity& e);
+        void addPersistent(vector<string>& parameters, Entity& e);
 };

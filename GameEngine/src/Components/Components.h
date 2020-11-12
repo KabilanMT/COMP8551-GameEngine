@@ -16,3 +16,4 @@
 #include "Name.h"
 #include "Active.h"
 #include "Tag.h"
+#include "Persistent.h"
