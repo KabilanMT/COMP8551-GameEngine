@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="left-up" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="32">
+ <tileset firstgid="1" source="../../../../fsm_extra02_A2.tsx"/>
+ <tileset firstgid="1" source="../../../../fsm_extra02_A4.tsx"/>
+ <objectgroup id="2" name="objects">
+  <object id="25" name="land" type="floor" x="0" y="0" width="640" height="640">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP05/map05_floor.png"/>
+   </properties>
+  </object>
+  <object id="1" name="wall7" type="wall" x="0" y="0" width="64" height="256">
+   <properties>
+    <property name="BoxCollider" value="64,256,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="2" name="wall6" type="wall" x="0" y="352" width="64" height="288">
+   <properties>
+    <property name="BoxCollider" value="64,288,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="4" name="wall5" type="wall" x="384" y="576" width="256" height="64">
+   <properties>
+    <property name="BoxCollider" value="256,64,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="3" name="wall4" type="wall" x="64" y="576" width="224" height="64">
+   <properties>
+    <property name="BoxCollider" value="224,64,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="5" name="wall3" type="wall" x="576" y="0" width="64" height="576">
+   <properties>
+    <property name="BoxCollider" value="64,576,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="6" name="wall2" type="wall" x="384" y="0" width="192" height="64">
+   <properties>
+    <property name="BoxCollider" value="192,64,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="7" name="wall1" type="wall" x="64" y="0" width="224" height="64">
+   <properties>
+    <property name="BoxCollider" value="224,64,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="31" name="door_block" type="wall" x="288" y="0" width="96" height="64">
+   <properties>
+    <property name="BoxCollider" value="96,64,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/door_block.png"/>
+   </properties>
+  </object>
+  <object id="12" name="torch2" type="interacable" x="192" y="96" width="64" height="64">
+   <properties>
+    <property name="BoxCollider" value="64,64,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/torch_unlit.png"/>
+   </properties>
+  </object>
+  <object id="13" name="torch1" type="interacable" x="416" y="96" width="64" height="62">
+   <properties>
+    <property name="BoxCollider" value="64,64,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/torch_unlit.png"/>
+   </properties>
+  </object>
+  <object id="14" name="Enemy" x="288" y="320" width="34" height="34">
+   <properties>
+    <property name="BoxCollider" value="64,64,0,0,0,0,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Enemy"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/monster_down.png"/>
+   </properties>
+  </object>
+  <object id="15" name="Coin7" x="512" y="512" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
+    <property name="CircleCollider" value="12,0,3,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="16" name="Coin6" x="512" y="448" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
+    <property name="CircleCollider" value="12,0,3,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="17" name="Coin5" x="512" y="384" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
+    <property name="CircleCollider" value="12,0,3,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="18" name="Coin4" x="512" y="320" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
+    <property name="CircleCollider" value="12,0,3,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="19" name="Coin3" x="512" y="256" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
+    <property name="CircleCollider" value="12,0,3,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="20" name="Coin2" x="512" y="192" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
+    <property name="CircleCollider" value="12,0,3,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="21" name="Coin1" x="512" y="128" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
+    <property name="CircleCollider" value="12,0,3,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="22" name="Player" x="96" y="288" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_footstep000r.ogg,0,1,fx"/>
+    <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1000.0f, 1000.0f"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Player"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/player_up.png"/>
+   </properties>
+  </object>
+  <object id="23" name="weaponEntity" x="96" y="320" width="32" height="32" visible="0">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
+    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/slash.png"/>
+   </properties>
+  </object>
+  <object id="24" name="Music" x="-126" y="-47" width="43" height="44">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+    <property name="Persistent" value=""/>
+   </properties>
+  </object>
+  <object id="26" name="main_wall" x="0" y="0" width="640" height="640">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP05/map05_walls.png"/>
+   </properties>
+  </object>
+  <object id="27" name="Scene4Exit" x="0" y="256" width="32" height="96">
+   <properties>
+    <property name="BoxCollider" value="32,96,0,0,0,1,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap04.xml"/>
+   </properties>
+  </object>
+  <object id="28" name="Scene6Exit" x="288" y="0" width="96" height="32">
+   <properties>
+    <property name="BoxCollider" value="96,32,0,0,0,1,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap06.xml"/>
+   </properties>
+  </object>
+  <object id="29" name="Scene7Exit" x="288" y="608" width="96" height="32">
+   <properties>
+    <property name="BoxCollider" value="96,32,0,0,0,1,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap07.xml"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
