@@ -113,12 +113,6 @@
     <property name="TextureComp" value="../TempleAtonement/texture/slash.png"/>
    </properties>
   </object>
-  <object id="26" name="music" x="-97.3333" y="-66.6667" width="61.3333" height="61.3333">
-   <properties>
-    <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
-    <property name="Persistent" value=""/>
-   </properties>
-  </object>
   <object id="27" name="chest" x="657.333" y="480" width="64" height="64">
    <properties>
     <property name="BoxCollider" value="64,64,0,0,0,0,0"/>

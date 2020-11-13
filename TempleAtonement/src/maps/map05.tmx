@@ -162,7 +162,7 @@
     <property name="TextureComp" value="../TempleAtonement/texture/slash.png"/>
    </properties>
   </object>
-  <object id="24" name="music" x="-126" y="-47" width="43" height="44">
+  <object id="24" name="Music" x="-126" y="-47" width="43" height="44">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
     <property name="Persistent" value=""/>
