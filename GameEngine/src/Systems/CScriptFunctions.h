@@ -1,6 +1,7 @@
 #pragma once
 
 #include <entityx/entityx.h>
+#include <cmath>
 
 #include "../Components/Components.h"
 #include "../Events/Events.h"
@@ -12,6 +13,19 @@ namespace CScript
 {
     // Variables
     entityx::Entity* currEntity;
+    unordered_map<std::string, int> ints;
+    unordered_map<std::string, float> floats;
+    unordered_map<std::string, double> doubles;
+    unordered_map<std::string, std::string> strings;
+    unordered_map<std::string, bool> bools;
+    unordered_map<std::string, entityx::Entity> entities;
+
+    /**
+     * Initializes any reserved variables.
+     */
+    void initVariables() {
+        doubles.insert(make_pair("deltaTime", 0.0f));
+    }
 
     /**
      * Setter function for setting the current entity that we are using the custom script on.  
@@ -214,13 +228,58 @@ namespace CScript
         }
     }
 
-    void distanceTo(string entityName, string floatVariableName) {
+    void distanceTo(string entityVariableName, string floatVariableName, ComponentHandle<CustomScript> cScript) {
         if (!currEntity->valid())
             return;
+
+        if (!cScript->containsVariable(entityVariableName) || !cScript->containsVariable(floatVariableName)) {
+            Logger::getInstance() << "distanceTo: entityVariableName or floatVariableName do not exist";
+            return;
+        }
+
+        Entity other = cScript->entities.at(entityVariableName);
+
+        if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
+            return;
+
+        ComponentHandle<Transform> otherT = other.component<Transform>();
+        ComponentHandle<Transform> thisT = currEntity->component<Transform>();
+
+        float distance = pow((otherT.get()->x - thisT.get()->x), 2) + pow((otherT.get()->y - thisT.get()->y), 2) + pow((otherT.get()->z - thisT.get()->z), 2);
+        distance = sqrt(distance);
+
+        cScript->floats.at(floatVariableName) = distance;
     }
      
-    void vectorTo(string entityName, string floatVariableXName, string floatVariableYName) {
+    void vectorTo(string entityVariableName, string floatVariableXName, string floatVariableYName, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid())
+            return;
 
+        if (!cScript->containsVariable(entityVariableName) || !cScript->containsVariable(floatVariableXName) || !cScript->containsVariable(floatVariableYName)) {
+            Logger::getInstance() << "vectorTo: entityVariableName, floatVariableXName or floatVariableYName do not exist";
+            return;
+        }
+
+        Entity other = cScript->entities.at(entityVariableName);
+
+        if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
+            return;
+
+        ComponentHandle<Transform> otherT = other.component<Transform>();
+        ComponentHandle<Transform> thisT = currEntity->component<Transform>();
+
+        float x = otherT.get()->x - thisT.get()->x;
+        float y = otherT.get()->y - thisT.get()->y;
+
+        float mag = sqrt(x * x + y * y);
+
+        if (mag > 0) {
+            x /= mag;
+            y /= mag;
+        }
+
+        cScript.get()->floats.at(floatVariableXName) = x;
+        cScript.get()->floats.at(floatVariableYName) = y;
     }
 
     void moveEntityByVars(string nameOfXFloatVariable, string nameOfYFloatVariable, string nameOfZFloatVariable, string applyDt, ComponentHandle<CustomScript> cScript) {
@@ -254,6 +313,9 @@ namespace CScript
         if (!currEntity->valid() || !cScript.valid()) {
             return;
         }
+
+        ComponentHandle<Name> ename = currEntity->component<Name>();
+
         if (varType == "int")
             cScript.get()->ints.at(varName) += stoi(value, nullptr, 0);
 

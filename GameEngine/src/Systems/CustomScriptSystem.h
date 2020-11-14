@@ -24,7 +24,8 @@ public:
     }
 
     void receive(const SceneLoad& sl) {
-        //this method will be called when the scene loads
+        // init reserved global variables
+        CScript::initVariables();
 
         // call start methods
         for (Entity e : sl.entities) {
@@ -97,7 +98,7 @@ public:
             XMLElement* updateContent = handle->getUpdate();
 
             if (updateContent != nullptr) {
-                handle.get()->doubles.at("deltaTime") = dt;
+                CScript::doubles.at("deltaTime") = dt;
                 runCommands(updateContent->FirstChild(), handle);
             }
         }
@@ -157,6 +158,38 @@ public:
                         cScript.get()->entities[var_name];
                 }
 
+                if (name == "globalInt")
+                    CScript::ints.insert(make_pair(var_name, stoi(var_value, nullptr, 0)));
+
+                if (name == "globalFloat")
+                    CScript::floats.insert(make_pair(var_name, stof(var_value)));
+
+                if (name == "globalDouble")
+                    CScript::doubles.insert(make_pair(var_name, stod(var_value)));
+                
+                if (name == "globalString")
+                    CScript::strings.insert(make_pair(var_name, var_value));
+
+                if (name == "globalBool") 
+                    CScript::bools.insert(make_pair(var_name, (var_value == "true") ? true : false));
+
+                if (name == "globalEntity") {
+                    auto entities = Engine::getInstance().entities.entities_with_components<Name>();
+                    bool entityFound = false;
+
+                    for (Entity e : entities) {
+                        ComponentHandle<Name> entityName = e.component<Name>();
+                        if (entityName.get()->getName().compare(var_value) == 0) {
+                            CScript::entities.insert(make_pair(var_name, e));
+                            entityFound = true;
+                            break;
+                        }
+                    }
+
+                    if (!entityFound)
+                        CScript::entities[var_name];
+                }
+
                 variable = variable->NextSibling();
             }
         }
@@ -187,7 +220,11 @@ public:
                     if (!cScript.valid()) {
                         break;
                     }
-                    if (type == "int" && cScript.get()->ints.find(attributes.at("name")) != cScript.get()->ints.end()) {
+
+                    if (!cScript->containsVariable(attributes.at("name")))
+                        return;
+
+                    if (type == "int") {
                         int val = cScript.get()->ints.at(attributes.at("name"));
                         int valToCompare = stoi(attributes.at("value"), nullptr, 0);
 
@@ -195,7 +232,7 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "float" && cScript.get()->floats.find(attributes.at("name")) != cScript.get()->floats.end()) {
+                    if (type == "float") {
                         float val = cScript.get()->floats.at(attributes.at("name"));
                         float valToCompare = stof(attributes.at("value"));
 
@@ -203,11 +240,12 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "double" && cScript.get()->doubles.find(attributes.at("name")) != cScript.get()->doubles.end()) {
+                    if (type == "double") {
                         double val = cScript.get()->doubles.at(attributes.at("name"));
                         double valToCompare = 0;
+
                         if (attributes.at("value") == "deltaTime") {
-                            valToCompare = cScript.get()->doubles.at("deltaTime");
+                            valToCompare = CScript::doubles.at("deltaTime");
                         } else {
                             valToCompare = stod(attributes.at("value"));
                         }
@@ -216,7 +254,7 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
                     
-                    if (type == "string" && cScript.get()->strings.find(attributes.at("name")) != cScript.get()->strings.end()) {
+                    if (type == "string") {
                         string val = cScript.get()->strings.at(attributes.at("name"));
                         string valToCompare = attributes.at("value");
 
@@ -227,13 +265,65 @@ public:
                             valToCompare = cScript->strings.at(valToCompare);
                         }
 
+                        if (val.compare(valToCompare) == 0)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "bool") { 
+                        bool val = cScript.get()->bools.at(attributes.at("name"));
+
+                        if (val == (attributes.at("value") == "true" ? true : false))
+                            runCommands(command->FirstChild(), cScript);   
+                    }
+                }
+
+                if (name == "ifGlobalVar" && attributes.find("name") != attributes.end() && attributes.find("value") != attributes.end()) {
+                    string type = attributes.at("type");
+
+                    if (!cScript.valid()) {
+                        break;
+                    }
+                    
+                    if (type == "globalInt") {
+                        int val = CScript::ints.at(attributes.at("name"));
+                        int valToCompare = stoi(attributes.at("value"), nullptr, 0);
+
+                        if (val == valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "globalFloat") {
+                        float val = CScript::floats.at(attributes.at("name"));
+                        float valToCompare = stof(attributes.at("value"));
+
+                        if (val == valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "globalDouble") {
+                        double val = CScript::doubles.at(attributes.at("name"));
+                        double valToCompare = 0;
+
+                        if (attributes.at("value") == "deltaTime") {
+                            valToCompare = CScript::doubles.at("deltaTime");
+                        } else {
+                            valToCompare = stod(attributes.at("value"));
+                        }
+
+                        if (val == valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+                    
+                    if (type == "globalString") {
+                        string val = CScript::strings.at(attributes.at("name"));
+                        string valToCompare = attributes.at("value");
 
                         if (val.compare(valToCompare) == 0)
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "bool" && cScript.get()->bools.find(attributes.at("name")) != cScript.get()->bools.end()) { 
-                        bool val = cScript.get()->bools.at(attributes.at("name"));
+                    if (type == "globalBool") { 
+                        bool val = CScript::bools.at(attributes.at("name"));
 
                         if (val == (attributes.at("value") == "true" ? true : false))
                             runCommands(command->FirstChild(), cScript);   
@@ -246,6 +336,7 @@ public:
                     if (!cScript.valid()) {
                         break;
                     }
+                    
                     if (type == "int" && cScript.get()->ints.find(attributes.at("name")) != cScript.get()->ints.end()) {
                         int val = cScript.get()->ints.at(attributes.at("name"));
                         int valToCompare = stoi(attributes.at("value"), nullptr, 0);
@@ -266,7 +357,7 @@ public:
                         double val = cScript.get()->doubles.at(attributes.at("name"));
                         double valToCompare = 0;
                         if (attributes.at("value") == "deltaTime") {
-                            valToCompare = cScript.get()->doubles.at("deltaTime");
+                            valToCompare = CScript::doubles.at("deltaTime");
                         } else {
                             valToCompare = stod(attributes.at("value"));
                         }
@@ -335,10 +426,16 @@ public:
                     CScript::addVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
                 if (name == "moveEntity")
-                    CScript::moveEntity(stof(attributes.at("x")), stof(attributes.at("y")), stof(attributes.at("z")), attributes.at("applyDt"), cScript.get()->doubles.at("deltaTime"));
+                    CScript::moveEntity(stof(attributes.at("x")), stof(attributes.at("y")), stof(attributes.at("z")), attributes.at("applyDt"), CScript::doubles.at("deltaTime"));
 
                 if (name == "moveEntityByVars")
                     CScript::moveEntityByVars(attributes.at("x"), attributes.at("y"), attributes.at("z"), attributes.at("applyDt"), cScript);
+
+                if (name == "distanceTo")
+                    CScript::distanceTo(attributes.at("name"), attributes.at("var"), cScript);
+
+                if (name == "vectorTo")
+                    CScript::vectorTo(attributes.at("name"), attributes.at("x"), attributes.at("y"), cScript);
 
                 if (name == "removeEntity") {
                     CScript::removeEntity();
