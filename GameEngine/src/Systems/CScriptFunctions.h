@@ -11,7 +11,14 @@
 namespace CScript 
 {
     // Variables
-    entityx::Entity* currEntity;    
+    entityx::Entity* currEntity;   
+
+    /**
+     * Setter function for setting the current entity that we are using the custom script on.  
+     */
+    void setCurrEntity(Entity* e) {
+        currEntity = e;
+    } 
 
     /**
      * Moves the current entity to relative position by x, y and/or z. It does this by calculating the new coordinates
@@ -41,7 +48,9 @@ namespace CScript
         float newZ = handle.get()->z + actualZ;
 
         // Emit event to send to physics system
+        Entity* temp = currEntity;
         Engine::getInstance().events.emit<MoveTo>(*currEntity, newX, newY, newZ);
+        setCurrEntity(temp);
     }
 
     /**
@@ -170,6 +179,15 @@ namespace CScript
         }
     }
 
+    void flipBool(string varName, ComponentHandle<CustomScript> cScript) {
+        bool val = cScript->bools.at(varName);
+        if (val == true) {
+            cScript->bools.at(varName) = false;
+        } else {
+            cScript->bools.at(varName) = true;
+        }
+    }
+
     /**
      * Add a stored variable's value to a new value.
      * PARAM: varName variable's name
@@ -271,12 +289,5 @@ namespace CScript
      */
     Entity* getCurrEntity() {
         return currEntity;
-    }
-
-    /**
-     * Setter function for setting the current entity that we are using the custom script on.  
-     */
-    void setCurrEntity(Entity* e) {
-        currEntity = e;
     }
 }

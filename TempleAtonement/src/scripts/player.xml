@@ -1,5 +1,6 @@
 <root>
     <update>
+
         <!-- If attacking, add to a timer and not allow new input -->
         <ifVar name="isAttacking" value="true" type="bool">
             <addVar name="attackTimer" value="deltaTime" type="double"/>
@@ -82,6 +83,38 @@
                 <callFuntion name="interacted"/>
             </onEntity>
         </keyPress>
+        
+        <!-- If invincible, increment timer and maybe stop being invincible -->
+        <ifVar name="isInvincible" type="bool" value="true">
+            <addVar name="invinTimer" value="deltaTime" type="double"/>
+            <ifVarGreater name="invinTimer" value="3.0" type="double">
+                <updateVar name="invinTimer" value="0.0" type="double"/>
+                <updateVar name="isInvincible" value="false" type="bool" />
+                <updateVar name="blink" value="true" type="bool" />
+            </ifVarGreater>
+            <flipBool name="blink"/>
+            <ifVar name="blink" type="bool" value="false">
+                <ifVar name="playerDirection" value="0" type="int">
+                    <!-- Up -->
+                    <changeSprite name="../TempleAtonement/texture/blobsprite_10.png"/>
+                </ifVar>
+                <ifVar name="playerDirection" value="1" type="int">
+                    <!-- Right -->
+                    <changeSprite name="../TempleAtonement/texture/blobsprite_07.png"/>
+                </ifVar>
+                <ifVar name="playerDirection" value="2" type="int">
+                    <!-- Down -->
+                    <changeSprite name="../TempleAtonement/texture/blobsprite_01.png"/>
+                </ifVar>
+                <ifVar name="playerDirection" value="3" type="int">
+                    <!-- Left -->
+                    <changeSprite name="../TempleAtonement/texture/blobsprite_04.png"/>
+                </ifVar>
+            </ifVar>
+            <ifVar name="blink" type="bool" value="true">
+                <changeSprite name="../TempleAtonement/texture/transparent.png"/>
+            </ifVar>
+        </ifVar>
     </update>
     <variables>
         <bool name="isAttacking" value="false"/>
@@ -91,6 +124,9 @@
         <int name="health" value="5"/>
         <!-- <entity name="scoreEntity" value="score"/> -->
         <entity name="interactEntity" value=""/> <!-- No entity to start -->
+        <double name="invinTimer" value="0.0"/>
+        <bool name="isInvincible" value="false"/>
+        <bool name="blink" value="false"/>
     </variables>
     <interacted>
         
@@ -100,9 +136,13 @@
     </start>
     <onCollision>
         <ifVar name="collisionObject-tag" value="Enemy" type="string">
-            <addVar name="health" value="-1" type="int"/>
-            <ifVar name="health" value="0" type="int">
-                <loadScene name="gameoverScene"/>
+            <ifVar name="isInvincible" type="bool" value="false">
+                <addVar name="health" value="-1" type="int"/>
+                <ifVar name="health" value="0" type="int">
+                    <log value="Health is at 0!"/>
+                    <loadScene name="gameoverScene"/>
+                </ifVar>
+                <updateVar name="isInvincible" value="true" type="bool"/>
             </ifVar>
         </ifVar>
         <ifVar name="collisionObject-tag" value="Coin" type="string">

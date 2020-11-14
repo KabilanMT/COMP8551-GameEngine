@@ -51,7 +51,7 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
 
         void receive(const MoveTo& mt) {
             RigidbodyMoveTo(Engine::getInstance().entities, mt.e, mt.x, mt.y);
-
+            /*
             for (Entity e : Engine::getInstance().entities.entities_with_components<Name>()) {
                 ComponentHandle<Name> handle = e.component<Name>();
                 if (handle.get()->getName() == "Enemy1") {
@@ -62,6 +62,7 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                     break;
                 }
             }
+            */
         }
 
         void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
@@ -80,12 +81,9 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
             //Step 2: Detect collisions
             std::vector<EntityPair> pairs = broadphase(es); //returns pairs of possible collisions
 
-            Logger::getInstance() << "broadphase(update) collisions: " << pairs.size() << "\n";
+            //Logger::getInstance() << "broadphase(update) collisions: " << pairs.size() << "\n";
             std::vector<EntityPair> collidingPairs = narrowphase(pairs); //should return pairs of entities that are colliding
 
-            for (int i = 0; i < collidingPairs.size(); ++i) {
-                Logger::getInstance() << collidingPairs.at(i).a.id().id() << " colliding with " << collidingPairs.at(i).b.id().id() << "\n";
-            }
             //Logger::getInstance() << "physics!\n";
             //Step 3: apply physics to all entities and resolve all collisions from pairs
             for(int i = 0; i < collidingPairs.size(); ++i) {
@@ -95,12 +93,11 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                     PerformPhysicsWithOneRigidBody(collidingPairs.at(i).a, collidingPairs.at(i).b, events);
                 else if(collidingPairs.at(i).b.has_component<Rigidbody_2D>())
                     PerformPhysicsWithOneRigidBody(collidingPairs.at(i).b, collidingPairs.at(i).a, events);
-                else{
-                    Trigger aTrigger = Trigger(&collidingPairs.at(i).a, &collidingPairs.at(i).b);
-                    Trigger bTrigger = Trigger(&collidingPairs.at(i).b, &collidingPairs.at(i).a);
-                    events.emit(aTrigger);
-                    events.emit(bTrigger);
-                }
+                Trigger aTrigger = Trigger(&collidingPairs.at(i).a, &collidingPairs.at(i).b);
+                Trigger bTrigger = Trigger(&collidingPairs.at(i).b, &collidingPairs.at(i).a);
+                events.emit(aTrigger);
+                events.emit(bTrigger);
+
             }
             auto entities = es.entities_with_components<Rigidbody_2D>();
 
@@ -180,6 +177,30 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
             auto circleEntities = es.entities_with_components<CircleCollider>();
             auto capsuleEntities = es.entities_with_components<CapsuleCollider>();
 
+            /*
+            ComponentHandle<CircleCollider> circleHandle;
+            ComponentHandle<BoxCollider> boxHandle;
+            ComponentHandle<CapsuleCollider> capHandle;
+            std::vector<ComponentHandle<CircleCollider>> circColliders;
+            std::vector<ComponentHandle<BoxCollider>> boxColliders;
+            std::vector<ComponentHandle<CapsuleCollider>> capColliders;
+            for(Entity e : circleEntities){
+                circleHandle = e.component<CircleCollider>();
+                circColliders.push_back(circleHandle);
+            }
+            for(Entity e : boxEntities){
+                boxHandle = e.component<BoxCollider>();
+                boxColliders.push_back(boxHandle);
+            }
+            for(Entity e : capsuleEntities){
+                capHandle = e.component<CapsuleCollider>();
+                capColliders.push_back(capHandle);
+            }
+            Logger::getInstance() << "Num circle colliders: " << circColliders.size() << "\n";
+            Logger::getInstance() << "Num box colliders: " << boxColliders.size() << "\n";
+            Logger::getInstance() << "Num cap colliders: " << capColliders.size() << "\n";
+            */
+
             // colliders require b and e attributes (along x) - type float
             //get each collider's b & e
             //and put all b & e in a list
@@ -258,6 +279,7 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                                     }
                                 } else if ((*it2).type == Circle) {
                                     ComponentHandle<CircleCollider> c2 = e2.component<CircleCollider>();
+                                    //Logger::getInstance() << "Circle AABB inputs: " << c1->x + c1T->x << ", " << c1->y + c1T->y << ", " << c1->bbWidth << ", " << c1->bbHeight << ", " << c2->x + c2T->x << ", " << c2->y + c2T->y << ", " << c2->bbWidth << ", " << c2->bbHeight << "\n";
                                     if (DetectAABB(c1->x + c1T->x, c1->y + c1T->y, c1->bbWidth, c1->bbHeight, c2->x + c2T->x, c2->y + c2T->y, c2->bbWidth, c2->bbHeight)) {
                                         possibleCollides.emplace_back(EntityPair((*it).e, Circle, (*it2).e, Circle));
                                     }
@@ -291,6 +313,7 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                     active.erase(oToRemove);
                 }
             }
+            //Logger::getInstance() << "Size of possible collides: " << possibleCollides.size() << "\n";
             return possibleCollides;
         }
 
@@ -351,20 +374,47 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                 std::vector<EntityPair> collideWithMe;  //Container for all the collisions involving the entity
                 std::vector<EntityPair> narrowPhaseCollisions;
                 for(EntityPair p : pairs){
-                    if(p.a == e || p.b == e)
+                    bool isATrigger = false;
+                    bool isBTrigger = false;
+                    if (p.aType == Circle) {
+                        ComponentHandle<CircleCollider> aHandle = p.a.component<CircleCollider>();
+                        isATrigger = aHandle->isTrigger;
+                    } else if (p.aType == Box) {
+                        ComponentHandle<BoxCollider> aHandle = p.a.component<BoxCollider>();
+                        isATrigger = aHandle->isTrigger;
+                    } else if (p.aType == Capsule) {
+                        ComponentHandle<CapsuleCollider> aHandle = p.a.component<CapsuleCollider>();
+                        isATrigger = aHandle->isTrigger;
+                    }
+                    if (p.bType == Circle) {
+                        ComponentHandle<CircleCollider> bHandle = p.b.component<CircleCollider>();
+                        isBTrigger = bHandle->isTrigger;
+                    } else if (p.bType == Box) {
+                        ComponentHandle<BoxCollider> bHandle = p.b.component<BoxCollider>();
+                        isBTrigger = bHandle->isTrigger;
+                    } else if (p.bType == Capsule) {
+                        ComponentHandle<CapsuleCollider> bHandle = p.b.component<CapsuleCollider>();
+                        isBTrigger = bHandle->isTrigger;
+                    }
+                    if ((p.a == e || p.b == e) && !isATrigger && !isBTrigger)
                         collideWithMe.push_back(p);
                 }
 
-                Logger::getInstance() << "broadphase collisions: " << collideWithMe.size() << "\n";
+                //Logger::getInstance() << "broadphase collisions: " << collideWithMe.size() << "\n";
 
                 if(collideWithMe.size() > 0)
                     narrowPhaseCollisions = narrowphase(collideWithMe);
 
-                Logger::getInstance() << "Narrowphase collisions: " << narrowPhaseCollisions.size() << "\n";
+                //Logger::getInstance() << "Narrowphase collisions: " << narrowPhaseCollisions.size() << "\n";
 
                 if(narrowPhaseCollisions.size() > 0){
                     //Reverse step:
-                    Logger::getInstance() << "Collision!\n";
+                    for (int i = 0; i < narrowPhaseCollisions.size(); ++i) {
+                        Trigger aTrigger = Trigger(&narrowPhaseCollisions.at(i).a, &narrowPhaseCollisions.at(i).b);
+                        Trigger bTrigger = Trigger(&narrowPhaseCollisions.at(i).b, &narrowPhaseCollisions.at(i).a);
+                        Engine::getInstance().events.emit(aTrigger);
+                        Engine::getInstance().events.emit(bTrigger);
+                    }
                     transform->x -= xStep;
                     transform->y -= yStep;
                     return;     //Leave function after backstep instead of continuing
@@ -400,24 +450,18 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
             if(hasRigidbody.has_component<CircleCollider>()){
                 hRBCC = hasRigidbody.component<CircleCollider>();
                 if(hRBCC->isTrigger){
-                    Trigger rbTrigger = Trigger(&hasRigidbody, &noRigidbody);
-                    events.emit(rbTrigger);//Notify
                     return;
                 }
             }
             if(hasRigidbody.has_component<BoxCollider>()){
                 hRBBC = hasRigidbody.component<BoxCollider>();
                 if(hRBBC->isTrigger){
-                    Trigger rbTrigger = Trigger(&hasRigidbody, &noRigidbody);
-                    events.emit(rbTrigger);//Notify
                     return;
                 }
             }
             if(hasRigidbody.has_component<CapsuleCollider>()){
                 hRBCapC = hasRigidbody.component<CapsuleCollider>();
                 if(hRBCapC->isTrigger){
-                    Trigger rbTrigger = Trigger(&hasRigidbody, &noRigidbody);
-                    events.emit(rbTrigger);//Notify
                     return;
                 }
             }
@@ -426,8 +470,6 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                 ComponentHandle<CircleCollider> nRBCollider = noRigidbody.component<CircleCollider>();
                 //Check for trigger:
                 if(nRBCollider->isTrigger){
-                    Trigger noRBTrigger = Trigger(&noRigidbody, &hasRigidbody);
-                    events.emit(noRBTrigger);//Notify
                     return;
                 }
 
@@ -452,8 +494,6 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                     ComponentHandle<BoxCollider> nRBCollider = noRigidbody.component<BoxCollider>();
                     //Check for trigger:
                     if(nRBCollider->isTrigger){
-                        Trigger noRBTrigger = Trigger(&noRigidbody, &hasRigidbody);
-                        events.emit(noRBTrigger);//Notify
                         return;
                     }
                     float theta = nRBTrans->angle * M_PI / 180.0f;
@@ -470,8 +510,6 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                     ComponentHandle<CapsuleCollider> nRBCollider = noRigidbody.component<CapsuleCollider>();
                     //Check for trigger:
                     if(nRBCollider->isTrigger){
-                        Trigger noRBTrigger = Trigger(&noRigidbody, &hasRigidbody);
-                        events.emit(noRBTrigger);//Notify
                         return;
                     }
                     float theta = nRBTrans->angle * M_PI / 180.0f;

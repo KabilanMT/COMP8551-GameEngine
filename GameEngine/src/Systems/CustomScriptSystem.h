@@ -53,8 +53,19 @@ public:
 
             ComponentHandle<CustomScript> handle = tr.gotTriggered->component<CustomScript>();
 
-            handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Tag>().get()->getTag();
-            handle->strings.at("collisionObject-name") = tr.triggeringEntity->component<Name>().get()->getName();
+            if (tr.triggeringEntity->has_component<Tag>()) {
+                handle->strings.at("collisionObject-tag") = tr.triggeringEntity->component<Tag>().get()->getTag();
+            } else {
+                handle->strings.at("collisionObject-tag") = "";
+            }
+            
+            if (tr.triggeringEntity->has_component<Name>()) {
+                handle->strings.at("collisionObject-name") = tr.triggeringEntity->component<Name>().get()->getName();
+            } else {
+                handle->strings.at("collisionObject-name") = "";
+            }
+
+            
 
             XMLElement* collisionContent = handle->getOnCollision();
             if (collisionContent != nullptr)
@@ -205,6 +216,14 @@ public:
                         string val = cScript.get()->strings.at(attributes.at("name"));
                         string valToCompare = attributes.at("value");
 
+                        if (val == "collisionObject-name" || val == "collisionObject-tag") {
+                            val = cScript->strings.at(val);
+                        }
+                        if (valToCompare == "collisionObject-name" || valToCompare == "collisionObject-tag") {
+                            valToCompare = cScript->strings.at(valToCompare);
+                        }
+
+
                         if (val.compare(valToCompare) == 0)
                             runCommands(command->FirstChild(), cScript);
                     }
@@ -310,6 +329,12 @@ public:
 
                 if (name == "log")
                     CScript::log(attributes.at("value"));
+                    
+                if (name == "loadScene")
+                    CScript::loadScene(attributes.at("name"));
+                
+                if (name == "flipBool")
+                    CScript::flipBool(attributes.at("name"), cScript);
 
                 command = command->NextSibling();
             }
