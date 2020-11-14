@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="left-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="37">
+ <objectgroup id="2" name="Scene 1">
+  <object id="23" name="Land" x="32" y="32" width="896" height="896">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/Red Dead Redemption 2 - See The Fire In Your Eyes.mp3,1,1,bgm"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Grass.png"/>
+   </properties>
+  </object>
+  <object id="2" name="TreeLeft" type="Wall" x="0" y="0" width="32" height="960">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="4" name="TreeRight" type="Wall" x="928" y="0" width="32" height="960">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="5" name="TreeTop" type="Wall" x="32" y="0" width="896" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="6" name="TreeDown" type="Wall" x="32" y="928" width="896" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Tree.png"/>
+   </properties>
+  </object>
+  <object id="7" name="HouseLeftDown" type="Wall" x="128" y="704" width="160" height="128">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/House.png"/>
+   </properties>
+  </object>
+  <object id="9" name="HouseRightDown" type="Wall" x="640" y="704" width="192" height="128">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/House1.png"/>
+   </properties>
+  </object>
+  <object id="10" name="HouseRightTop" type="Wall" x="640" y="128" width="192" height="128">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/House2.png"/>
+   </properties>
+  </object>
+  <object id="12" name="ActivityPlatform" type="Wall" x="128" y="128" width="192" height="96">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Plantform.png"/>
+   </properties>
+  </object>
+  <object id="26" name="Road" x="448" y="32" width="64" height="864">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Road.png"/>
+   </properties>
+  </object>
+  <object id="29" name="Path" x="320" y="864" width="128" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Road.png"/>
+   </properties>
+  </object>
+  <object id="16" name="Villager 4" type="NPC" x="128" y="256" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Villager4.png"/>
+   </properties>
+  </object>
+  <object id="17" name="Villager 3" type="NPC" x="288" y="256" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Villager3.png"/>
+   </properties>
+  </object>
+  <object id="18" name="Villager 2" type="NPC" x="224" y="320" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Villager2.png"/>
+   </properties>
+  </object>
+  <object id="19" name="Villager 1" type="NPC" x="160" y="384" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/Villager1.png"/>
+   </properties>
+  </object>
+  <object id="21" name="GrandMother" type="NPC" x="224" y="864" width="32" height="32">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="src/res/textures/GrandMa.png"/>
+   </properties>
+  </object>
+  <object id="36" name="weaponEntity" x="236" y="876" width="40" height="40" visible="0">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
+    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/slash.png"/>
+   </properties>
+  </object>
+  <object id="35" name="Player" x="180" y="882" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_footstep000r.ogg,0,1,fx"/>
+    <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1000.0f, 1000.0f"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Player"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/player_up.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

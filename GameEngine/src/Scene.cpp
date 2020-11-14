@@ -16,9 +16,9 @@ string Scene::getName() {
     return name;
 }
 
-void Scene::load() {
+void Scene::load(vector<Entity>& persistentEntities) {
 
-    Logger::getInstance() << "Loading a scene's map!\n";
+    Logger::getInstance() << "Scene " << name << " is being parsed!\n";
 
     //load doc
     TinyXMLDocument doc;
@@ -33,11 +33,40 @@ void Scene::load() {
     XMLNode* object = objectGroup->FirstChild();
 
     Engine &e = Engine::getInstance();
-
+    int layerNum = 0;
     while (object != NULL) { //while there are objects to process
         XMLElement* elem = object->ToElement();
 
         if (!strcmp(elem->Name(), "object")) { //check to make sure it's actually an object
+
+            //Check if the object has the same name as any of the persistant ones
+            //If it does, dont create the Entity
+            
+            const XMLAttribute* persAttr = elem->FirstAttribute(); //get the object's attributes
+            bool isPersistent = false;
+            Entity* theEntity = nullptr;
+            while (persAttr != NULL) {
+                string aName = persAttr->Name();
+                if (aName == "name") {
+                    string name = persAttr->Value();
+                    for (Entity pEntity : persistentEntities) {
+                        if (pEntity.valid() && pEntity.has_component<Name>() && pEntity.component<Name>()->getName() == name) {
+                            isPersistent = true;
+                            theEntity = &pEntity;
+                            break;
+                        }
+                    }
+                    break;
+                }
+                persAttr = persAttr->Next();
+            }
+
+            if (isPersistent) {
+                theEntity->component<Transform>()->z = layerNum / 1000.0f;
+                layerNum++;
+                continue;
+            }
+
             Entity ent = e.entities.create(); //create the entity
             const XMLAttribute* attr = elem->FirstAttribute(); //get the object's attributes
 
@@ -74,7 +103,9 @@ void Scene::load() {
             // Convert width and height to sprite vertices
             x = x + width/2;
             y = (y + height/2) * -1;
-            ent.assign<Transform>(x, y, 0, rotAngle, 0, 0, 1);
+            z = layerNum / 1000.f;
+            ent.assign<Transform>(x, y, z, rotAngle, 0, 0, 1);
+            layerNum++;
             //TODO width and height need to be applied to sprite vertices
             ent.assign<SpriteVertices>(
                 -width/2, -height/2, 0.0f, 0.0f,
@@ -124,6 +155,8 @@ void Scene::load() {
                         addTextureComp(parameters, ent);
                     } else if (compType == "Tag") {
                         addTag(parameters, ent);
+                    } else if (compType == "Persistent") {
+                        addPersistent(parameters, ent);
                     }
                     property = property->NextSibling();
                 }
@@ -153,9 +186,13 @@ Scene::Scene(string sceneName, string tmxFile) : name(sceneName), fileName(tmxFi
 
 
 void Scene::addAudioSource(vector<string>& parameters, Entity& e) {
-    bool b;
-    istringstream(parameters.at(1)) >> std::boolalpha >> b;
-    e.assign<AudioSource>(parameters.at(0).c_str(), b, parameters.at(2));
+    bool isPlayOnLoad;
+    stringstream str(parameters.at(1));
+    str >> isPlayOnLoad;
+    str = stringstream(parameters.at(2));
+    bool isLoop;
+    str >> isLoop;
+    e.assign<AudioSource>(parameters.at(0).c_str(), isPlayOnLoad, isLoop, parameters.at(3));
 }
 
 void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {
@@ -356,4 +393,8 @@ void Scene::addTextureComp(vector<string>& parameters, Entity& e) {
 
 void Scene::addTag(vector<string>& parameters, Entity& e) {
     e.assign<Tag>(parameters.at(0));
+}
+
+void Scene::addPersistent(vector<string>& parameters, Entity& e) {
+    e.assign<Persistent>();
 }

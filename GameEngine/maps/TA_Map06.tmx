@@ -1,66 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="49" height="39" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="49">
- <layer id="1" name="Tile Layer 1" width="49" height="39">
-  <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-</data>
- </layer>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="49" height="39" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="58">
+ <tileset firstgid="1" source="../../../fsm_extra02_A2.tsx"/>
+ <tileset firstgid="433" source="../../../fsm_extra02_A4.tsx"/>
  <objectgroup id="5" name="wall" offsetx="-17.3333" offsety="0">
-  <object id="25" name="Collider" type="Wall" x="-8" y="1184" width="708" height="74"/>
-  <object id="26" name="Collider" type="Wall" x="870" y="1176" width="694" height="82"/>
-  <object id="27" name="Collider" type="Wall" x="-2" y="-6" width="94" height="1254"/>
-  <object id="28" name="Collider" x="-8" y="-14" width="1576" height="88"/>
-  <object id="29" name="Collider" x="1472" y="-10" width="94" height="1270"/>
-  <object id="30" name="Collider" type="wall" x="870" y="798" width="98" height="458"/>
-  <object id="34" name="collider" type="wall" x="472" y="730.667" width="496" height="70.6667"/>
-  <object id="36" name="collider" type="wall" x="630" y="909" width="72" height="350.667"/>
-  <object id="37" name="collider" type="wall" x="444" y="729.667" width="68" height="341.333"/>
-  <object id="38" name="collider" type="wall" x="202.667" y="997.333" width="308" height="73.3333"/>
-  <object id="39" name="collider" type="wall" x="201.333" y="210.667" width="106.667" height="857.333"/>
-  <object id="40" name="collider" type="wall" x="873.333" y="438.667" width="94.6667" height="349.333"/>
-  <object id="41" name="collider" type="wall" x="448" y="434.667" width="520" height="164"/>
-  <object id="42" name="collider" type="wall" x="448" y="209.333" width="93.3333" height="382.667"/>
-  <object id="43" name="collider" type="wall" x="445.667" y="203.667" width="880" height="93.3333"/>
-  <object id="44" name="collider" type="wall" x="926.667" y="436" width="392" height="129.333"/>
-  <object id="46" name="collider" type="wall" x="1181.33" y="449.333" width="137.333" height="610.667"/>
-  <object id="48" name="Chest" type="interactable" x="1001.33" y="614.667" width="148" height="90.6667"/>
+  <object id="25" name="Collider" type="Wall" x="14.6667" y="1184" width="676" height="64.6667">
+   <properties>
+    <property name="BoxCollider" value="676,64.67,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="26" name="Collider" type="Wall" x="876.667" y="1184" width="707.333" height="64.6667">
+   <properties>
+    <property name="BoxCollider" value="707.33,64.67,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="27" name="Collider" type="Wall" x="12.6667" y="-0.666667" width="67.3333" height="1248.67">
+   <properties>
+    <property name="BoxCollider" value="67.33,1248.67,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="28" name="Collider" type="wall" x="14.6667" y="0.666667" width="1568" height="93.3333">
+   <properties>
+    <property name="BoxCollider" value="1568,93.33,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="29" name="Collider" type="wall" x="1486.67" y="2" width="98" height="1248.67">
+   <properties>
+    <property name="BoxCollider" value="98,1248.67,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="30" name="Collider" type="wall" x="878" y="798" width="100.667" height="448.667">
+   <properties>
+    <property name="BoxCollider" value="100.67,448.67,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="34" name="collider" type="wall" x="434.667" y="706.667" width="533.333" height="94.6667">
+   <properties>
+    <property name="BoxCollider" value="533.33,94.67,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="36" name="collider" type="wall" x="622" y="930.333" width="68" height="317.334">
+   <properties>
+    <property name="BoxCollider" value="68,317.33,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="37" name="collider" type="wall" x="434.667" y="729.667" width="94.6667" height="341.333">
+   <properties>
+    <property name="BoxCollider" value="94.67,341.33,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="38" name="collider" type="wall" x="202.667" y="995.27" width="325.333" height="92.1269">
+   <properties>
+    <property name="BoxCollider" value="325.33,92.13,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="39" name="collider" type="wall" x="206.666" y="222.667" width="101.334" height="845.333">
+   <properties>
+    <property name="BoxCollider" value="101.33,845.33,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="40" name="collider" type="wall" x="878.666" y="448" width="101.333" height="560">
+   <properties>
+    <property name="BoxCollider" value="101.33,560,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="41" name="collider" type="wall" x="448" y="446.667" width="520" height="97.3333">
+   <properties>
+    <property name="BoxCollider" value="520,97.33,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="42" name="collider" type="wall" x="433.333" y="224" width="97.3333" height="320">
+   <properties>
+    <property name="BoxCollider" value="97.33,320,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="43" name="collider" type="wall" x="436.334" y="225" width="893.333" height="93.3333">
+   <properties>
+    <property name="BoxCollider" value="893.33,93.33,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="44" name="collider" type="wall" x="926.667" y="446.667" width="392" height="97.333">
+   <properties>
+    <property name="BoxCollider" value="392,97.33,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="46" name="collider" type="wall" x="1198.66" y="449.333" width="129.333" height="610.667">
+   <properties>
+    <property name="BoxCollider" value="129.33,610.67,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="48" name="Chest" type="interactable" x="1039.33" y="614.667" width="86" height="62.6667">
+   <properties>
+    <property name="BoxCollider" value="86,62.67,0,0,0,0,0"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/chest_closed.png"/>
+   </properties>
+  </object>
+  <object id="49" name="Land" x="14" y="0" width="1572.67" height="1248">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP06/MAP06_FLOOR.png"/>
+   </properties>
+  </object>
+  <object id="53" name="main_wall" type="wall" x="0" y="0" width="1568" height="1248">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP06/MAP06_WALL.png"/>
+   </properties>
+  </object>
+  <object id="54" name="player" x="759.333" y="1090" width="44" height="52">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_footstep000r.ogg,0,1,fx"/>
+    <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1000.0f, 1000.0f"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Player"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/player_up.png"/>
+   </properties>
+  </object>
+  <object id="55" name="sound" x="-222.667" y="-10" width="70" height="78">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+    <property name="Persistent" value=""/>
+   </properties>
+  </object>
+  <object id="57" name="exit" x="704" y="1216" width="160" height="32">
+   <properties>
+    <property name="BoxCollider" value="160,32,0,0,0,1,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap05.xml"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

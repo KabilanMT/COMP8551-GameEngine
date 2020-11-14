@@ -77,7 +77,6 @@ namespace Physics
 
     //Circle - Circle
     bool CheckCollision(ComponentHandle<CircleCollider>& c1, ComponentHandle<CircleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
-        //TODO
         float c1PosX = c1->x + c1T->x;
         float c2PosX = c2->x + c2T->x;
         float c1PosY = c1->y + c1T->y;
@@ -90,32 +89,28 @@ namespace Physics
 
     //Capsule - Capsule
     bool CheckCollision(ComponentHandle<CapsuleCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
-        //TODO
         //Capsule c1:
         float c1Rotation = c1T->angle * M_PI / 180.0f;
-        glm::vec2 c1Tip = glm::vec2(c1->x, c1->y + (c1->a)/2);
+        glm::vec2 c1Tip = glm::vec2(c1->x, c1->y + (c1->a)/2 - c1->radius);
         c1Tip = glm::rotate(c1Tip, c1Rotation);
         c1Tip = glm::vec2(c1Tip.x + c1T->x, c1Tip.y + c1T->y);
-        glm::vec2 c1Base = glm::vec2(c1->x, c1->y - (c1->a)/2);
+        glm::vec2 c1Base = glm::vec2(c1->x, c1->y - (c1->a)/2 + c1->radius);
         c1Base = glm::rotate(c1Base, c1Rotation);
         c1Base = glm::vec2(c1Base.x + c1T->x, c1Base.y + c1T->y);
-        glm::vec2 c1Normal = glm::normalize(c1Tip - c1Base);
-        glm::vec2 c1LineEndOffset = c1Normal * c1->radius;
-        glm::vec2 c1_A = c1Base + c1LineEndOffset;
-        glm::vec2 c1_B = c1Tip + c1LineEndOffset;
+        glm::vec2 c1_A = c1Base;
+        glm::vec2 c1_B = c1Tip;
+
 
         //Capsule c2:
         float c2Rotation = c2T->angle * M_PI / 180.0f;
-        glm::vec2 c2Tip = glm::vec2(c2->x, c2->y + (c2->a)/2);
+        glm::vec2 c2Tip = glm::vec2(c2->x, c2->y + (c2->a)/2 - c2->radius);
         c2Tip = glm::rotate(c2Tip, c2Rotation);
         c2Tip = glm::vec2(c2Tip.x + c2T->x, c2Tip.y + c2T->y);
-        glm::vec2 c2Base = glm::vec2(c2->x, c2->y - (c2->a)/2);
+        glm::vec2 c2Base = glm::vec2(c2->x, c2->y - (c2->a)/2 + c2->radius);
         c2Base = glm::rotate(c2Base, c2Rotation);
         c2Base = glm::vec2(c2Base.x + c2T->x, c2Base.y + c2T->y);
-        glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
-        glm::vec2 c2LineEndOffset = c2Normal * c2->radius;
-        glm::vec2 c2_A = c2Base + c2LineEndOffset;
-        glm::vec2 c2_B = c2Tip + c2LineEndOffset;
+        glm::vec2 c2_A = c2Base;
+        glm::vec2 c2_B = c2Tip;
 
         // vectors between line endpoints:
         glm::vec2 v0 = c2_A - c1_A;
@@ -155,7 +150,6 @@ namespace Physics
 
     //Box - Circle
     bool CheckCollision(ComponentHandle<BoxCollider>& c1, ComponentHandle<CircleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
-        //TODO
         //Box stuff
         float boxPosX = c1->x + c1T->x;
         float boxPosY = c1->y + c1T->y;
@@ -187,14 +181,14 @@ namespace Physics
         else if(circleX > boxPosX + c1->width / 2)
             testX = boxPosX + c1->width / 2;  //Testing right edge of box
         else
-            testX = boxPosX;  //In this case the circle is between left and right edges
+            testX = circleX;  //In this case the circle is between left and right edges
         
         if(circleY > boxPosY + c1->height / 2)
             testY = boxPosY + c1->height / 2;   //Testing top edge of box
         else if(circleY < boxPosY - c1->height / 2)
             testY = boxPosY - c1->height / 2;   //Testing bottom edge of box
         else
-            testY = boxPosY;  //Circle is between the top and bottom edges;
+            testY = circleY;  //Circle is between the top and bottom edges;
         
         float distX = circleX - testX;
         float distY = circleY - testY;
@@ -212,8 +206,6 @@ namespace Physics
 
     //Box - Capsule
     bool CheckCollision(ComponentHandle<BoxCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
-        Logger::getInstance() << "Testing box-capsule" << "\n";
-        //TODO
         //Box c1:
         glm::vec2 topLeft = glm::vec2(0 - c1->width / 2, 0 + c1->height / 2);
         glm::vec2 topRight = glm::vec2(0 + c1->width / 2, 0 + c1->height / 2);
@@ -232,14 +224,14 @@ namespace Physics
 
         //Capsule c2:
         float c2Rotation = c2T->angle * M_PI / 180.0f;
-        glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x, c2->y + (c2->a)/2), c2Rotation);
+        glm::vec2 c2Tip = glm::vec2(c2->x, c2->y + (c2->a)/2 - c2->radius);
+        c2Tip = glm::rotate(c2Tip, c2Rotation);
         c2Tip = glm::vec2(c2Tip.x + c2T->x, c2Tip.y + c2T->y);
-        glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x, c2->y - (c2->a)/2), c2Rotation);
+        glm::vec2 c2Base = glm::vec2(c2->x, c2->y - (c2->a)/2 + c2->radius);
+        c2Base = glm::rotate(c2Base, c2Rotation);
         c2Base = glm::vec2(c2Base.x + c2T->x, c2Base.y + c2T->y);
-        glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
-        glm::vec2 c2LineEndOffset = c2Normal * c2->radius;
-        glm::vec2 c2_A = c2Base + c2LineEndOffset;
-        glm::vec2 c2_B = c2Tip + c2LineEndOffset;
+        glm::vec2 c2_A = c2Base;
+        glm::vec2 c2_B = c2Tip;
 
         //Test both ends of the capsule to all edges of the rectangle
         //Test the tip against the rect points:
@@ -289,10 +281,14 @@ namespace Physics
         float bToLeft = glm::length(closeLeft - bestB);
 
         glm::vec2 bestA = closeTop;
-        if(minDistance > bToRight)
+        if(minDistance > bToRight){
             bestA = closeRight;
-        if(minDistance > bToBottom)
+            minDistance = bToRight;
+        }
+        if(minDistance > bToBottom){
             bestA = closeBottom;
+            minDistance = bToBottom;
+        }
         if(minDistance > bToLeft)
             bestA = closeLeft;
 
@@ -311,7 +307,8 @@ namespace Physics
         //First test if the point on the capsule is inside the rect:
         if(bestBRotated.x > c1->x - c1->width / 2 && bestBRotated.x < c1->x + c1->width / 2 &&
             bestBRotated.y < c1->y + c1->height / 2 && bestBRotated.y > c1->y - c1->height / 2)
-            return true;
+                return true;
+
         
         //Now do test for outside the rect with original points on capsule and rect:
         glm::vec2 penetration_normal = bestA - bestB;
@@ -325,12 +322,14 @@ namespace Physics
     bool CheckCollision(ComponentHandle<CircleCollider>& c1, ComponentHandle<CapsuleCollider>& c2, ComponentHandle<Transform> c1T, ComponentHandle<Transform> c2T) {
         //Capsule c2:
         float c2Rotation = c2T->angle * M_PI / 180.0f;
-        glm::vec2 c2Tip = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y + (c2->a)/2), c2Rotation);
-        glm::vec2 c2Base = glm::rotate(glm::vec2(c2->x + c2T->x, c2->y + c2T->y - (c2->a)/2), c2Rotation);
-        glm::vec2 c2Normal = glm::normalize(c2Tip - c2Base);
-        glm::vec2 c2LineEndOffset = c2Normal * c2->radius;
-        glm::vec2 c2_A = c2Base + c2LineEndOffset;
-        glm::vec2 c2_B = c2Tip + c2LineEndOffset;
+        glm::vec2 c2Tip = glm::vec2(c2->x, c2->y + (c2->a)/2 - c2->radius);
+        c2Tip = glm::rotate(c2Tip, c2Rotation);
+        c2Tip = glm::vec2(c2Tip.x + c2T->x, c2Tip.y + c2T->y);
+        glm::vec2 c2Base = glm::vec2(c2->x, c2->y - (c2->a)/2 + c2->radius);
+        c2Base = glm::rotate(c2Base, c2Rotation);
+        c2Base = glm::vec2(c2Base.x + c2T->x, c2Base.y + c2T->y);
+        glm::vec2 c2_A = c2Base;
+        glm::vec2 c2_B = c2Tip;
 
         //Circle c1:
         glm::vec2 c1_Point = glm::vec2(c1->x + c1T->x, c1->y + c1T->y);

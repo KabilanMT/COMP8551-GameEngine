@@ -19,6 +19,7 @@
                 <updateVar name="isAttacking" value="true" type="bool"/>
                 <onEntity name="weaponEntity">
                     <setActive value="true"/>
+                    <playAudio/>
                 </onEntity>
                 <!-- Check player direction to move weaponEntity -->
                 <matchEntityPos name="weaponEntity"/>
@@ -26,55 +27,83 @@
                     <!-- Up -->
                     <onEntity name="weaponEntity">
                         <moveEntity x="0.0" y="24.0" z="0.0" applyDt="false"/>
-                        <changeSprite name="../TempleAtonement/texture/blobsprite_10.png"/>
+                        <changeSprite name="../TempleAtonement/texture/slash.png"/>
                     </onEntity>
                 </ifVar>
                 <ifVar name="playerDirection" value="1" type="int">
                     <!-- Right -->
                     <onEntity name="weaponEntity">
                         <moveEntity x="24.0" y="0.0" z="0.0" applyDt="false"/>
-                        <changeSprite name="../TempleAtonement/texture/blobsprite_07.png"/>
+                        <changeSprite name="../TempleAtonement/texture/slash.png"/>
                     </onEntity>
                 </ifVar>
                 <ifVar name="playerDirection" value="2" type="int">
                     <!-- Down -->
                     <onEntity name="weaponEntity">
                         <moveEntity x="0.0" y="-24.0" z="0.0" applyDt="false"/>
-                        <changeSprite name="../TempleAtonement/texture/blobsprite_01.png"/>
+                        <changeSprite name="../TempleAtonement/texture/slash.png"/>
                     </onEntity>
                 </ifVar>
                 <ifVar name="playerDirection" value="3" type="int">
                     <!-- Left -->
                     <onEntity name="weaponEntity">
                         <moveEntity x="-24.0" y="0.0" z="0.0" applyDt="false"/>
-                        <changeSprite name="../TempleAtonement/texture/blobsprite_04.png"/>
+                        <changeSprite name="../TempleAtonement/texture/slash.png"/>
                     </onEntity>
                 </ifVar>
             </keyPress>
         </ifVar>
 
+        <!-- For audio check -->
+        <updateVar name="checkMove" type="bool" value="false"/>
+
         <!-- movement -->
         <ifVar name="isAttacking" value="false" type="bool">
             <keyPress value="KEY_W">
-                <changeSprite name="../TempleAtonement/texture/blobsprite_10.png"/>
+                <changeSprite name="../TempleAtonement/texture/player_up.png"/>
                 <moveEntity x="0.0" y="12.0" z="0.0" applyDt="true"/>
                 <updateVar name="playerDirection" value="0" type="int"/>
+                <ifVar name="isMoving" type="bool" value="false">
+                    <flipBool name="isMoving"/>
+                    <updateVar name="checkMove" type="bool" value="true"/>
+                    <playAudio/>
+                </ifVar>
             </keyPress>
             <keyPress value="KEY_S">
-                <changeSprite name="../TempleAtonement/texture/blobsprite_01.png"/>
+                <changeSprite name="../TempleAtonement/texture/player_down.png"/>
                 <moveEntity x="0.0" y="-12.0" z="0.0" applyDt="true"/>
                 <updateVar name="playerDirection" value="2" type="int"/>
+                <ifVar name="isMoving" type="bool" value="false">
+                    <flipBool name="isMoving"/>
+                    <updateVar name="checkMove" type="bool" value="true"/>
+                    <playAudio/>
+                </ifVar>
             </keyPress>
             <keyPress value="KEY_A">
-                <changeSprite name="../TempleAtonement/texture/blobsprite_04.png"/>
+                <changeSprite name="../TempleAtonement/texture/player_left.png"/>
                 <moveEntity x="-12.0" y="0.0" z="0.0" applyDt="true"/>
                 <updateVar name="playerDirection" value="3" type="int"/>
+                <ifVar name="isMoving" type="bool" value="false">
+                    <flipBool name="isMoving"/>
+                    <updateVar name="checkMove" type="bool" value="true"/>
+                    <playAudio/>
+                </ifVar>
             </keyPress>
             <keyPress value="KEY_D">
-                <changeSprite name="../TempleAtonement/texture/blobsprite_07.png"/>
+                <changeSprite name="../TempleAtonement/texture/player_right.png"/>
                 <moveEntity x="12.0" y="0.0" z="0.0" applyDt="true"/>
                 <updateVar name="playerDirection" value="1" type="int"/>
+                <ifVar name="isMoving" type="bool" value="false">
+                    <flipBool name="isMoving"/>
+                    <updateVar name="checkMove" type="bool" value="true"/>
+                    <playAudio/>
+                </ifVar>
             </keyPress>
+        </ifVar>
+
+        <ifVar name="checkMove" type="bool" value="false">
+            <updateVar name="isMoving" type="bool" value="false"/>
+            <stopAudio/>
         </ifVar>
 
         <!-- interact -->
@@ -96,19 +125,19 @@
             <ifVar name="blink" type="bool" value="false">
                 <ifVar name="playerDirection" value="0" type="int">
                     <!-- Up -->
-                    <changeSprite name="../TempleAtonement/texture/blobsprite_10.png"/>
+                    <changeSprite name="../TempleAtonement/texture/player_up.png"/>
                 </ifVar>
                 <ifVar name="playerDirection" value="1" type="int">
                     <!-- Right -->
-                    <changeSprite name="../TempleAtonement/texture/blobsprite_07.png"/>
+                    <changeSprite name="../TempleAtonement/texture/player_right.png"/>
                 </ifVar>
                 <ifVar name="playerDirection" value="2" type="int">
                     <!-- Down -->
-                    <changeSprite name="../TempleAtonement/texture/blobsprite_01.png"/>
+                    <changeSprite name="../TempleAtonement/texture/player_down.png"/>
                 </ifVar>
                 <ifVar name="playerDirection" value="3" type="int">
                     <!-- Left -->
-                    <changeSprite name="../TempleAtonement/texture/blobsprite_04.png"/>
+                    <changeSprite name="../TempleAtonement/texture/player_left.png"/>
                 </ifVar>
             </ifVar>
             <ifVar name="blink" type="bool" value="true">
@@ -127,6 +156,10 @@
         <double name="invinTimer" value="0.0"/>
         <bool name="isInvincible" value="false"/>
         <bool name="blink" value="false"/>
+        <int name="points" value="0"/>
+        <entity name="tempEntity" value=""/>
+        <bool name="isMoving" value="false"/>
+        <bool name="checkMove" value="false"/>
     </variables>
     <interacted>
         
@@ -146,9 +179,12 @@
             </ifVar>
         </ifVar>
         <ifVar name="collisionObject-tag" value="Coin" type="string">
-            <!-- <onEntity name="scoreEntity">
-                <addVar name="score" value="100"/>
-            </onEntity> -->
+            <updateVar name="tempEntity" value="collisionObject-name" type="entity"/>
+			<onEntity name="tempEntity">
+                <playAudio/>
+                <setActive value="false"/>
+            </onEntity>
+            <addVar name="points" value="5" type="int"/>
         </ifVar>
         <!-- <ifVar name="collisionObject-tag" value="Interactable" type="string">
             <updateVar name="interactEntity" value="collisionObject-name" type=""/>
