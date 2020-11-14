@@ -283,6 +283,9 @@ public:
                     if (!cScript.valid()) {
                         break;
                     }
+
+                    if (CScript::containsGlobalVariable(attributes.at("name")))
+                        return;
                     
                     if (type == "globalInt") {
                         int val = CScript::ints.at(attributes.at("name"));
@@ -336,8 +339,11 @@ public:
                     if (!cScript.valid()) {
                         break;
                     }
-                    
-                    if (type == "int" && cScript.get()->ints.find(attributes.at("name")) != cScript.get()->ints.end()) {
+
+                    if (!cScript->containsVariable(attributes.at("name")))
+                        return;
+
+                    if (type == "int") {
                         int val = cScript.get()->ints.at(attributes.at("name"));
                         int valToCompare = stoi(attributes.at("value"), nullptr, 0);
 
@@ -345,7 +351,7 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "float" && cScript.get()->floats.find(attributes.at("name")) != cScript.get()->floats.end()) {
+                    if (type == "float") {
                         float val = cScript.get()->floats.at(attributes.at("name"));
                         float valToCompare = stof(attributes.at("value"));
 
@@ -353,9 +359,50 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "double" && cScript.get()->doubles.find(attributes.at("name")) != cScript.get()->doubles.end()) {
+                    if (type == "double") {
                         double val = cScript.get()->doubles.at(attributes.at("name"));
                         double valToCompare = 0;
+                        if (attributes.at("value") == "deltaTime") {
+                            valToCompare = CScript::doubles.at("deltaTime");
+                        } else {
+                            valToCompare = stod(attributes.at("value"));
+                        }
+
+                        if (val > valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+                }
+
+                if (name == "ifGlobalVarGreater" && attributes.find("name") != attributes.end() && attributes.find("value") != attributes.end()) {
+                    string type = attributes.at("type");
+
+                    if (!cScript.valid()) {
+                        break;
+                    }
+
+                    if (!CScript::containsGlobalVariable(attributes.at("name")))
+                        return;
+
+                    if (type == "globalInt") {
+                        int val = CScript::ints.at(attributes.at("name"));
+                        int valToCompare = stoi(attributes.at("value"), nullptr, 0);
+
+                        if (val > valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "globalFloat") {
+                        float val = CScript::floats.at(attributes.at("name"));
+                        float valToCompare = stof(attributes.at("value"));
+
+                        if (val > valToCompare)
+                            runCommands(command->FirstChild(), cScript);
+                    }
+
+                    if (type == "globalDouble") {
+                        double val = CScript::doubles.at(attributes.at("name"));
+                        double valToCompare = 0;
+
                         if (attributes.at("value") == "deltaTime") {
                             valToCompare = CScript::doubles.at("deltaTime");
                         } else {

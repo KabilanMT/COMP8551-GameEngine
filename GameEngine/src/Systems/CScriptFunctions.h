@@ -27,6 +27,15 @@ namespace CScript
         doubles.insert(make_pair("deltaTime", 0.0f));
     }
 
+    bool containsGlobalVariable(string varName) {
+        if (ints.find(varName) != ints.end() || floats.find(varName) != floats.end()
+            || doubles.find(varName) != doubles.end() || strings.find(varName) != strings.end()
+            || bools.find(varName) != bools.end() || entities.find(varName) != entities.end())
+            return true; 
+        
+        return false;
+    }
+
     /**
      * Setter function for setting the current entity that we are using the custom script on.  
      */
