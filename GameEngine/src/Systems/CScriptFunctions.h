@@ -214,6 +214,35 @@ namespace CScript
         }
     }
 
+    void distanceTo(string entityName, string floatVariableName) {
+        if (!currEntity->valid())
+            return;
+    }
+     
+    void vectorTo(string entityName, string floatVariableXName, string floatVariableYName) {
+
+    }
+
+    void moveEntityByVars(string nameOfXFloatVariable, string nameOfYFloatVariable, string nameOfZFloatVariable, string applyDt, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid())
+            return;
+
+        float x = 0;
+        float y = 0;
+        float z = 0;
+
+        if (cScript->containsVariable(nameOfXFloatVariable))
+            x = cScript->floats.at(nameOfXFloatVariable);
+
+        if (cScript->containsVariable(nameOfYFloatVariable))
+            y = cScript->floats.at(nameOfYFloatVariable);
+
+        if (cScript->containsVariable(nameOfZFloatVariable))
+            z = cScript->floats.at(nameOfZFloatVariable);
+
+        moveEntity(x, y, z, applyDt, cScript.get()->doubles.at("deltaTime"));
+    }
+
     /**
      * Add a stored variable's value to a new value.
      * PARAM: varName variable's name

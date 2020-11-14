@@ -290,6 +290,8 @@ public:
                     ComponentHandle<CustomScript> handle = CScript::getCurrEntity()->component<CustomScript>();
                     XMLElement* customFunction = handle->getCustomFunction(functionName);
 
+                    cout << endl;
+
                     if (customFunction != nullptr)
                         runCommands(customFunction->FirstChild(), handle);
                 }
@@ -298,6 +300,7 @@ public:
                     if (!cScript.valid()) {
                         break;
                     }
+
                     string entityName = attributes.at("name");
                     Entity* temp = CScript::getCurrEntity();
 
@@ -333,6 +336,9 @@ public:
 
                 if (name == "moveEntity")
                     CScript::moveEntity(stof(attributes.at("x")), stof(attributes.at("y")), stof(attributes.at("z")), attributes.at("applyDt"), cScript.get()->doubles.at("deltaTime"));
+
+                if (name == "moveEntityByVars")
+                    CScript::moveEntityByVars(attributes.at("x"), attributes.at("y"), attributes.at("z"), attributes.at("applyDt"), cScript);
 
                 if (name == "removeEntity") {
                     CScript::removeEntity();
