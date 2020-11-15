@@ -120,6 +120,12 @@ public:
                 string var_name = attr->Value();
                 string var_value = attr->Next()->Value(); 
 
+                if (CScript::containsGlobalVariable(var_name)) {
+                    Logger::getInstance() << var_name << " is already defined or is a reserved global variable. \n";
+                    variable = variable->NextSibling();
+                    continue;
+                }
+
                 if (cScript->containsVariable(var_name)) {
                     Logger::getInstance() << var_name << " is already defined or is a reserved variable. \n";
                     variable = variable->NextSibling();
@@ -284,10 +290,10 @@ public:
                         break;
                     }
 
-                    if (CScript::containsGlobalVariable(attributes.at("name")))
+                    if (!CScript::containsGlobalVariable(attributes.at("name")))
                         return;
                     
-                    if (type == "globalInt") {
+                    if (type == "int") {
                         int val = CScript::ints.at(attributes.at("name"));
                         int valToCompare = stoi(attributes.at("value"), nullptr, 0);
 
@@ -295,7 +301,7 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "globalFloat") {
+                    if (type == "float") {
                         float val = CScript::floats.at(attributes.at("name"));
                         float valToCompare = stof(attributes.at("value"));
 
@@ -303,7 +309,7 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "globalDouble") {
+                    if (type == "double") {
                         double val = CScript::doubles.at(attributes.at("name"));
                         double valToCompare = 0;
 
@@ -317,7 +323,7 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
                     
-                    if (type == "globalString") {
+                    if (type == "string") {
                         string val = CScript::strings.at(attributes.at("name"));
                         string valToCompare = attributes.at("value");
 
@@ -325,7 +331,7 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "globalBool") { 
+                    if (type == "bool") { 
                         bool val = CScript::bools.at(attributes.at("name"));
 
                         if (val == (attributes.at("value") == "true" ? true : false))
@@ -383,7 +389,7 @@ public:
                     if (!CScript::containsGlobalVariable(attributes.at("name")))
                         return;
 
-                    if (type == "globalInt") {
+                    if (type == "int") {
                         int val = CScript::ints.at(attributes.at("name"));
                         int valToCompare = stoi(attributes.at("value"), nullptr, 0);
 
@@ -391,7 +397,7 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "globalFloat") {
+                    if (type == "float") {
                         float val = CScript::floats.at(attributes.at("name"));
                         float valToCompare = stof(attributes.at("value"));
 
@@ -399,7 +405,7 @@ public:
                             runCommands(command->FirstChild(), cScript);
                     }
 
-                    if (type == "globalDouble") {
+                    if (type == "double") {
                         double val = CScript::doubles.at(attributes.at("name"));
                         double valToCompare = 0;
 
@@ -457,7 +463,7 @@ public:
                         break;
                     }
                     string value = attributes.at("value");
-                    int keyValue = cScript->getValidKeyPress(value);
+                    int keyValue = CScript::getValidKeyPress(value);
                     
                     if (Input::getInstance().isKeyPressed(keyValue))
                         runCommands(command->FirstChild(), cScript);

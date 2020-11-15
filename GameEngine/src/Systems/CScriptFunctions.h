@@ -20,6 +20,19 @@ namespace CScript
     unordered_map<std::string, bool> bools;
     unordered_map<std::string, entityx::Entity> entities;
 
+    const std::unordered_map<std::string, int> possibleInputs {
+        {"KEY_W", GLFW_KEY_W}, 
+        {"KEY_S", GLFW_KEY_S},
+        {"KEY_A", GLFW_KEY_A},
+        {"KEY_D", GLFW_KEY_D},
+        {"KEY_Q", GLFW_KEY_Q},
+        {"KEY_E", GLFW_KEY_E},
+        {"KEY_R", GLFW_KEY_R},
+        {"KEY_F", GLFW_KEY_F},
+        {"KEY_I", GLFW_KEY_I},
+        {"KEY_SPACE", GLFW_KEY_SPACE}
+    }; 
+
     /**
      * Initializes any reserved variables.
      */
@@ -34,6 +47,10 @@ namespace CScript
             return true; 
         
         return false;
+    }
+
+    int getValidKeyPress(string key) {
+        return possibleInputs.at(key);
     }
 
     /**
@@ -154,10 +171,15 @@ namespace CScript
         if (!currEntity->valid() || !cScript.valid()) {
             return;
         }
-        if (!cScript.get()->containsVariable(value))
-            return;
 
-        entityx::Entity other = cScript.get()->entities.at(value);
+        entityx::Entity other;
+
+        if (cScript.get()->containsVariable(value))
+            other = cScript.get()->entities.at(value);
+        else if (containsGlobalVariable(value))
+            other = entities.at(value);
+        else
+            return;
 
         if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
             return;
@@ -178,6 +200,102 @@ namespace CScript
         Logger::getInstance() << value << "\n";
     }
 
+    void distanceTo(string entityVariableName, string floatVariableName, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid())
+            return;
+
+        if ((!cScript->containsVariable(entityVariableName) && !containsGlobalVariable(entityVariableName)) 
+            || (!cScript->containsVariable(floatVariableName) && !containsGlobalVariable(floatVariableName))) {
+            Logger::getInstance() << "distanceTo: entityVariableName or floatVariableName do not exist";
+            return;
+        }
+
+        entityx::Entity other;
+
+        if (cScript.get()->containsVariable(entityVariableName))
+            other = cScript.get()->entities.at(entityVariableName);
+        else if (containsGlobalVariable(entityVariableName))
+            other = entities.at(entityVariableName);
+
+        if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
+            return;
+
+        ComponentHandle<Transform> otherT = other.component<Transform>();
+        ComponentHandle<Transform> thisT = currEntity->component<Transform>();
+
+        float distance = pow((otherT.get()->x - thisT.get()->x), 2) + pow((otherT.get()->y - thisT.get()->y), 2) + pow((otherT.get()->z - thisT.get()->z), 2);
+        distance = sqrt(distance);
+
+        if (cScript.get()->containsVariable(floatVariableName))
+            cScript->floats.at(floatVariableName) = distance;
+        else if (containsGlobalVariable(floatVariableName))
+            cScript->floats.at(floatVariableName) = distance;
+    }
+     
+    void vectorTo(string entityVariableName, string floatVariableXName, string floatVariableYName, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid())
+            return;
+
+        if ((!cScript->containsVariable(entityVariableName) && !containsGlobalVariable(entityVariableName)) 
+            || (!cScript->containsVariable(floatVariableXName) && !containsGlobalVariable(floatVariableXName)) 
+            || (!cScript->containsVariable(floatVariableYName) && !containsGlobalVariable(floatVariableYName))) {
+            Logger::getInstance() << "vectorTo: entityVariableName, floatVariableXName or floatVariableYName do not exist";
+            return;
+        }
+
+        entityx::Entity other;
+
+        if (cScript.get()->containsVariable(entityVariableName))
+            other = cScript.get()->entities.at(entityVariableName);
+        else if (containsGlobalVariable(entityVariableName))
+            other = entities.at(entityVariableName);
+
+        if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
+            return;
+
+        ComponentHandle<Transform> otherT = other.component<Transform>();
+        ComponentHandle<Transform> thisT = currEntity->component<Transform>();
+
+        float x = otherT.get()->x - thisT.get()->x;
+        float y = otherT.get()->y - thisT.get()->y;
+
+        float mag = sqrt(x * x + y * y);
+
+        if (mag > 0) {
+            x /= mag;
+            y /= mag;
+        }
+
+        cScript.get()->floats.at(floatVariableXName) = x;
+        cScript.get()->floats.at(floatVariableYName) = y;
+    }
+
+    void moveEntityByVars(string nameOfXFloatVariable, string nameOfYFloatVariable, string nameOfZFloatVariable, string applyDt, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid())
+            return;
+
+        float x = 0;
+        float y = 0;
+        float z = 0;
+
+        if (containsGlobalVariable(nameOfXFloatVariable))
+            x = floats.at(nameOfXFloatVariable);
+        else if (cScript->containsVariable(nameOfXFloatVariable))
+            x = cScript->floats.at(nameOfXFloatVariable);
+
+        if (containsGlobalVariable(nameOfYFloatVariable))
+            y = floats.at(nameOfYFloatVariable);
+        else if (cScript->containsVariable(nameOfYFloatVariable))
+            y = cScript->floats.at(nameOfYFloatVariable);
+
+        if (containsGlobalVariable(nameOfZFloatVariable))
+            z = floats.at(nameOfZFloatVariable);
+        else if (cScript->containsVariable(nameOfZFloatVariable))
+            z = cScript->floats.at(nameOfZFloatVariable);
+
+        moveEntity(x, y, z, applyDt, doubles.at("deltaTime"));
+    }
+
     /**
      * Updates a stored variable's value to a new value.
      * PARAM: varName variable's name
@@ -189,6 +307,10 @@ namespace CScript
         if (!currEntity->valid() || !cScript.valid()) {
             return;
         }
+
+        if (!cScript.get()->containsVariable(varName))
+            return;
+
         if (varType == "int")
             cScript.get()->ints.at(varName) = stoi(value, nullptr, 0);
 
@@ -197,7 +319,7 @@ namespace CScript
 
         if (varType == "double") {
             if (value == "deltaTime") {
-                cScript.get()->doubles.at(varName) = cScript.get()->doubles.at("deltaTime");
+                cScript.get()->doubles.at(varName) = doubles.at("deltaTime");
             } else {
                 cScript.get()->doubles.at(varName) = stod(value);
             }
@@ -229,86 +351,16 @@ namespace CScript
         if (!currEntity->valid() || !cScript.valid()) {
             return;
         }
+                
+        if (!cScript.get()->containsVariable(varName))
+            return;
+        
         bool val = cScript->bools.at(varName);
         if (val == true) {
             cScript->bools.at(varName) = false;
         } else {
             cScript->bools.at(varName) = true;
         }
-    }
-
-    void distanceTo(string entityVariableName, string floatVariableName, ComponentHandle<CustomScript> cScript) {
-        if (!currEntity->valid())
-            return;
-
-        if (!cScript->containsVariable(entityVariableName) || !cScript->containsVariable(floatVariableName)) {
-            Logger::getInstance() << "distanceTo: entityVariableName or floatVariableName do not exist";
-            return;
-        }
-
-        Entity other = cScript->entities.at(entityVariableName);
-
-        if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
-            return;
-
-        ComponentHandle<Transform> otherT = other.component<Transform>();
-        ComponentHandle<Transform> thisT = currEntity->component<Transform>();
-
-        float distance = pow((otherT.get()->x - thisT.get()->x), 2) + pow((otherT.get()->y - thisT.get()->y), 2) + pow((otherT.get()->z - thisT.get()->z), 2);
-        distance = sqrt(distance);
-
-        cScript->floats.at(floatVariableName) = distance;
-    }
-     
-    void vectorTo(string entityVariableName, string floatVariableXName, string floatVariableYName, ComponentHandle<CustomScript> cScript) {
-        if (!currEntity->valid())
-            return;
-
-        if (!cScript->containsVariable(entityVariableName) || !cScript->containsVariable(floatVariableXName) || !cScript->containsVariable(floatVariableYName)) {
-            Logger::getInstance() << "vectorTo: entityVariableName, floatVariableXName or floatVariableYName do not exist";
-            return;
-        }
-
-        Entity other = cScript->entities.at(entityVariableName);
-
-        if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
-            return;
-
-        ComponentHandle<Transform> otherT = other.component<Transform>();
-        ComponentHandle<Transform> thisT = currEntity->component<Transform>();
-
-        float x = otherT.get()->x - thisT.get()->x;
-        float y = otherT.get()->y - thisT.get()->y;
-
-        float mag = sqrt(x * x + y * y);
-
-        if (mag > 0) {
-            x /= mag;
-            y /= mag;
-        }
-
-        cScript.get()->floats.at(floatVariableXName) = x;
-        cScript.get()->floats.at(floatVariableYName) = y;
-    }
-
-    void moveEntityByVars(string nameOfXFloatVariable, string nameOfYFloatVariable, string nameOfZFloatVariable, string applyDt, ComponentHandle<CustomScript> cScript) {
-        if (!currEntity->valid())
-            return;
-
-        float x = 0;
-        float y = 0;
-        float z = 0;
-
-        if (cScript->containsVariable(nameOfXFloatVariable))
-            x = cScript->floats.at(nameOfXFloatVariable);
-
-        if (cScript->containsVariable(nameOfYFloatVariable))
-            y = cScript->floats.at(nameOfYFloatVariable);
-
-        if (cScript->containsVariable(nameOfZFloatVariable))
-            z = cScript->floats.at(nameOfZFloatVariable);
-
-        moveEntity(x, y, z, applyDt, cScript.get()->doubles.at("deltaTime"));
     }
 
     /**
@@ -322,6 +374,9 @@ namespace CScript
         if (!currEntity->valid() || !cScript.valid()) {
             return;
         }
+        
+        if (!cScript.get()->containsVariable(varName))
+            return;
 
         ComponentHandle<Name> ename = currEntity->component<Name>();
 
@@ -333,7 +388,7 @@ namespace CScript
 
         if (varType == "double") {
             if (value == "deltaTime") {
-                cScript.get()->doubles.at(varName) += cScript.get()->doubles.at("deltaTime");
+                cScript.get()->doubles.at(varName) += doubles.at("deltaTime");
             } else {
                 cScript.get()->doubles.at(varName) += stod(value);
             }
@@ -354,6 +409,10 @@ namespace CScript
         if (!currEntity->valid() || !cScript.valid()) {
             return;
         }
+        
+        if (!cScript.get()->containsVariable(varName))
+            return;
+
         if (varType == "int")
             cScript.get()->ints.at(varName) -= stoi(value, nullptr, 0);
 
@@ -362,7 +421,7 @@ namespace CScript
 
         if (varType == "double") {
             if (value == "deltaTime") {
-                cScript.get()->doubles.at(varName) -= cScript.get()->doubles.at("deltaTime");
+                cScript.get()->doubles.at(varName) -= doubles.at("deltaTime");
             } else {
                 cScript.get()->doubles.at(varName) -= stod(value);
             }
@@ -380,6 +439,10 @@ namespace CScript
         if (!currEntity->valid() || !cScript.valid()) {
             return;
         }
+        
+        if (!cScript.get()->containsVariable(varName))
+            return;
+
         if (varType == "int")
             cScript.get()->ints.at(varName) *= stoi(value, nullptr, 0);
 
@@ -388,7 +451,7 @@ namespace CScript
 
         if (varType == "double") {
             if (value == "deltaTime") {
-                cScript.get()->doubles.at(varName) *= cScript.get()->doubles.at("deltaTime");
+                cScript.get()->doubles.at(varName) *= doubles.at("deltaTime");
             } else {
                 cScript.get()->doubles.at(varName) *= stod(value);
             }
@@ -406,6 +469,10 @@ namespace CScript
         if (!currEntity->valid() || !cScript.valid()) {
             return;
         }
+
+        if (!cScript.get()->containsVariable(varName))
+            return;
+
         if (varType == "int")
             cScript.get()->ints.at(varName) /= stoi(value, nullptr, 0);
 
@@ -414,9 +481,198 @@ namespace CScript
 
         if (varType == "double") {
             if (value == "deltaTime") {
-                cScript.get()->doubles.at(varName) /= cScript.get()->doubles.at("deltaTime");
+                cScript.get()->doubles.at(varName) /= doubles.at("deltaTime");
             } else {
                 cScript.get()->doubles.at(varName) /= stod(value);
+            }
+        }
+    }
+
+    /**
+     * Updates a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
+    void updateGlobalVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!containsGlobalVariable(varName))
+            return;
+
+        if (varType == "int")
+            ints.at(varName) = stoi(value, nullptr, 0);
+
+        if (varType == "float")
+            floats.at(varName) = stof(value);
+
+        if (varType == "double") {
+            if (value == "deltaTime") {
+                doubles.at(varName) = doubles.at("deltaTime");
+            } else {
+                doubles.at(varName) = stod(value);
+            }
+        }
+        
+        if (varType == "string")
+            strings.at(varName) = value;
+
+        if (varType == "bool") 
+            bools.at(varName) = (value == "true") ? true : false;
+
+        if (varType == "entity") {
+            auto engineEntities = Engine::getInstance().entities.entities_with_components<Name>();
+
+            for (Entity e : engineEntities) {
+                ComponentHandle<Name> entityName = e.component<Name>();
+                if (entityName.get()->getName().compare(value) == 0) {
+                    entities.at(varName) = e;
+                    break;
+                }
+            }
+        }
+    }
+
+    void flipGlobalBool(string varName, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!containsGlobalVariable(varName))
+            return;
+
+        bool val = bools.at(varName);
+        if (val == true) {
+            bools.at(varName) = false;
+        } else {
+            bools.at(varName) = true;
+        }
+    }
+
+    /**
+     * Add a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
+    void addGlobalVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!containsGlobalVariable(varName))
+            return;
+
+        ComponentHandle<Name> ename = currEntity->component<Name>();
+
+        if (varType == "int")
+            ints.at(varName) += stoi(value, nullptr, 0);
+
+        if (varType == "float")
+            floats.at(varName) += stof(value);
+
+        if (varType == "double") {
+            if (value == "deltaTime") {
+                doubles.at(varName) += doubles.at("deltaTime");
+            } else {
+                doubles.at(varName) += stod(value);
+            }
+        }
+
+        if (varType == "string")
+            strings.at(varName) += value;
+    }
+
+    /**
+     * Subtract a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
+    void subGlobalVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!containsGlobalVariable(varName))
+            return;
+
+        if (varType == "int")
+            ints.at(varName) -= stoi(value, nullptr, 0);
+
+        if (varType == "float")
+            floats.at(varName) -= stof(value);
+
+        if (varType == "double") {
+            if (value == "deltaTime") {
+                doubles.at(varName) -= doubles.at("deltaTime");
+            } else {
+                doubles.at(varName) -= stod(value);
+            }
+        }
+    }
+
+    /**
+     * Multiple a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
+    void multiGlobalVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!containsGlobalVariable(varName))
+            return;
+
+        if (varType == "int")
+            ints.at(varName) *= stoi(value, nullptr, 0);
+
+        if (varType == "float")
+            floats.at(varName) *= stof(value);
+
+        if (varType == "double") {
+            if (value == "deltaTime") {
+                doubles.at(varName) *= cScript.get()->doubles.at("deltaTime");
+            } else {
+                doubles.at(varName) *= stod(value);
+            }
+        }
+    }
+
+    /**
+     * Divide a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int, float, double, string, bool, entity.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
+    void divideGlobalVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!containsGlobalVariable(varName))
+            return;
+        
+        if (varType == "int")
+            ints.at(varName) /= stoi(value, nullptr, 0);
+
+        if (varType == "float")
+            floats.at(varName) /= stof(value);
+
+        if (varType == "double") {
+            if (value == "deltaTime") {
+                doubles.at(varName) /= doubles.at("deltaTime");
+            } else {
+                doubles.at(varName) /= stod(value);
             }
         }
     }
