@@ -105,19 +105,33 @@ If statement to check if a variable defined is greater then a particular value.
     <!-- Any commands -->
 </ifGreaterVar>
 ```
+#### IfVarLess
+If statement to check if a variable defined is less then a particular value.
+```
+<IfVarLess name="variableName" value="valueToCompare" type="variableType">
+    <!-- Any commands -->
+</IfVarLess>
+```
 #### IfGlobalVar
 If statement to check if a global variable defined is of a particular value.
 ```
 <ifGlobalVar name="variableName" value="valueToCompare" type="variableType">
     <!-- Any commands -->
-</ifVar>
+</ifGlobalVar>
 ```
 #### IfGlobalVarGreater
 If statement to check if a global variable defined is greater then a particular value.
 ```
 <ifGlobalVarGreater name="variableName" value="valueToCompare" type="variableType">
     <!-- Any commands -->
-</ifGreaterVar>
+</ifGlobalVarGreater>
+```
+#### IfGlobalVarLess
+If statement to check if a variable defined is less then a particular value.
+```
+<ifGlobalVarLess name="variableName" value="valueToCompare" type="variableType">
+    <!-- Any commands -->
+</ifGlobalVarLess>
 ```
 #### KeyPress
 When key is pressed do commands. Not all keys work, to check if a key works check the unordered map in the CScriptFunctions namespace.
