@@ -164,6 +164,9 @@
     <interacted>
         
     </interacted>
+    <addPoints>
+      <addVar name="points" value="1" type="int"/>
+    </addPoints>
     <start>
 
     </start>
