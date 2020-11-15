@@ -55,7 +55,7 @@ If when trying to run it says it can't find glfw3.dll, just move the dll file in
 ### Script Commands
 #### Variables
 Stores a variable to be used later. <br /> 
-Variable types: int, float, double, string, boolean, and entity. <br />
+Variable types: int, float, double, string, boolean, entity, globalInt, globalFloat, globalDouble, globalString, globalBool, and globalEntity <br />
 Reserved variables: <br />
 deltaTime (double): the deltatime of the frame. <br />
 objectCollision-name (string): set to entity's name collided with. <br />
@@ -68,6 +68,7 @@ objectCollision-tag (string): set to entity's tag collided with. <br />
     <string name="hello" value="hello world" />
     <bool name="isTrue" value="true" />
     <entity name="entityName" value="entityName" />
+    <globalInt name="points" value="3" />
 <variables>
 ```
 #### Start
