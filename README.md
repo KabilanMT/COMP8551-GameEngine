@@ -98,15 +98,29 @@ If statement to check if a variable defined is of a particular value.
     <!-- Any commands -->
 </ifVar>
 ```
-#### IfGreaterVar
+#### IfVarGreater
 If statement to check if a variable defined is greater then a particular value.
 ```
 <ifGreaterVar name="variableName" value="valueToCompare" type="variableType">
     <!-- Any commands -->
 </ifGreaterVar>
 ```
+#### IfGlobalVar
+If statement to check if a global variable defined is of a particular value.
+```
+<ifGlobalVar name="variableName" value="valueToCompare" type="variableType">
+    <!-- Any commands -->
+</ifVar>
+```
+#### IfGlobalVarGreater
+If statement to check if a global variable defined is greater then a particular value.
+```
+<ifGlobalVarGreater name="variableName" value="valueToCompare" type="variableType">
+    <!-- Any commands -->
+</ifGreaterVar>
+```
 #### KeyPress
-When key is pressed do commands. Not all keys work, to check if a key works check the unordered map in the CustomScript component.
+When key is pressed do commands. Not all keys work, to check if a key works check the unordered map in the CScriptFunctions namespace.
 ```
 <keyPress value="KEY_E">
     <!-- Any commands -->
@@ -117,11 +131,23 @@ Updates a stored variable's value to a new value.
 ```
 <updateVar name="variableName" value="newValue" type="variableType" />
 ```
+#### UpdateGlobalVar
+Updates a stored global variable's value to a new value.
+```
+<updateGlobalVar name="variableName" value="newValue" type="variableType" />
+```
 #### AddVar, SubVar, MultiVar, DivideVar
 Adds, substracts, multiples or divides the stored variable's value by a value.
 ```
 <addVar name="variableName" value="valueToAdd" type="variableType" />
 <subVar name="variableName" value="valueToSubtract" type="variableType" />
+<!-- Etc. -->
+```
+#### AddGlobalVar, SubGlobalVar, MultiGlobalVar, DivideGlobalVar
+Adds, substracts, multiples or divides the stored global variable's value by a value.
+```
+<addGlobalVar name="variableName" value="valueToAdd" type="variableType" />
+<subGlobalVar name="variableName" value="valueToSubtract" type="variableType" />
 <!-- Etc. -->
 ```
 #### ChangeSprite
@@ -150,6 +176,11 @@ Move an entity in a direction.
 ```
 <moveEntity x="0.0" y="1.0" z="0.0" />
 ```
+#### moveEntityByVars
+Same as moveEntity, but uses the values stored in the variables referenced by x, y, and z, instead of float literals.
+```
+<moveEntityByVars x="nameOfXFloatVariable" y="nameOfYFloatVariable" z="nameOfZFloatVariable" />
+```
 #### SetActive
 Set the entity's active.
 ```
@@ -164,6 +195,16 @@ Deletes current entity from scene.
 Set the entity's position to the current entity's position.
 ```
 <matchEntityPos name="nameOfEntityVariable" />
+```
+#### DistanceTo
+Finds the distance between the current entity and the one referenced by name. Stores the result in the float variable referenced by var.
+```
+<distanceTo name="entityVariableName" var="floatVariableToStoreIn"/>
+```
+#### VectorTo
+Find the direction from the current entity towards the entity referenced by name. Stores the result in the two float variables referenced by x and y.
+```
+<vectorTo name="entityVariableName" x="floatVariableToStoreXValueIn" y="floatVariableToStoreYValueIn"/>
 ```
 #### Log
 Logs the value to a log file. Due to limitations only can log strings and not variables. 

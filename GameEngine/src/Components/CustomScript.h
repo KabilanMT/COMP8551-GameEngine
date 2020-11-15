@@ -32,7 +32,6 @@ struct CustomScript
             // Reserved variables
             strings.insert(make_pair("collisionObject-tag", ""));
             strings.insert(make_pair("collisionObject-name", ""));
-            doubles.insert(make_pair("deltaTime", 0.0f));
         }
 
         XMLElement* getStart() {
@@ -57,10 +56,6 @@ struct CustomScript
 
         XMLElement* getCustomFunction(std::string functionName) {
             return root->FirstChildElement(functionName.c_str());
-        }
-
-        int getValidKeyPress(string key) {
-            return possibleInputs.at(key);
         }
 
         void resetReservedVariables() {
@@ -92,19 +87,5 @@ struct CustomScript
         unordered_map<std::string, double> doubles;
         unordered_map<std::string, std::string> strings;
         unordered_map<std::string, bool> bools;
-        unordered_map<std::string, entityx::Entity> entities;
-
-    private:
-        const std::unordered_map<std::string, int> possibleInputs {
-            {"KEY_W", GLFW_KEY_W}, 
-            {"KEY_S", GLFW_KEY_S},
-            {"KEY_A", GLFW_KEY_A},
-            {"KEY_D", GLFW_KEY_D},
-            {"KEY_Q", GLFW_KEY_Q},
-            {"KEY_E", GLFW_KEY_E},
-            {"KEY_R", GLFW_KEY_R},
-            {"KEY_F", GLFW_KEY_F},
-            {"KEY_I", GLFW_KEY_I},
-            {"KEY_SPACE", GLFW_KEY_SPACE}
-        }; 
+        unordered_map<std::string, entityx::Entity> entities; 
 };
