@@ -7,6 +7,19 @@
 
 Input class is used for the input of game. You can define your own input function by using key,
 mouse button press/repeat, mouse position and mouse scroll offset position
+
+Example of how to check if a key is pressed:
+- bool isSpacePressed = Input::getInstance().isKeyPressed(GLFW_KEY_SPACE)
+
+Full list of key_press codes are here
+https://www.glfw.org/docs/3.3/group__keys.html
+
+Example of how to check if a mouse button was pressed
+- bool isLeftMousePressed = Input::getInstance().isMousePressed(true) //left mouse button
+
+Example to check the position of the cursor
+- int xpos = Input::getInstance().getCursorPosition(true) //xcoord
+- int ypos = Input::getInstance().getCursorPosition(false) //ycoord
 */
 using namespace std;
 class Input {
