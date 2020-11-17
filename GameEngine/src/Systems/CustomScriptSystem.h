@@ -561,6 +561,9 @@ public:
                 if (name == "divideVar") 
                     CScript::divideVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
+                if (name == "updateGlobalVar")
+                    CScript::updateVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
+
                 if (name == "addGlobalVar") 
                     CScript::addGlobalVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
