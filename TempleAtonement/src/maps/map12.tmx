@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="309">
+<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="4" nextobjectid="317">
  <tileset firstgid="1" source="Dungeon.tsx"/>
- <tileset firstgid="257" source="blobsprite_01.tsx"/>
- <objectgroup id="2" name="Object Layer - World">
+ <tileset firstgid="1" source="blobsprite_01.tsx"/>
+ <objectgroup id="2" name="Scene 12">
   <object id="308" name="Land" x="0" y="0" width="572" height="480">
    <properties>
-    <property name="AudioSource" value="29-Dark fantasy studio- You are fighting with me.mp3, true, bgm"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/RockFloor.png"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP12/MAP12_FLOOR.png"/>
    </properties>
   </object>
   <object id="266" name="Chest" x="240" y="192" width="48" height="48">
@@ -52,22 +51,6 @@
     <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
    </properties>
   </object>
-  <object id="302" name="Coin" x="336" y="192" width="48" height="48">
-   <properties>
-    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
-    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="Tag" value="Coin"/>
-    <property name="TextureComp" value="src/res/textures/Coin.png"/>
-   </properties>
-  </object>
-  <object id="303" name="Coin" x="192" y="192" width="48" height="48">
-   <properties>
-    <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
-    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="Tag" value="Coin"/>
-    <property name="TextureComp" value="src/res/textures/Coin.png"/>
-   </properties>
-  </object>
   <object id="304" name="Archer" x="48" y="288" width="48" height="48">
    <properties>
     <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
@@ -100,13 +83,61 @@
     <property name="TextureComp" value="src/res/textures/Enemy.png"/>
    </properties>
   </object>
-  <object id="24" name="Player" x="288" y="384" width="32" height="32">
+  <object id="309" name="Scene9Exit" x="240" y="432" width="98" height="48">
    <properties>
-    <property name="BoxCollider" value="32,32,0,0,0,0,0"/>
-    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
+    <property name="BoxCollider" value="98,48,0,0,0,1,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap09.xml"/>
+   </properties>
+  </object>
+  <object id="310" name="Coin1" x="199" y="202" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
+    <property name="CircleCollider" value="12,0,3,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="312" name="Coin2" x="345" y="202" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
+    <property name="CircleCollider" value="12,0,3,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Coin"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="313" name="Music" x="240" y="336">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+   </properties>
+  </object>
+  <object id="314" name="weaponEntity" x="289.508" y="391.721" width="40" height="40" visible="0">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
+    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Weapon"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/slash.png"/>
+   </properties>
+  </object>
+  <object id="315" name="Player" x="281.508" y="384.221" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_footstep000r.ogg,0,1,fx"/>
+    <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1000.0f, 1000.0f"/>
     <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="../TempleAtonement/texture/player_down.png"/>
+    <property name="Tag" value="Player"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/player_up.png"/>
+   </properties>
+  </object>
+  <object id="316" name="Walls" x="0" y="0" width="576" height="482">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP12/MAP12_WALLS.png"/>
    </properties>
   </object>
  </objectgroup>
