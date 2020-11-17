@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="251">
  <tileset firstgid="1" source="Dungeon.tsx"/>
- <tileset firstgid="257" source="blobsprite_01.tsx"/>
+ <tileset firstgid="1" source="blobsprite_01.tsx"/>
  <objectgroup id="2" name="Object Layer - World">
- <object id="245" name="Land" x="48" y="48" width="478" height="388">
+  <object id="245" name="Land" x="48" y="48" width="478" height="388">
    <properties>
-    <property name="AudioSource" value="29-Dark fantasy studio- You are fighting with me.mp3, true, bgm"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/RockFloor.png"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP04/MAP04_FLOOR.png"/>
    </properties>
   </object>
   <object id="237" name="Collider" x="-96" y="432" width="262" height="48">
