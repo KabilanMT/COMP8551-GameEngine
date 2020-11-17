@@ -109,9 +109,10 @@
         <!-- interact -->
         <keyPress value="KEY_E">
             <onEntity name="interactEntity">
-                <callFuntion name="interacted"/>
+                <callFunction name="interacted"/>
             </onEntity>
         </keyPress>
+        <updateVar name="interactEntity" type="entity" value=""/>
         
         <!-- If invincible, increment timer and maybe stop being invincible -->
         <ifVar name="isInvincible" type="bool" value="true">
@@ -145,6 +146,7 @@
             </ifVar>
         </ifVar>
     </update>
+
     <variables>
         <bool name="isAttacking" value="false"/>
         <double name="attackTimer" value="0.0"/>
@@ -161,9 +163,7 @@
         <bool name="isMoving" value="false"/>
         <bool name="checkMove" value="false"/>
     </variables>
-    <interacted>
-        
-    </interacted>
+
     <addPoints>
       <addVar name="points" value="1" type="int"/>
     </addPoints>
@@ -189,9 +189,9 @@
             </onEntity>
             <addVar name="points" value="5" type="int"/>
         </ifVar>
-        <!-- <ifVar name="collisionObject-tag" value="Interactable" type="string">
-            <updateVar name="interactEntity" value="collisionObject-name" type=""/>
-        </ifVar> -->
+        <ifVar name="collisionObject-tag" value="Interactable" type="string">
+            <updateVar name="interactEntity" value="collisionObject-name" type="entity"/>
+        </ifVar>
     </onCollision>
 </root>
 
