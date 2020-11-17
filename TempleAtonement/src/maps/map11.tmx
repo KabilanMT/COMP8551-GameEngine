@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="4" nextobjectid="327">
+<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="4" nextobjectid="328">
  <tileset firstgid="1" source="Dungeon.tsx"/>
  <tileset firstgid="1" source="blobsprite_01.tsx"/>
  <objectgroup id="2" name="Scene 11">
   <object id="308" name="Land" x="0" y="0" width="572" height="480">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="../TempleAtonement/texture/MAP04/MAP04_FLOOR.png"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP11/MAP11_FLOOR.png"/>
    </properties>
   </object>
   <object id="267" name="Collider" x="0" y="0" width="48" height="479">
@@ -176,6 +176,12 @@
     <property name="BoxCollider" value="48,48,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="src/res/textures/Chest.png"/>
+   </properties>
+  </object>
+  <object id="327" name="Walls" x="0" y="0" width="576" height="482">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP11/MAP11_WALLS.png"/>
    </properties>
   </object>
  </objectgroup>

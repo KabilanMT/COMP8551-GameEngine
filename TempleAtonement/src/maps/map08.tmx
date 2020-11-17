@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="287">
+<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="291">
  <tileset firstgid="1" source="Dungeon.tsx"/>
  <tileset firstgid="1" source="blobsprite_01.tsx"/>
  <objectgroup id="2" name="Scene 8">
   <object id="1" name="Land" x="64" y="0" width="416" height="416">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="../TempleAtonement/texture/MAP04/MAP04_FLOOR.png"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP08/MAP08_FLOOR.png"/>
    </properties>
   </object>
   <object id="257" name="Collider" x="0" y="418" width="576" height="48">
@@ -166,6 +166,12 @@
   <object id="286" name="Music" x="96" y="48">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+   </properties>
+  </object>
+  <object id="290" name="Walls" x="0" y="-48" width="576" height="482">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP08/MAP08_WALLS.png"/>
    </properties>
   </object>
  </objectgroup>
