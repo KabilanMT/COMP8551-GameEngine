@@ -1,8 +1,7 @@
 #pragma once
+#include <string>
 
-#include "renderer.h"
-
-class texture
+class Texture
 {
     private:
         unsigned int m_RendererID;
@@ -11,8 +10,8 @@ class texture
         int m_Width, m_Height, m_BPP;
 
     public:
-        texture(const std::string& path);
-        ~texture();
+        Texture(const std::string& path);
+        ~Texture();
 
         //Windows has 32 texture slots, default use 0
         void Bind(unsigned int slot = 0) const;
