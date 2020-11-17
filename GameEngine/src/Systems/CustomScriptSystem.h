@@ -555,6 +555,8 @@ public:
                 if (name == "addVar") 
                     CScript::addVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
+                if (name == "multiVar") 
+                    CScript::multiVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
                 if (name == "subVar") 
                     CScript::subVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 

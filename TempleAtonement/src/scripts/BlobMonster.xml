@@ -9,7 +9,9 @@
         <!-- following -->
         <ifVar name="isFollowing" value="true" type="bool">
             <vectorTo name="Player" x="distX" y="distY"/>
-            <moveEntityByVars x="distX" y="distY" z="0.0f" applyDt="false" />
+            <multiVar name="distX" type="float" value="4.0"/>
+            <multiVar name="distY" type="float" value="4.0"/>
+            <moveEntityByVars x="distX" y="distY" z="0.0f" applyDt="true" />
         </ifVar>
     
     </update>

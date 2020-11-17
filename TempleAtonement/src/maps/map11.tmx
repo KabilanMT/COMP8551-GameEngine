@@ -12,15 +12,11 @@
   <object id="267" name="Collider" x="0" y="0" width="48" height="479">
    <properties>
     <property name="BoxCollider" value="48,479,0,0,0,0,0"/>
-    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
    </properties>
   </object>
   <object id="269" name="Collider" x="48" y="0" width="192" height="48">
    <properties>
     <property name="BoxCollider" value="192,48,0,0,0,0,0"/>
-    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
    </properties>
   </object>
   <object id="304" name="Archer" x="96" y="288" width="48" height="48">
@@ -73,22 +69,16 @@
   <object id="316" name="Collider" x="528" y="0" width="48" height="479">
    <properties>
     <property name="BoxCollider" value="48,479,0,0,0,0,0"/>
-    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
    </properties>
   </object>
   <object id="317" name="Collider" x="336" y="0" width="192" height="48">
    <properties>
     <property name="BoxCollider" value="192,48,0,0,0,0,0"/>
-    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
    </properties>
   </object>
   <object id="318" name="Collider" x="48" y="432" width="479" height="48">
    <properties>
     <property name="BoxCollider" value="479,48,0,0,0,0,0"/>
-    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="src/res/textures/BlackTile.png"/>
    </properties>
   </object>
   <object id="310" name="Coin1" x="96" y="384" width="32" height="32">
