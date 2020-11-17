@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="251">
+<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="256">
  <tileset firstgid="1" source="Dungeon.tsx"/>
  <tileset firstgid="1" source="blobsprite_01.tsx"/>
- <objectgroup id="2" name="Object Layer - World">
+ <objectgroup id="2" name="Scene 13">
   <object id="245" name="Land" x="48" y="48" width="478" height="388">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
@@ -28,15 +28,6 @@
     <property name="TextureComp" value="src/res/textures/Enemy.png"/>
    </properties>
   </object>
-  <object id="244" name="Player" x="240" y="384" width="32" height="32">
-   <properties>
-    <property name="BoxCollider" value="32,32,0,0,0,0,0"/>
-    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1.0f, 1.0f"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
-    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="../TempleAtonement/texture/player_down.png"/>
-   </properties>
-  </object>
   <object id="247" name="Collider" x="528" y="48" width="48" height="418">
    <properties>
     <property name="BoxCollider" value="48,418,0,0,0,0,0"/>
@@ -52,9 +43,40 @@
     <property name="BoxCollider" value="48,418,0,0,0,0,0"/>
    </properties>
   </object>
-  <object id="250" name="HiddenCollider" x="144" y="432" width="262" height="48">
+  <object id="250" name="HiddenCollider" x="168.812" y="432" width="216" height="48" visible="0">
    <properties>
-    <property name="BoxCollider" value="262,48,0,0,0,0,0"/>
+    <property name="BoxCollider" value="216,48,0,0,0,0,0"/>
+   </properties>
+  </object>
+  <object id="251" name="weaponEntity" x="296" y="391.5" width="40" height="40" visible="0">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
+    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Weapon"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/slash.png"/>
+   </properties>
+  </object>
+  <object id="252" name="Player" x="288" y="384" width="32" height="32">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_footstep000r.ogg,0,1,fx"/>
+    <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1000.0f, 1000.0f"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/player.xml"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Player"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/player_up.png"/>
+   </properties>
+  </object>
+  <object id="254" name="Scene4Exit" x="168.812" y="432" width="216" height="48">
+   <properties>
+    <property name="BoxCollider" value="216,48,0,0,0,1,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap04.xml"/>
+   </properties>
+  </object>
+  <object id="255" name="Music" x="480" y="96">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
    </properties>
   </object>
  </objectgroup>

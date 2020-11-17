@@ -83,9 +83,9 @@
     <property name="TextureComp" value="src/res/textures/Enemy.png"/>
    </properties>
   </object>
-  <object id="309" name="Scene9Exit" x="240" y="464" width="98" height="16">
+  <object id="309" name="Scene9Exit" x="240" y="432" width="98" height="48">
    <properties>
-    <property name="BoxCollider" value="98,16,0,0,0,1,0"/>
+    <property name="BoxCollider" value="98,48,0,0,0,1,0"/>
     <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap09.xml"/>
    </properties>
   </object>
