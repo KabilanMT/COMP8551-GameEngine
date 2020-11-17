@@ -557,6 +557,23 @@ public:
 
                 if (name == "multiVar") 
                     CScript::multiVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
+                if (name == "subVar") 
+                    CScript::subVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
+
+                if (name == "divideVar") 
+                    CScript::divideVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
+
+                if (name == "addGlobalVar") 
+                    CScript::addGlobalVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
+
+                if (name == "subGlobalVar") 
+                    CScript::subGlobalVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
+
+                if (name == "multiGlobalVar") 
+                    CScript::multiGlobalVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
+
+                if (name == "divideGlobalVar") 
+                    CScript::divideGlobalVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
                 if (name == "moveEntity")
                     CScript::moveEntity(stof(attributes.at("x")), stof(attributes.at("y")), stof(attributes.at("z")), attributes.at("applyDt"), CScript::doubles.at("deltaTime"));
