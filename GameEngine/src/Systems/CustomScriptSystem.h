@@ -555,6 +555,9 @@ public:
                 if (name == "addVar") 
                     CScript::addVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
+                if (name == "multiVar") 
+                    CScript::multiVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
+
                 if (name == "moveEntity")
                     CScript::moveEntity(stof(attributes.at("x")), stof(attributes.at("y")), stof(attributes.at("z")), attributes.at("applyDt"), CScript::doubles.at("deltaTime"));
 
