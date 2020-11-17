@@ -5,14 +5,14 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <iostream>
+#include "../logger.h"
 #include "../renderer.h"
 #include "../vertexBuffer.h"
 #include "../indexBuffer.h"
 #include "../vertexArray.h"
 #include "../shader.h"
 #include "../vertexBufferLayout.h"
-#include "../texture.h"
+#include "../Texture.h"
 
 #include "../Components/SpriteVertices.h"
 #include "../Components/ShaderComp.h"
@@ -133,7 +133,10 @@ class RenderingSystem : public System<RenderingSystem> {
                     //shader.setUniforms4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f); //sets colours
                     //shader.setUniformsMat4f("u_MVP", mvp); // sets textures
 
-                    texture Texture(textureComp->filepath); 
+                    // texture Texture(textureComp->texture); 
+                    if (!textureComp->ready) {
+                        textureComp->init();
+                    }
                     shader.setUniforms1i("u_Texture", 0);
 
                     /*
@@ -151,7 +154,8 @@ class RenderingSystem : public System<RenderingSystem> {
                     glm::vec3 translation((int)round(transformComp->x), (int)round(transformComp->y), (int)round(transformComp->z));
 
                     shader.Bind();
-                    Texture.Bind();
+                    // Texture.Bind();
+                    textureComp->texture->Bind();
                     glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(translation));
                     model = glm::rotate(model, 3.141592f / 180 * transformComp->angle, glm::vec3(transformComp->rx, transformComp->ry, transformComp->rz)); // where x, y, z is axis of rotation (e.g. 0 1 0)
                     glm::mat4 mvp;
