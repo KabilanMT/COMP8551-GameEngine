@@ -3,6 +3,7 @@ GameEngine/*.exe
 TempleAtonement/*.exe
 GameEngine/log.txt
 log.txt
+test_results.txt
 .vscode/
 
 ### IDEs ###
