@@ -151,7 +151,7 @@ namespace CScript
             return;
         
         ComponentHandle<TextureComp> sprite = currEntity->component<TextureComp>();
-        if (sprite.get()->filepath != texturePath.c_str()) {
+        if (strcmp(sprite->filepath, texturePath.c_str())) {
             // The texturePath to char *
             int n = texturePath.length();
             char *chararray= new char [n+1];
@@ -159,6 +159,7 @@ namespace CScript
 
             // Change texture path to new texture path
             sprite.get()->filepath = chararray;
+            sprite->deInit();
         }
     }
 
