@@ -39,7 +39,6 @@ class vertexBufferLayout
 
         inline const std::vector<vertexBufferElement> GetElements() const { return m_Elements; }
         inline unsigned int GetStride() const { return m_Stride; }
-
 };
 
 

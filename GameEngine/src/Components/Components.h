@@ -15,3 +15,4 @@
 #include "AudioSource.h"
 #include "Name.h"
 #include "Active.h"
+#include "TextComp.h"

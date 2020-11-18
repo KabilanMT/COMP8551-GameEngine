@@ -15,10 +15,10 @@ class shader
 {
     private:
         std:: string m_FilePath;
-        unsigned int m_RendererID;
         std::unordered_map<std::string, int> m_UniformLocationCache;
         // caching for uniforms
     public:
+        unsigned int m_RendererID;
         shader(const std::string& filepath);
         ~shader();
 

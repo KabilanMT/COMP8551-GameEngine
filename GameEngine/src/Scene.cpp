@@ -42,10 +42,9 @@ void Scene::load() {
             const XMLAttribute* attr = elem->FirstAttribute(); //get the object's attributes
 
             float x = 0, y = 0, z = 0, width = 0, height = 0, rotAngle = 0;
-
+            bool isVisible = true;
             while (attr != NULL) { //loop through object attributes, assign certain components based on them
                 string aName = attr->Name();
-
                 if (aName == "name") {
                     ent.assign<Name>(attr->Value());
                 } else if (aName == "x") {
@@ -65,15 +64,14 @@ void Scene::load() {
                     str >> rotAngle;
                 } else if (aName == "visible") {
                     stringstream str(attr->Value());
-                    int temp;
-                    str >> temp;
-                    ent.assign<Active>((bool)temp);
+                    isVisible = false;
                 }
 
                 attr = attr->Next();
             }
             // Add rotation passing in a degrees (rotAngle)
             // Convert width and height to sprite vertices
+            ent.assign<Active>(isVisible);
             x = x + width/2;
             y = (y + height/2) * -1;
             ent.assign<Transform>(x, y, 0, rotAngle, 0, 0, 1);
@@ -342,8 +340,8 @@ void Scene::addShaderComp(vector<string>& parameters, Entity& e) {
     char *chararray= new char [n+1];
     strcpy(chararray,temp.c_str());
   
-    for (int i = 0; i < n; i++) 
-        cout << chararray[i]; 
+    // for (int i = 0; i < n; i++) 
+    //     cout << chararray[i]; 
     e.assign<ShaderComp>(chararray);
 }
 
@@ -353,7 +351,7 @@ void Scene::addTextureComp(vector<string>& parameters, Entity& e) {
     char *chararray= new char [n+1];
     strcpy(chararray,temp.c_str());
   
-    for (int i = 0; i < n; i++) 
-        cout << chararray[i]; 
+    // for (int i = 0; i < n; i++) 
+    //     cout << chararray[i]; 
     e.assign<TextureComp>(chararray);
 }
