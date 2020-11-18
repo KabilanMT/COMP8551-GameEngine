@@ -5,6 +5,7 @@ BIN			:= bin
 SRC			:= src
 TESTS		:= src/Tests
 INCLUDES	:= -Iincludes
+TEST_SRC	:= $(filter-out $(SRC)/main.cpp, $(SRC)/*.cpp)
 
 ifeq ($(UNAME), Darwin)
 
@@ -21,5 +22,5 @@ EXECUTABLE	:= main
 build: $(SRC)/*.cpp $(SRC)/*.c
 	$(CXX) $(CXX_FLAGS) $(INCLUDES) -L$(LIB) $^ -o engine $(LIBRARIES)
 
-tests: $(TESTS)/*.cpp
+tests: $(TESTS)/*.cpp $(SRC)/*.c $(TEST_SRC)
 	$(CXX) $(CXX_FLAGS) $(INCLUDES) -L$(LIB) $^ -o runtests $(LIBRARIES) && ./runtests > test_results.txt
