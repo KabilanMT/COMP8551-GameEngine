@@ -18,6 +18,10 @@ To run the game
 ```
 ./engine.exe
 ```
+To run unit tests. Results end up in test_results.txt.
+```
+make tests
+```
 ### Debugging
 If when trying to run it says it can't find glfw3.dll, just move the dll file in libs to the same folder as the Makefile. Again not sure why this is a thing.
 
