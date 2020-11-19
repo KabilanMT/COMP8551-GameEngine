@@ -24,7 +24,7 @@ struct CustomScript
             if (xmlerr != XML_SUCCESS)
             {
                 Logger::getInstance() << "Could not read game object XML file!\n";
-                return;
+                throw "Invalid XML path";
             }
 
             root = doc->FirstChildElement("root");

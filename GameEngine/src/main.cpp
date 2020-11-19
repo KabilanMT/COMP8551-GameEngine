@@ -1,7 +1,13 @@
 #include "engine.h"
 #include "SceneManager.h"
+#include "logger.h"
+#include <gtest/gtest.h>
 
 typedef void (*f_update)(); 
+
+int test() {
+    return 2; 
+}
 
 int main()
 {
