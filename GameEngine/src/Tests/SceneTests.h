@@ -41,12 +41,7 @@ TEST (AddAudioSource, InvalidParameters) {
     Entity e = Engine::getInstance().entities.create();
     scene.addAudioSource(parameters, e);
 
-    EXPECT_TRUE(e.has_component<AudioSource>());
-
-    ComponentHandle<AudioSource> audio = e.component<AudioSource>();
-    
-    EXPECT_TRUE(audio.get()->playOnStart);
-    EXPECT_FALSE(audio.get()->getIfLoop());
+    EXPECT_FALSE(e.has_component<AudioSource>());
 }
 
 TEST (AddAudioSource, MissingParameters) {
@@ -108,17 +103,7 @@ TEST (AddBoxCollider, InvalidParameters) {
     Entity e = Engine::getInstance().entities.create();
     scene.addBoxCollider(parameters, e);
 
-    EXPECT_TRUE(e.has_component<BoxCollider>());
-
-    ComponentHandle<BoxCollider> boxCol = e.component<BoxCollider>();
-
-    EXPECT_EQ(boxCol.get()->width, 1);
-    EXPECT_EQ(boxCol.get()->height, 1);
-    EXPECT_EQ(boxCol.get()->x, 0);
-    EXPECT_EQ(boxCol.get()->y, 0);
-    EXPECT_EQ(boxCol.get()->z, 0);
-    EXPECT_FALSE(boxCol.get()->isTrigger);
-    EXPECT_FALSE(boxCol.get()->render);
+    EXPECT_FALSE(e.has_component<BoxCollider>());
 }
 
 TEST (AddBoxCollider, MissingParameters) {
@@ -188,19 +173,7 @@ TEST (AddCamera, InvalidParameters) {
     Entity e = Engine::getInstance().entities.create();
     scene.addCamera(parameters, e);
 
-    EXPECT_TRUE(e.has_component<Camera>());
-
-    ComponentHandle<Camera> camera = e.component<Camera>();
-
-    EXPECT_EQ(camera.get()->lf, 0);
-    EXPECT_EQ(camera.get()->rf, -960);
-    EXPECT_EQ(camera.get()->bf, 0);
-    EXPECT_EQ(camera.get()->tf, 540);
-    EXPECT_EQ(camera.get()->dnp, -1);
-    EXPECT_EQ(camera.get()->dfp, 1);
-    EXPECT_EQ(camera.get()->x, 0);
-    EXPECT_EQ(camera.get()->y, 0);
-    EXPECT_EQ(camera.get()->z, 0);
+    EXPECT_FALSE(e.has_component<Camera>());
 }
 
 TEST (AddCamera, MissingParameters) {
@@ -266,17 +239,7 @@ TEST (AddCapsuleCollider, InvalidParameters) {
     Entity e = Engine::getInstance().entities.create();
     scene.addCapsuleCollider(parameters, e);
 
-    EXPECT_TRUE(e.has_component<CapsuleCollider>());
-
-    ComponentHandle<CapsuleCollider> capCol = e.component<CapsuleCollider>();
-
-    EXPECT_EQ(capCol.get()->radius, 1);
-    EXPECT_EQ(capCol.get()->a, 0);
-    EXPECT_EQ(capCol.get()->x, 0);
-    EXPECT_EQ(capCol.get()->y, 0);
-    EXPECT_EQ(capCol.get()->z, 0);
-    EXPECT_FALSE(capCol.get()->isTrigger);
-    EXPECT_FALSE(capCol.get()->render);
+    EXPECT_FALSE(e.has_component<CapsuleCollider>());
 }
 
 TEST (AddCapsuleCollider, MissingParameters) {
@@ -337,16 +300,7 @@ TEST (AddCircleCollider, InvalidParameters) {
     Entity e = Engine::getInstance().entities.create();
     scene.addCircleCollider(parameters, e);
 
-    EXPECT_TRUE(e.has_component<CircleCollider>());
-
-    ComponentHandle<CircleCollider> cirCol = e.component<CircleCollider>();
-
-    EXPECT_EQ(cirCol.get()->radius, 1);
-    EXPECT_EQ(cirCol.get()->x, 0);
-    EXPECT_EQ(cirCol.get()->y, 0);
-    EXPECT_EQ(cirCol.get()->z, 0);
-    EXPECT_FALSE(cirCol.get()->isTrigger);
-    EXPECT_FALSE(cirCol.get()->render);
+    EXPECT_FALSE(e.has_component<CircleCollider>());
 }
 
 TEST (AddCircleCollider, MissingParameters) {
@@ -462,24 +416,7 @@ TEST (AddRigidbody_2D, InvalidParameters) {
     Entity e = Engine::getInstance().entities.create();
     scene.addRigidBody_2D(parameters, e);
 
-    EXPECT_TRUE(e.has_component<Rigidbody_2D>());
-
-    ComponentHandle<Rigidbody_2D> rigidbody2D = e.component<Rigidbody_2D>();
-
-    EXPECT_EQ(rigidbody2D.get()->gravity, 1);
-    EXPECT_EQ(rigidbody2D.get()->mass, 0);
-    EXPECT_EQ(rigidbody2D.get()->linDrag, -1);
-    EXPECT_EQ(rigidbody2D.get()->angDrag, 0);
-    EXPECT_EQ(rigidbody2D.get()->cmX, 0);
-    EXPECT_EQ(rigidbody2D.get()->cmY, 0);
-    EXPECT_EQ(rigidbody2D.get()->cmZ, 0);
-    EXPECT_EQ(rigidbody2D.get()->velocityX, 0);
-    EXPECT_EQ(rigidbody2D.get()->velocityY, 0);
-    EXPECT_EQ(rigidbody2D.get()->angVelocityX, 0);
-    EXPECT_EQ(rigidbody2D.get()->angVelocityY, 0);
-    EXPECT_EQ(rigidbody2D.get()->accelerationX, 0);
-    EXPECT_EQ(rigidbody2D.get()->accelerationY, 0);
-    EXPECT_EQ(rigidbody2D.get()->angAcceleration, 0);
+    EXPECT_FALSE(e.has_component<Rigidbody_2D>());
 }
 
 TEST (AddRigidbody_2D, MissingParameters) {
