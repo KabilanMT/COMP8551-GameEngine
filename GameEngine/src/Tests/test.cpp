@@ -1,7 +1,6 @@
-#include <iostream>
-
 #include "SceneTests.h"
 #include "LoggerTests.h"
+#include "InputTests.h"
 
 using namespace testing;
 
