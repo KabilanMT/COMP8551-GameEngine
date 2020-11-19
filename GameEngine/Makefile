@@ -24,4 +24,4 @@ build: $(SRC)/*.cpp $(SRC)/*.c
 	$(CXX) $(CXX_FLAGS) $(INCLUDES) -L$(LIB) $^ -o engine $(LIBRARIES)
 
 tests: $(TEST_SRC) $(TESTS)/*.cpp $(SRC)/*.c 
-	$(CXX) $(CXX_FLAGS) $(INCLUDES) -L$(LIB) $^ -o runtests $(LIBRARIES) $(TEST_LIBRARIES) && ./runtests > test_results.txt && rm -rf runtests.exe
+	$(CXX) $(CXX_FLAGS) $(INCLUDES) -L$(LIB) $^ -o runtests $(LIBRARIES) $(TEST_LIBRARIES) && ./runtests > test_results.txt
