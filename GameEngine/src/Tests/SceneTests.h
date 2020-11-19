@@ -9,7 +9,7 @@
 using namespace std;
 using namespace entityx;
 
-TEST (AddAudioSource, ValidArguments) {
+TEST (AddAudioSource, ValidParameters) {
     vector<string> parameters;
     parameters.push_back("../TempleAtonement/src/sounds/coin_01.mp3");
     parameters.push_back("0");
@@ -30,7 +30,7 @@ TEST (AddAudioSource, ValidArguments) {
     EXPECT_STREQ(audio.get()->tag.c_str(), "Fx");
 }
 
-TEST (AddAudioSource, InvalidArguments) {
+TEST (AddAudioSource, InvalidParameters) {
     vector<string> parameters;
     parameters.push_back("9");
     parameters.push_back("hello");
@@ -49,7 +49,7 @@ TEST (AddAudioSource, InvalidArguments) {
     EXPECT_FALSE(audio.get()->getIfLoop());
 }
 
-TEST (AddAudioSource, MissingArguments) {
+TEST (AddAudioSource, MissingParameters) {
     vector<string> parameters;
 
     Scene scene("Scene", "tmx");
@@ -67,7 +67,7 @@ TEST (AddAudioSource, MissingArguments) {
     EXPECT_FALSE(audio.get()->getIfLoop());
 }
 
-TEST (AddBoxCollider, ValidArguments) {
+TEST (AddBoxCollider, ValidParameters) {
     vector<string> parameters;
     parameters.push_back("24");
     parameters.push_back("32");
@@ -94,7 +94,7 @@ TEST (AddBoxCollider, ValidArguments) {
     EXPECT_FALSE(boxCol.get()->render);
 }
 
-TEST (AddBoxCollider, InvalidArguments) {
+TEST (AddBoxCollider, InvalidParameters) {
     vector<string> parameters;
     parameters.push_back("hello");
     parameters.push_back("world");
@@ -121,7 +121,7 @@ TEST (AddBoxCollider, InvalidArguments) {
     EXPECT_FALSE(boxCol.get()->render);
 }
 
-TEST (AddBoxCollider, MissingArguments) {
+TEST (AddBoxCollider, MissingParameters) {
     vector<string> parameters;
 
     Scene scene("Scene", "tmx");
@@ -141,7 +141,7 @@ TEST (AddBoxCollider, MissingArguments) {
     EXPECT_FALSE(boxCol.get()->render);
 }
 
-TEST (AddCamera, ValidArguments) {
+TEST (AddCamera, ValidParameters) {
     vector<string> parameters;
     parameters.push_back("-480");
     parameters.push_back("480");
@@ -172,7 +172,7 @@ TEST (AddCamera, ValidArguments) {
     EXPECT_EQ(camera.get()->z, 0);
 }
 
-TEST (AddCamera, InvalidArguments) {
+TEST (AddCamera, InvalidParameters) {
     vector<string> parameters;
     parameters.push_back("asd");
     parameters.push_back("fgh");
@@ -203,7 +203,7 @@ TEST (AddCamera, InvalidArguments) {
     EXPECT_EQ(camera.get()->z, 0);
 }
 
-TEST (AddCamera, MissingArguments) {
+TEST (AddCamera, MissingParameters) {
     vector<string> parameters;
 
     Scene scene("Scene", "tmx");
@@ -225,7 +225,7 @@ TEST (AddCamera, MissingArguments) {
     EXPECT_EQ(camera.get()->z, 0);
 }
 
-TEST (AddCapsuleCollider, ValidArguments) {
+TEST (AddCapsuleCollider, ValidParameters) {
     vector<string> parameters;
     parameters.push_back("2");
     parameters.push_back("45");
@@ -252,7 +252,7 @@ TEST (AddCapsuleCollider, ValidArguments) {
     EXPECT_FALSE(capCol.get()->render);
 }
 
-TEST (AddCapsuleCollider, InvalidArguments) {
+TEST (AddCapsuleCollider, InvalidParameters) {
     vector<string> parameters;
     parameters.push_back("hello");
     parameters.push_back("world");
@@ -279,7 +279,7 @@ TEST (AddCapsuleCollider, InvalidArguments) {
     EXPECT_FALSE(capCol.get()->render);
 }
 
-TEST (AddCapsuleCollider, MissingArguments) {
+TEST (AddCapsuleCollider, MissingParameters) {
     vector<string> parameters;
 
     Scene scene("Scene", "tmx");
@@ -299,7 +299,7 @@ TEST (AddCapsuleCollider, MissingArguments) {
     EXPECT_FALSE(capCol.get()->render);
 }
 
-TEST (AddCircleCollider, ValidArguments) {
+TEST (AddCircleCollider, ValidParameters) {
     vector<string> parameters;
     parameters.push_back("2");
     parameters.push_back("0");
@@ -324,7 +324,7 @@ TEST (AddCircleCollider, ValidArguments) {
     EXPECT_FALSE(cirCol.get()->render);
 }
 
-TEST (AddCircleCollider, InvalidArguments) {
+TEST (AddCircleCollider, InvalidParameters) {
     vector<string> parameters;
     parameters.push_back("hello");
     parameters.push_back("a");
@@ -349,7 +349,7 @@ TEST (AddCircleCollider, InvalidArguments) {
     EXPECT_FALSE(cirCol.get()->render);
 }
 
-TEST (AddCircleCollider, MissingArguments) {
+TEST (AddCircleCollider, MissingParameters) {
     vector<string> parameters;
 
     Scene scene("Scene", "tmx");
@@ -400,7 +400,7 @@ TEST (AddCustomScript, MissingPath) {
     EXPECT_FALSE(e.has_component<CustomScript>());
 }
 
-TEST (AddRigidbody_2D, ValidArguments) {
+TEST (AddRigidbody_2D, ValidParameters) {
     vector<string> parameters;
     parameters.push_back("2");
     parameters.push_back("4");
@@ -441,7 +441,7 @@ TEST (AddRigidbody_2D, ValidArguments) {
     EXPECT_EQ(rigidbody2D.get()->angAcceleration, 45);
 }
 
-TEST (AddRigidbody_2D, InvalidArguments) {
+TEST (AddRigidbody_2D, InvalidParameters) {
     vector<string> parameters;
     parameters.push_back("a");
     parameters.push_back("b");
@@ -482,7 +482,7 @@ TEST (AddRigidbody_2D, InvalidArguments) {
     EXPECT_EQ(rigidbody2D.get()->angAcceleration, 0);
 }
 
-TEST (AddRigidbody_2D, MissingArguments) {
+TEST (AddRigidbody_2D, MissingParameters) {
     vector<string> parameters;
 
     Scene scene("Scene", "tmx");
@@ -507,4 +507,123 @@ TEST (AddRigidbody_2D, MissingArguments) {
     EXPECT_EQ(rigidbody2D.get()->accelerationX, 0);
     EXPECT_EQ(rigidbody2D.get()->accelerationY, 0);
     EXPECT_EQ(rigidbody2D.get()->angAcceleration, 0);
+}
+
+
+TEST (AddShaderComp, ValidParameters) {
+    vector<string> parameters;
+    parameters.push_back("src/res/shaders/Basic.shader");
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addShaderComp(parameters, e);
+
+    EXPECT_TRUE(e.has_component<ShaderComp>());
+}
+
+TEST (AddShaderComp, NullCharacter) {
+    vector<string> parameters;
+    parameters.push_back("\0");
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addShaderComp(parameters, e);
+    
+    EXPECT_TRUE(e.has_component<ShaderComp>());
+}
+
+TEST (AddShaderComp, MissingParameters) {
+    vector<string> parameters;
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addShaderComp(parameters, e);
+
+    EXPECT_FALSE(e.has_component<ShaderComp>());
+}
+
+TEST (AddTextureComp, ValidParameters) {
+    vector<string> parameters;
+    parameters.push_back("../TempleAtonement/texture/player_up.png");
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addTextureComp(parameters, e);
+
+    EXPECT_TRUE(e.has_component<TextureComp>());
+}
+
+TEST (AddTextureComp, NullCharacter) {
+    vector<string> parameters;
+    parameters.push_back("\0");
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addTextureComp(parameters, e);
+    
+    EXPECT_TRUE(e.has_component<TextureComp>());
+}
+
+TEST (AddTextureComp, MissingParameters) {
+    vector<string> parameters;
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addTextureComp(parameters, e);
+
+    EXPECT_FALSE(e.has_component<TextureComp>());
+}
+
+TEST (AddTag, ValidParameters) {
+    vector<string> parameters;
+    parameters.push_back("Tag");
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addTag(parameters, e);
+
+    EXPECT_TRUE(e.has_component<Tag>());
+}
+
+TEST (AddTag, NullCharacter) {
+    vector<string> parameters;
+    parameters.push_back("\0");
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addTag(parameters, e);
+    
+    EXPECT_TRUE(e.has_component<Tag>());
+}
+
+TEST (AddTag, MissingParameters) {
+    vector<string> parameters;
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addTag(parameters, e);
+
+    EXPECT_FALSE(e.has_component<Tag>());
+}
+
+TEST (AddPersistent, NoParameters) {
+    vector<string> parameters;
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addPersistent(parameters, e);
+
+    EXPECT_TRUE(e.has_component<Persistent>());
+}
+
+TEST (AddPersistent, ManyParameters) {
+    vector<string> parameters;
+    parameters.push_back("1");
+    parameters.push_back("2");
+
+    Scene scene("Scene", "tmx");
+    Entity e = Engine::getInstance().entities.create();
+    scene.addPersistent(parameters, e);
+
+    EXPECT_TRUE(e.has_component<Persistent>());
 }
