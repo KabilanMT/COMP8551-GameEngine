@@ -188,6 +188,16 @@ Scene::Scene(string sceneName, string tmxFile) : name(sceneName), fileName(tmxFi
 void Scene::addAudioSource(vector<string>& parameters, Entity& e) {
     //requires string,bool,bool,string
 
+    if (parameters.size() == 0) {
+        Logger::getInstance() << "Scene parsing - AddAudioSource Error: no parameters - requires at least 1\n";
+        return;
+    }
+
+    if (parameters.size() == 1) {
+        e.assign<AudioSource>(parameters.at(0).c_str());
+        return;
+    }
+
     bool isPlayOnLoad;
     stringstream str(parameters.at(1));
     //error check - bool 1
@@ -199,6 +209,11 @@ void Scene::addAudioSource(vector<string>& parameters, Entity& e) {
         return;
     }
     str >> isPlayOnLoad;
+
+    if (parameters.size() == 2) {
+        e.assign<AudioSource>(parameters.at(0).c_str(), isPlayOnLoad);
+        return;
+    }
 
     str = stringstream(parameters.at(2));
         //error check - bool 2
@@ -212,16 +227,31 @@ void Scene::addAudioSource(vector<string>& parameters, Entity& e) {
     bool isLoop;
     str >> isLoop;
 
+    if (parameters.size() == 3) {
+        e.assign<AudioSource>(parameters.at(0).c_str(), isPlayOnLoad, isLoop);
+        return;
+    }
+
     e.assign<AudioSource>(parameters.at(0).c_str(), isPlayOnLoad, isLoop, parameters.at(3));
 }
 
 void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {
     //requires float,float,float,float,float,bool,bool
+
+    if (parameters.size() == 0) {
+        e.assign<BoxCollider>();
+        return;
+    }
+
     stringstream str(parameters.at(0));
     float width;
     //error check - float 1
     if (!(str >> width)) {
         Logger::getInstance() << "Scene parsing - AddBoxCollider Error: float 1 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 1) {
+        e.assign<BoxCollider>(width);
         return;
     }
     
@@ -232,12 +262,20 @@ void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - AddBoxCollider Error: float 2 invalid value.\n";
         return;
     }
+    if (parameters.size() == 2) {
+        e.assign<BoxCollider>(width, height);
+        return;
+    }
 
     str = stringstream(parameters.at(2));
     float x;
     //error check - float 3
     if (!(str >> x)) {
         Logger::getInstance() << "Scene parsing - AddBoxCollider Error: float 3 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 3) {
+        e.assign<BoxCollider>(width, height, x);
         return;
     }
 
@@ -248,12 +286,20 @@ void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - AddBoxCollider Error: float 4 invalid value.\n";
         return;
     }
+    if (parameters.size() == 4) {
+        e.assign<BoxCollider>(width, height, x, y);
+        return;
+    }
 
     str = stringstream(parameters.at(4));
     float z;
     //error check - float 5
     if (!(str >> z)) {
         Logger::getInstance() << "Scene parsing - AddBoxCollider Error: float 5 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 5) {
+        e.assign<BoxCollider>(width, height, x, y, z);
         return;
     }
 
@@ -268,6 +314,10 @@ void Scene::addBoxCollider(vector<string>& parameters, Entity& e) {
         return;
     }
     str >> isTrigger;
+    if (parameters.size() == 6) {
+        e.assign<BoxCollider>(width, height, x, y, z, isTrigger);
+        return;
+    }
     
     str = stringstream(parameters.at(6));
     bool render;
@@ -288,36 +338,66 @@ void Scene::addCamera(vector<string>& parameters, Entity& e) {
     //requires float,float,float,float,float,float
     float lf, rf, bf, tf, dnp, dfp;
 
+    if (parameters.size() == 0) {
+        e.assign<Camera>();
+        return;
+    }
+
     stringstream str(parameters.at(0));
     //error check - float 1
     if (!(str >> lf)) {
         Logger::getInstance() << "Scene parsing - addCamera Error: float 1 invalid value.\n";
         return;
     }
+    if (parameters.size() == 1) {
+        e.assign<Camera>(lf);
+        return;
+    }
+
 	str = stringstream(parameters.at(1));
     //error check - float 2
     if (!(str >> rf)) {
         Logger::getInstance() << "Scene parsing - addCamera Error: float 2 invalid value.\n";
         return;
     }
+    if (parameters.size() == 2) {
+        e.assign<Camera>(lf, rf);
+        return;
+    }
+
 	str = stringstream(parameters.at(2));
     //error check - float 3
     if (!(str >> bf)) {
         Logger::getInstance() << "Scene parsing - addCamera Error: float 3 invalid value.\n";
         return;
     }
+    if (parameters.size() == 3) {
+        e.assign<Camera>(lf, rf, bf);
+        return;
+    }
+
 	str =  stringstream(parameters.at(3));
     //error check - float 4
     if (!(str >> tf)) {
         Logger::getInstance() << "Scene parsing - addCamera Error: float 4 invalid value.\n";
         return;
     }
+    if (parameters.size() == 4) {
+        e.assign<Camera>(lf, rf, bf, tf);
+        return;
+    }
+
 	str =  stringstream(parameters.at(4));
     //error check - float 5
     if (!(str >> dnp)) {
         Logger::getInstance() << "Scene parsing - addCamera Error: float 5 invalid value.\n";
         return;
     }
+    if (parameters.size() == 5) {
+        e.assign<Camera>(lf, rf, bf, tf, dnp);
+        return;
+    }
+
 	str =  stringstream(parameters.at(5));
     //error check - float 6
     if (!(str >> dfp)) {
@@ -331,12 +411,20 @@ void Scene::addCamera(vector<string>& parameters, Entity& e) {
 
 void Scene::addCapsuleCollider(vector<string>& parameters, Entity& e) {
     //requires float,float,float,float,float,bool,bool
+    if (parameters.size() == 0) {
+        e.assign<CapsuleCollider>();
+        return;
+    }
 
     stringstream str(parameters.at(0));
     float radius;
     //error check - float 1
     if (!(str >> radius)) {
         Logger::getInstance() << "Scene parsing - addCapsuleCollider Error: float 1 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 1) {
+        e.assign<CapsuleCollider>(radius);
         return;
     }
     
@@ -347,12 +435,20 @@ void Scene::addCapsuleCollider(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addCapsuleCollider Error: float 2 invalid value.\n";
         return;
     }
+    if (parameters.size() == 2) {
+        e.assign<CapsuleCollider>(radius, a);
+        return;
+    }
 
     str = stringstream(parameters.at(2));
     float x;
     //error check - float 3
     if (!(str >> x)) {
         Logger::getInstance() << "Scene parsing - addCapsuleCollider Error: float 3 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 3) {
+        e.assign<CapsuleCollider>(radius, a, x);
         return;
     }
 
@@ -363,12 +459,20 @@ void Scene::addCapsuleCollider(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addCapsuleCollider Error: float 4 invalid value.\n";
         return;
     }
+    if (parameters.size() == 4) {
+        e.assign<CapsuleCollider>(radius, a, x, y);
+        return;
+    }
 
     str = stringstream(parameters.at(4));
     float z;
     //error check - float 5
     if (!(str >> z)) {
         Logger::getInstance() << "Scene parsing - addCapsuleCollider Error: float 5 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 5) {
+        e.assign<CapsuleCollider>(radius, a, x, y, z);
         return;
     }
 
@@ -383,6 +487,10 @@ void Scene::addCapsuleCollider(vector<string>& parameters, Entity& e) {
         return;
     }
     str >> isTrigger;
+    if (parameters.size() == 6) {
+        e.assign<CapsuleCollider>(radius, a, x, y, z, isTrigger);
+        return;
+    }
     
     str = stringstream(parameters.at(6));
     bool render;
@@ -401,12 +509,20 @@ void Scene::addCapsuleCollider(vector<string>& parameters, Entity& e) {
 
 void Scene::addCircleCollider(vector<string>& parameters, Entity& e) {
     //requires float,float,float,float,bool,bool
+    if (parameters.size() == 0) {
+        e.assign<CircleCollider>();
+        return;
+    }
 
     stringstream str(parameters.at(0));
     float radius;
     //error check - float 1
     if (!(str >> radius)) {
         Logger::getInstance() << "Scene parsing - addCircleCollider Error: float 1 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 1) {
+        e.assign<CircleCollider>(radius);
         return;
     }
 
@@ -417,6 +533,10 @@ void Scene::addCircleCollider(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addCircleCollider Error: float 2 invalid value.\n";
         return;
     }
+    if (parameters.size() == 2) {
+        e.assign<CircleCollider>(radius, x);
+        return;
+    }
 
     str = stringstream(parameters.at(2));
     float y;
@@ -425,12 +545,20 @@ void Scene::addCircleCollider(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addCircleCollider Error: float 3 invalid value.\n";
         return;
     }
+    if (parameters.size() == 3) {
+        e.assign<CircleCollider>(radius, x, y);
+        return;
+    }
 
     str = stringstream(parameters.at(3));
     float z;
     //error check - float 4
     if (!(str >> z)) {
         Logger::getInstance() << "Scene parsing - addCircleCollider Error: float 4 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 4) {
+        e.assign<CircleCollider>(radius, x, y, z);
         return;
     }
 
@@ -445,6 +573,10 @@ void Scene::addCircleCollider(vector<string>& parameters, Entity& e) {
         return;
     }
     str >> isTrigger;
+    if (parameters.size() == 5) {
+        e.assign<CircleCollider>(radius, x, y, z, isTrigger);
+        return;
+    }
     
     str = stringstream(parameters.at(5));
     bool render;
@@ -468,11 +600,20 @@ void Scene::addCustomScript(vector<string>& parameters, Entity& e) {
 void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
     //requires float,float,float,float,float,float,float,float,float,float,float,float,float,float (14 floats)
 
+    if (parameters.size() == 0) {
+        e.assign<Rigidbody_2D>();
+        return;
+    }
+
     stringstream str(parameters.at(0));
     float gravity;
     //error check - float 1
     if (!(str >> gravity)) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 1 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 1) {
+        e.assign<Rigidbody_2D>(gravity);
         return;
     }
 
@@ -483,12 +624,20 @@ void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 2 invalid value.\n";
         return;
     }
+    if (parameters.size() == 2) {
+        e.assign<Rigidbody_2D>(gravity, mass);
+        return;
+    }
 
     str = stringstream(parameters.at(2));
     float linDrag;
     //error check - float 3
     if (!(str >> linDrag)) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 3 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 3) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag);
         return;
     }
 
@@ -499,12 +648,20 @@ void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 4 invalid value.\n";
         return;
     }
+    if (parameters.size() == 4) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag);
+        return;
+    }
 
     str = stringstream(parameters.at(4));
     float cmX;
     //error check - float 5
     if (!(str >> cmX)) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 5 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 5) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag, cmX);
         return;
     }
 
@@ -515,12 +672,20 @@ void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 6 invalid value.\n";
         return;
     }
+    if (parameters.size() == 6) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag, cmX, cmY);
+        return;
+    }
 
     str = stringstream(parameters.at(6));
     float cmZ;
     //error check - float 7
     if (!(str >> cmZ)) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 7 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 7) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag, cmX, cmY, cmZ);
         return;
     }
 
@@ -531,12 +696,20 @@ void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 8 invalid value.\n";
         return;
     }
+    if (parameters.size() == 8) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag, cmX, cmY, cmZ, velocityX);
+        return;
+    }
 
     str = stringstream(parameters.at(8));
     float velocityY;
     //error check - float 9
     if (!(str >> velocityY)) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 9 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 9) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag, cmX, cmY, cmZ, velocityX, velocityY);
         return;
     }
 
@@ -547,12 +720,20 @@ void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 10 invalid value.\n";
         return;
     }
+    if (parameters.size() == 10) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag, cmX, cmY, cmZ, velocityX, velocityY, angVelocityX);
+        return;
+    }
 
     str = stringstream(parameters.at(10));
     float angVelocityY;
     //error check - float 11
     if (!(str >> angVelocityY)) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 11 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 11) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag, cmX, cmY, cmZ, velocityX, velocityY, angVelocityX, angVelocityY);
         return;
     }
 
@@ -563,12 +744,20 @@ void Scene::addRigidBody_2D(vector<string>& parameters, Entity& e) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 12 invalid value.\n";
         return;
     }
+    if (parameters.size() == 12) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag, cmX, cmY, cmZ, velocityX, velocityY, angVelocityX, angVelocityY, accelerationX);
+        return;
+    }
 
     str = stringstream(parameters.at(12));
     float accelerationY;
     //error check - float 13
     if (!(str >> accelerationY)) {
         Logger::getInstance() << "Scene parsing - addRigidBody_2D Error: float 13 invalid value.\n";
+        return;
+    }
+    if (parameters.size() == 13) {
+        e.assign<Rigidbody_2D>(gravity, mass, linDrag, angDrag, cmX, cmY, cmZ, velocityX, velocityY, angVelocityX, angVelocityY, accelerationX, accelerationY);
         return;
     }
 
@@ -607,6 +796,11 @@ void Scene::addTextureComp(vector<string>& parameters, Entity& e) {
 
 void Scene::addTag(vector<string>& parameters, Entity& e) {
     //requires string
+    
+    if (parameters.size() == 0) {
+        e.assign<Tag>();
+        return;
+    }
 
     e.assign<Tag>(parameters.at(0));
 }
