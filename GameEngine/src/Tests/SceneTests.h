@@ -54,6 +54,7 @@ TEST (AddAudioSource, MissingParameters) {
     EXPECT_FALSE(e.has_component<AudioSource>());
 
     parameters.push_back("../TempleAtonement/src/sounds/coin_01.mp3");
+    scene.addAudioSource(parameters, e);
     EXPECT_TRUE(e.has_component<AudioSource>());
 
     ComponentHandle<AudioSource> audio = e.component<AudioSource>();
@@ -187,10 +188,10 @@ TEST (AddCamera, MissingParameters) {
 
     ComponentHandle<Camera> camera = e.component<Camera>();
 
-    EXPECT_EQ(camera.get()->lf, 0);
-    EXPECT_EQ(camera.get()->rf, -960);
-    EXPECT_EQ(camera.get()->bf, 0);
-    EXPECT_EQ(camera.get()->tf, 540);
+    EXPECT_EQ(camera.get()->lf, -480);
+    EXPECT_EQ(camera.get()->rf, 480);
+    EXPECT_EQ(camera.get()->bf, -270);
+    EXPECT_EQ(camera.get()->tf, 270);
     EXPECT_EQ(camera.get()->dnp, -1);
     EXPECT_EQ(camera.get()->dfp, 1);
     EXPECT_EQ(camera.get()->x, 0);
@@ -339,9 +340,9 @@ TEST (AddCustomScript, InvalidPath) {
 
     Scene scene("Scene", "tmx");
     Entity e = Engine::getInstance().entities.create();
-    scene.addCustomScript(parameters, e);
     
-    EXPECT_FALSE(e.has_component<CustomScript>());
+    EXPECT_ANY_THROW(scene.addCustomScript(parameters, e));
+    
 }
 
 TEST (AddCustomScript, MissingPath) {
@@ -349,9 +350,7 @@ TEST (AddCustomScript, MissingPath) {
 
     Scene scene("Scene", "tmx");
     Entity e = Engine::getInstance().entities.create();
-    scene.addCustomScript(parameters, e);
-
-    EXPECT_FALSE(e.has_component<CustomScript>());
+   EXPECT_ANY_THROW(scene.addCustomScript(parameters, e));
 }
 
 TEST (AddRigidbody_2D, ValidParameters) {
@@ -458,26 +457,22 @@ TEST (AddShaderComp, ValidParameters) {
     EXPECT_TRUE(e.has_component<ShaderComp>());
 }
 
-TEST (AddShaderComp, NullCharacter) {
-    vector<string> parameters;
-    parameters.push_back("\0");
+// TEST (AddShaderComp, NullCharacter) {
+//     vector<string> parameters;
+//     parameters.push_back("\0");
 
-    Scene scene("Scene", "tmx");
-    Entity e = Engine::getInstance().entities.create();
-    scene.addShaderComp(parameters, e);
-    
-    EXPECT_TRUE(e.has_component<ShaderComp>());
-}
+//     Scene scene("Scene", "tmx");
+//     Entity e = Engine::getInstance().entities.create();
+//     EXPECT_ANY_THROW(scene.addShaderComp(parameters, e));
+// }
 
-TEST (AddShaderComp, MissingParameters) {
-    vector<string> parameters;
+// TEST (AddShaderComp, MissingParameters) {
+//     vector<string> parameters;
 
-    Scene scene("Scene", "tmx");
-    Entity e = Engine::getInstance().entities.create();
-    scene.addShaderComp(parameters, e);
-
-    EXPECT_FALSE(e.has_component<ShaderComp>());
-}
+//     Scene scene("Scene", "tmx");
+//     Entity e = Engine::getInstance().entities.create();
+//     EXPECT_ANY_THROW(scene.addShaderComp(parameters, e));
+// }
 
 TEST (AddTextureComp, ValidParameters) {
     vector<string> parameters;
@@ -490,26 +485,22 @@ TEST (AddTextureComp, ValidParameters) {
     EXPECT_TRUE(e.has_component<TextureComp>());
 }
 
-TEST (AddTextureComp, NullCharacter) {
-    vector<string> parameters;
-    parameters.push_back("\0");
+// TEST (AddTextureComp, NullCharacter) {
+//     vector<string> parameters;
+//     parameters.push_back("\0");
 
-    Scene scene("Scene", "tmx");
-    Entity e = Engine::getInstance().entities.create();
-    scene.addTextureComp(parameters, e);
-    
-    EXPECT_TRUE(e.has_component<TextureComp>());
-}
+//     Scene scene("Scene", "tmx");
+//     Entity e = Engine::getInstance().entities.create();
+//     EXPECT_ANY_THROW(scene.addTextureComp(parameters, e));
+// }
 
-TEST (AddTextureComp, MissingParameters) {
-    vector<string> parameters;
+// TEST (AddTextureComp, MissingParameters) {
+//     vector<string> parameters;
 
-    Scene scene("Scene", "tmx");
-    Entity e = Engine::getInstance().entities.create();
-    scene.addTextureComp(parameters, e);
-
-    EXPECT_FALSE(e.has_component<TextureComp>());
-}
+//     Scene scene("Scene", "tmx");
+//     Entity e = Engine::getInstance().entities.create();
+//     EXPECT_ANY_THROW(scene.addTextureComp(parameters, e));
+// }
 
 TEST (AddTag, ValidParameters) {
     vector<string> parameters;
@@ -540,7 +531,7 @@ TEST (AddTag, MissingParameters) {
     Entity e = Engine::getInstance().entities.create();
     scene.addTag(parameters, e);
 
-    EXPECT_FALSE(e.has_component<Tag>());
+    EXPECT_TRUE(e.has_component<Tag>());
 }
 
 TEST (AddPersistent, NoParameters) {
