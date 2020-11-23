@@ -18,6 +18,10 @@ To run the game
 ```
 ./engine.exe
 ```
+To run unit tests. Results end up in test_results.txt.
+```
+make tests
+```
 ### Debugging
 If when trying to run it says it can't find glfw3.dll, just move the dll file in libs to the same folder as the Makefile. Again not sure why this is a thing.
 
@@ -55,7 +59,7 @@ If when trying to run it says it can't find glfw3.dll, just move the dll file in
 ### Script Commands
 #### Variables
 Stores a variable to be used later. <br /> 
-Variable types: int, float, double, string, boolean, and entity. <br />
+Variable types: int, float, double, string, boolean, entity, globalInt, globalFloat, globalDouble, globalString, globalBool, and globalEntity <br />
 Reserved variables: <br />
 deltaTime (double): the deltatime of the frame. <br />
 objectCollision-name (string): set to entity's name collided with. <br />
@@ -68,6 +72,7 @@ objectCollision-tag (string): set to entity's tag collided with. <br />
     <string name="hello" value="hello world" />
     <bool name="isTrue" value="true" />
     <entity name="entityName" value="entityName" />
+    <globalInt name="points" value="3" />
 <variables>
 ```
 #### Start
@@ -105,19 +110,33 @@ If statement to check if a variable defined is greater then a particular value.
     <!-- Any commands -->
 </ifGreaterVar>
 ```
+#### IfVarLess
+If statement to check if a variable defined is less then a particular value.
+```
+<IfVarLess name="variableName" value="valueToCompare" type="variableType">
+    <!-- Any commands -->
+</IfVarLess>
+```
 #### IfGlobalVar
 If statement to check if a global variable defined is of a particular value.
 ```
 <ifGlobalVar name="variableName" value="valueToCompare" type="variableType">
     <!-- Any commands -->
-</ifVar>
+</ifGlobalVar>
 ```
 #### IfGlobalVarGreater
 If statement to check if a global variable defined is greater then a particular value.
 ```
 <ifGlobalVarGreater name="variableName" value="valueToCompare" type="variableType">
     <!-- Any commands -->
-</ifGreaterVar>
+</ifGlobalVarGreater>
+```
+#### IfGlobalVarLess
+If statement to check if a variable defined is less then a particular value.
+```
+<ifGlobalVarLess name="variableName" value="valueToCompare" type="variableType">
+    <!-- Any commands -->
+</ifGlobalVarLess>
 ```
 #### KeyPress
 When key is pressed do commands. Not all keys work, to check if a key works check the unordered map in the CScriptFunctions namespace.

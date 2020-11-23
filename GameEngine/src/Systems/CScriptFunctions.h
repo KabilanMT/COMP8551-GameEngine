@@ -151,7 +151,7 @@ namespace CScript
             return;
         
         ComponentHandle<TextureComp> sprite = currEntity->component<TextureComp>();
-        if (sprite.get()->filepath != texturePath.c_str()) {
+        if (strcmp(sprite->filepath, texturePath.c_str())) {
             // The texturePath to char *
             int n = texturePath.length();
             char *chararray= new char [n+1];
@@ -159,6 +159,7 @@ namespace CScript
 
             // Change texture path to new texture path
             sprite.get()->filepath = chararray;
+            sprite->deInit();
         }
     }
 
@@ -347,6 +348,61 @@ namespace CScript
         }
     }
 
+    void setEqual(string varName, string varType, string value, string isGlobal, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!cScript.get()->containsVariable(varName))
+            return;
+        bool global = isGlobal == "true" ? true : false;
+        if (!global) {
+            if (!cScript.get()->containsVariable(value)) {
+                return;
+            }
+
+            if (varType == "int")
+                cScript.get()->ints.at(varName) = cScript.get()->ints.at(value);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) = cScript.get()->floats.at(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) = cScript.get()->doubles.at(value);
+            
+            if (varType == "string")
+                cScript.get()->strings.at(varName) = cScript.get()->strings.at(value);;
+
+            if (varType == "bool") 
+                cScript.get()->bools.at(varName) = cScript.get()->bools.at(value);
+
+            if (varType == "entity")
+                cScript.get()->entities.at(varName) = cScript.get()->entities.at(value);
+        } else {
+            if (!containsGlobalVariable(value)) {
+                return;
+            }
+
+            if (varType == "int")
+                cScript.get()->ints.at(varName) = ints.at(value);
+
+            if (varType == "float")
+                cScript.get()->floats.at(varName) = floats.at(value);
+
+            if (varType == "double")
+                cScript.get()->doubles.at(varName) = doubles.at(value);
+            
+            if (varType == "string")
+                cScript.get()->strings.at(varName) = strings.at(value);;
+
+            if (varType == "bool") 
+                cScript.get()->bools.at(varName) = bools.at(value);
+
+            if (varType == "entity")
+                cScript.get()->entities.at(varName) = entities.at(value);
+        }
+    }
+
     void flipBool(string varName, ComponentHandle<CustomScript> cScript) {
         if (!currEntity->valid() || !cScript.valid()) {
             return;
@@ -486,6 +542,25 @@ namespace CScript
                 cScript.get()->doubles.at(varName) /= stod(value);
             }
         }
+    }    
+    
+    /**
+     * Modulus a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
+    void modVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!cScript->containsVariable(varName))
+            return;
+        
+        if (varType == "int")
+            cScript->ints.at(varName) %= stoi(value, nullptr, 0);
     }
 
     /**
@@ -533,6 +608,60 @@ namespace CScript
                     break;
                 }
             }
+        }
+    }
+
+    void setGlobalEqual(string varName, string varType, string value, string isGlobal, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!containsGlobalVariable(varName))
+            return;
+        bool global = isGlobal == "true" ? true : false;
+        if (!global) {
+            if (!cScript->containsVariable(value)) {
+                return;
+            }
+            if (varType == "int")
+                ints.at(varName) = cScript.get()->ints.at(value);
+
+            if (varType == "float")
+                floats.at(varName) = cScript.get()->floats.at(value);
+
+            if (varType == "double")
+                doubles.at(varName) = cScript.get()->doubles.at(value);
+            
+            if (varType == "string")
+                strings.at(varName) = cScript.get()->strings.at(value);;
+
+            if (varType == "bool") 
+                bools.at(varName) = cScript.get()->bools.at(value);
+
+            if (varType == "entity")
+                entities.at(varName) = cScript.get()->entities.at(value);
+        } else {
+            if (!containsGlobalVariable(value)) {
+                return;
+            }
+
+            if (varType == "int")
+                ints.at(varName) = ints.at(value);
+
+            if (varType == "float")
+                floats.at(varName) = floats.at(value);
+
+            if (varType == "double")
+                doubles.at(varName) = doubles.at(value);
+            
+            if (varType == "string")
+                strings.at(varName) = strings.at(value);;
+
+            if (varType == "bool") 
+                bools.at(varName) = bools.at(value);
+
+            if (varType == "entity")
+                entities.at(varName) = entities.at(value);
         }
     }
 
@@ -675,6 +804,25 @@ namespace CScript
                 doubles.at(varName) /= stod(value);
             }
         }
+    }
+
+    /**
+     * Modulus a stored variable's value to a new value.
+     * PARAM: varName variable's name
+     * PARAM: varType the data type of that variable. Must be type of int.
+     * PARAM: value the new value
+     * PARAM: cScript handle to current entity's CustomScript handle  
+     */
+    void modGlobalVar(string varName, string varType, string value, ComponentHandle<CustomScript> cScript) {
+        if (!currEntity->valid() || !cScript.valid()) {
+            return;
+        }
+
+        if (!containsGlobalVariable(varName))
+            return;
+        
+        if (varType == "int")
+            ints.at(varName) %= stoi(value, nullptr, 0);
     }
 
     void playAudio() {

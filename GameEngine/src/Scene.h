@@ -14,11 +14,6 @@ class Scene {
         void load(vector<Entity>& persistentEntities);
 
         Scene(string sceneName, string tmxFile);
-    private:
-        string name;
-        string fileName;
-
-        vector<string> parseParameters(string);
 
         void addAudioSource(vector<string>& parameters, Entity& e);
         void addBoxCollider(vector<string>& parameters, Entity& e);
@@ -31,4 +26,9 @@ class Scene {
         void addTextureComp(vector<string>& parameters, Entity& e);
         void addTag(vector<string>& parameters, Entity& e);
         void addPersistent(vector<string>& parameters, Entity& e);
+    private:
+        string name;
+        string fileName;
+
+        vector<string> parseParameters(string);
 };
