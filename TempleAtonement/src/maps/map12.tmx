@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2020.10.28" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="4" nextobjectid="317">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="4" nextobjectid="317">
  <tileset firstgid="1" source="Dungeon.tsx"/>
  <tileset firstgid="1" source="blobsprite_01.tsx"/>
  <objectgroup id="2" name="Scene 12">
@@ -108,11 +108,6 @@
     <property name="TextureComp" value="../TempleAtonement/texture/coin.png"/>
    </properties>
    <ellipse/>
-  </object>
-  <object id="313" name="Music" x="240" y="336">
-   <properties>
-    <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
-   </properties>
   </object>
   <object id="314" name="weaponEntity" x="289.508" y="391.721" width="40" height="40" visible="0">
    <properties>
