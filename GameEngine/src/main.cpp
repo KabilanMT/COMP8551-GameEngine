@@ -20,7 +20,7 @@ int main()
     SceneManager::getInstance().addScene("Scene 5", "../TempleAtonement/src/maps/map05.tmx");
     SceneManager::getInstance().addScene("Scene 6", "../TempleAtonement/src/maps/map06.tmx");
     SceneManager::getInstance().addScene("Scene 7", "../TempleAtonement/src/maps/map07.tmx");
-    SceneManager::getInstance().addScene("Scene 8", "../TempleAtonement/src/maps/map08.tmx");
+    SceneManager::getInstance().addScene("Scene 8", "../TempleAtonement/src/maps/map08.tmx");*/
     SceneManager::getInstance().addScene("Scene 9", "../TempleAtonement/src/maps/map09.tmx");
     SceneManager::getInstance().addScene("Scene 10", "../TempleAtonement/src/maps/map10.tmx");
     SceneManager::getInstance().addScene("Scene 11", "../TempleAtonement/src/maps/map11.tmx");
