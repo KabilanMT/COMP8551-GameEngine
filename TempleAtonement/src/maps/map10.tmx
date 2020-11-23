@@ -159,7 +159,7 @@
     <property name="TextureComp" value="../TempleAtonement/texture/monster_down.png"/>
    </properties>
   </object>
-  <object id="39" name="player" type="player" x="448" y="928" width="32" height="32">
+  <object id="39" name="player" type="player" x="515.154" y="113.313" width="32" height="32">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_footstep000r.ogg,0,1,fx"/>
     <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
