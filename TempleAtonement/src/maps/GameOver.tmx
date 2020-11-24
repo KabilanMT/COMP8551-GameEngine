@@ -31,7 +31,6 @@
    <properties>
     <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
     <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1000.0f, 1000.0f"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/closegame.xml"/>
    </properties>
   </object>
  </objectgroup>
