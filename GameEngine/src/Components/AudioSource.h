@@ -8,11 +8,12 @@
 using namespace std;
 
 struct AudioSource {
-	AudioSource(string name, bool playOnStart = true, bool ifLoop = false, string tag = "") : sound{new Sound(name, ifLoop)}, name(name), tag(tag), playOnStart(playOnStart) {
-		sound->setUpSound();
+	AudioSource(string name, bool playOnStart = true, bool ifLoop = false, string tag = "") : ifLoop(ifLoop), name(name), tag(tag), playOnStart(playOnStart) {
+		initSound();
 	}
 	~AudioSource() {
 		cleanUp();
+		tag == "";
 	}
 
 	Sound* sound;
@@ -20,6 +21,7 @@ struct AudioSource {
 	float volume = 1;
 	string tag;
 	bool playOnStart;
+	bool ifLoop;
 
 	void setVolume(float vol) {
 		volume = vol;
@@ -44,6 +46,10 @@ struct AudioSource {
 	void cleanUp() {
 		sound->cleanUp();
 		delete sound;
-		tag == "";
+	}
+
+	void initSound() {
+		sound = new Sound(name, ifLoop);
+		sound->setUpSound();
 	}
 };

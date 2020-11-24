@@ -1,0 +1,10 @@
+<root>
+    <variables>
+        <entity name="music" value="MusicManager"/>
+    </variables>
+    <start>
+        <onEntity name="music">
+            <callFunction name="playMusic1"/>
+        </onEntity>
+    </start>
+</root>

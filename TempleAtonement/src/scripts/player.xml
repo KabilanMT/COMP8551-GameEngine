@@ -152,16 +152,21 @@
         <double name="attackTimer" value="0.0"/>
         <int name="playerDirection" value="2"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
         <entity name="weaponEntity" value="weaponEntity"/>
-        <int name="health" value="5"/>
+        <globalInt name="health" value="5"/>
         <!-- <entity name="scoreEntity" value="score"/> -->
         <entity name="interactEntity" value=""/> <!-- No entity to start -->
         <double name="invinTimer" value="0.0"/>
         <bool name="isInvincible" value="false"/>
         <bool name="blink" value="false"/>
-        <int name="points" value="0"/>
+        <globalInt name="points" value="0"/>
         <entity name="tempEntity" value=""/>
         <bool name="isMoving" value="false"/>
         <bool name="checkMove" value="false"/>
+        
+        <globalFloat name="newPlayerX" value="160"/>
+        <globalFloat name="newPlayerY" value="864"/>
+        <float name="localNewPlayerX" value="160"/>
+        <float name="localNewPlayerY" value="864"/>
 
         <entity name="scoreFirstDigitEntity" value="scoreFirstDigitEntity"/>
         <entity name="scoreSecondDigitEntity" value="scoreSecondDigitEntity"/>
@@ -175,19 +180,21 @@
     </variables>
 
     <addPoints>
-        <addVar name="points" value="1" type="int"/>
-        <setEqual name="scoreFirstDigit" type="int" value="points" isGlobal="false"/>
+        <addGlobalVar name="points" value="1" type="int"/>
+    </addPoints>
+    <updatePointDisplay>
+        <setEqual name="scoreFirstDigit" type="int" value="points" isGlobal="true"/>
         <modVar name="scoreFirstDigit" type="int" value="10"/>
 
-        <setEqual name="scoreSecondDigit" type="int" value="points" isGlobal="false"/>
+        <setEqual name="scoreSecondDigit" type="int" value="points" isGlobal="true"/>
         <divideVar name="scoreSecondDigit" type="int" value="10"/>
         <modVar name="scoreSecondDigit" type="int" value="10"/>
 
-        <setEqual name="scoreThirdDigit" type="int" value="points" isGlobal="false"/>
+        <setEqual name="scoreThirdDigit" type="int" value="points" isGlobal="true"/>
         <divideVar name="scoreThirdDigit" type="int" value="100"/>
         <modVar name="scoreThirdDigit" type="int" value="10"/>
 
-        <setEqual name="scoreFourthDigit" type="int" value="points" isGlobal="false"/>
+        <setEqual name="scoreFourthDigit" type="int" value="points" isGlobal="true"/>
         <divideVar name="scoreFourthDigit" type="int" value="1000"/>
         <modVar name="scoreFourthDigit" type="int" value="10"/>
 
@@ -322,18 +329,26 @@
                 <changeSprite name="../TempleAtonement/texture/Numbers/9.png"/>
             </ifVar>
         </onEntity>
-    </addPoints>
-    <start>
 
+    </updatePointDisplay>
+    <updatePos>
+        <setEqual name="localNewPlayerX" type="float" value="newPlayerX" isGlobal="true"/>
+        <setEqual name="localNewPlayerY" type="float" value="newPlayerY" isGlobal="true"/>
+        <multiVar name="localNewPlayerY" type="float" value="-1"/>
+        <setPos x="localNewPlayerX" y="localNewPlayerY"/>
+    </updatePos>
+    <start>
+        <callFunction name="updatePointDisplay"/>
+        <callFunction name="updatePos"/>
     </start>
     <onCollision>
         <ifVar name="collisionObject-tag" value="Enemy" type="string">
             <ifVar name="isInvincible" type="bool" value="false">
-                <addVar name="health" value="-1" type="int"/>
-                <ifVar name="health" value="0" type="int">
+                <addGlobalVar name="health" value="-1" type="int"/>
+                <ifGlobalVar name="health" value="0" type="int">
                     <log value="Health is at 0!"/>
                     <loadScene name="gameoverScene"/>
-                </ifVar>
+                </ifGlobalVar>
                 <updateVar name="isInvincible" value="true" type="bool"/>
             </ifVar>
         </ifVar>
@@ -348,6 +363,7 @@
             <callFunction name="addPoints"/>
             <callFunction name="addPoints"/>
             <callFunction name="addPoints"/>
+            <callFunction name="updatePointDisplay"/>
         </ifVar>
         <ifVar name="collisionObject-tag" value="Interactable" type="string">
             <updateVar name="interactEntity" value="collisionObject-name" type="entity"/>

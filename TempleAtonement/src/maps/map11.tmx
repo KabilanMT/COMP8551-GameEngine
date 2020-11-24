@@ -38,12 +38,19 @@
   <object id="309" name="Scene10Exit" x="240" y="0" width="98" height="48">
    <properties>
     <property name="BoxCollider" value="98,48,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap10.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap10From11.xml"/>
    </properties>
   </object>
-  <object id="313" name="Music" x="240" y="336">
+  <object id="27" name="MusicManager" x="119" y="343">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/MusicManager.xml"/>
+    <property name="Persistent" value=""/>
+   </properties>
+  </object>
+  <object id="39" name="MusicTrigger" x="493.692" y="15.4279">
+   <properties>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/PlayMusic2.xml"/>
    </properties>
   </object>
   <object id="314" name="weaponEntity" x="248" y="103.5" width="40" height="40" visible="0">

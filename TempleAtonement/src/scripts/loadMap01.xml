@@ -1,7 +1,0 @@
-<root>
-    <onCollision>
-        <ifVar name="collisionObject-tag" value="Player" type="string">
-            <loadScene name="Scene 1"/>
-        </ifVar>
-    </onCollision>
-</root>

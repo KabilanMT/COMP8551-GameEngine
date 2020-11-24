@@ -39,7 +39,7 @@ void Scene::load(vector<Entity>& persistentEntities) {
 
         if (!strcmp(elem->Name(), "object")) { //check to make sure it's actually an object
 
-            //Check if the object has the same name as any of the persistant ones
+            //Check if the object has the same name as any of the persistent ones
             //If it does, dont create the Entity
             
             const XMLAttribute* persAttr = elem->FirstAttribute(); //get the object's attributes
@@ -48,9 +48,11 @@ void Scene::load(vector<Entity>& persistentEntities) {
             while (persAttr != NULL) {
                 string aName = persAttr->Name();
                 if (aName == "name") {
+                    Logger::getInstance() << "Got the name attribute: " << persAttr->Value() << "\n";
                     string name = persAttr->Value();
                     for (Entity pEntity : persistentEntities) {
                         if (pEntity.valid() && pEntity.has_component<Name>() && pEntity.component<Name>()->getName() == name) {
+                            Logger::getInstance() << "This entity matches a persistent!\n";
                             isPersistent = true;
                             theEntity = &pEntity;
                             break;
@@ -62,8 +64,10 @@ void Scene::load(vector<Entity>& persistentEntities) {
             }
 
             if (isPersistent) {
+                Logger::getInstance() << "Update layer and continue\n";
                 theEntity->component<Transform>()->z = layerNum / 1000.0f;
                 layerNum++;
+                object = object->NextSibling();
                 continue;
             }
 

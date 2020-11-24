@@ -1,0 +1,13 @@
+<root>
+    <variables>
+        <globalFloat name="newPlayerX" value="160"/>
+        <globalFloat name="newPlayerY" value="864"/>
+    </variables>
+    <onCollision>
+        <ifVar name="collisionObject-tag" value="Player" type="string">
+            <updateGlobalVar name="newPlayerX" value="320" type="float"/>
+            <updateGlobalVar name="newPlayerY" value="512" type="float"/>
+            <loadScene name="Scene 9"/>
+        </ifVar>
+    </onCollision>
+</root>

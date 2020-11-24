@@ -106,7 +106,7 @@
     <property name="TextureComp" value="../TempleAtonement/texture/slash.png"/>
    </properties>
   </object>
-  <object id="24" name="Player" x="464" y="882.5" width="32" height="32">
+  <object id="24" name="Player" x="464" y="880" width="32" height="32">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_footstep000r.ogg,0,1,fx"/>
     <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
@@ -126,18 +126,25 @@
   <object id="29" name="Scene1Exit" x="448" y="976" width="64" height="16">
    <properties>
     <property name="BoxCollider" value="64,16,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap01.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap01From02.xml"/>
    </properties>
   </object>
   <object id="30" name="Scene3Exit" x="448" y="0" width="64" height="16">
    <properties>
     <property name="BoxCollider" value="64,16,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap03.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap03From02.xml"/>
    </properties>
   </object>
-  <object id="31" name="Music" x="472" y="375">
+  <object id="27" name="MusicManager" x="119" y="343">
    <properties>
-    <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/20-11-06_Village_theme_1.mp3,1,1,bgm"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/MusicManager.xml"/>
+    <property name="Persistent" value=""/>
+   </properties>
+  </object>
+  <object id="39" name="MusicTrigger" x="493.692" y="15.4279">
+   <properties>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/PlayMusic1.xml"/>
    </properties>
   </object>
   <object id="33" name="scoreFirstDigitEntity" x="563.198" y="630" width="40" height="40">
