@@ -1,0 +1,50 @@
+<root>
+
+
+  <variables>
+    <globalBool name="doorlocked9" value="true"/>
+    <entity name="lampEntity" value="lampEntity"/>
+    <entity name="Player" value="Player"/>
+    <entity name="torch2" value="torch2"/>
+    <entity name="Torches" value="Torches"/>
+  </variables>
+
+
+
+  <ifGlobalVar name="doorlocked9" value="false" type="bool">
+    <setActive value="false"/>
+  </ifGlobalVar>
+
+
+</root>
+
+<!-- 
+Reserved:
+Variable Names:
+    collisionObject-tag -> the value of the tag component on the other object
+keyPress Input values:
+    KEY_W - w
+    KEY_S - s
+    KEY_A - a
+    KEY_D - d
+    KEY_SPACE - space
+Reserved other value names:
+    deltaTime - the deltaTime during the update
+    collisionObject-name -> the value of the name component of the other object
+
+New Commands:
+onEntity name="nameOfEntityVariable" :
+    perform the sub-section of commands in the context of the entity stored in the variable specified
+entity name="nameOfVariable" value="nameOfEntityToBeStored" :
+    variable type for storing entities, entities are found by name
+callMethod name="methodName" :
+    runs the code within the node with the name matching the name attribute, custom methods should be siblings to update, start, variables, onCollision, etc.
+changeSprite name="texturePathName.png" :
+    changes the texture of the texture component of this entity to the one specified
+ifVarGreater name="variableName" value="someNumber" :
+    same as if (variableName > someNumber) {
+keyPress value="keyCode" :
+    if statement but checks if a key is being pressed
+matchEntityPos name="nameOfEntityVariable"
+    set the entity's pos to the current entity's pos
+-->

@@ -13,7 +13,63 @@
             </ifVarGreater>
         </ifVar>
 
-        <!-- attack -->
+      <!-- If attacking, add to a timer and not allow new input -->
+      <ifVar name="isLighting" value="true" type="bool">
+        <addVar name="attackTimer" value="deltaTime" type="double"/>
+        <ifVarGreater name="attackTimer" value="0.15" type="double">
+          <updateVar name="attackTimer" value="0.0" type="double"/>
+          <updateVar name="isLighting" value="false" type="bool" />
+          <onEntity name="lampEntity">
+            <setActive value="false"/>
+          </onEntity>
+        </ifVarGreater>
+      </ifVar>
+
+
+      <!-- lamp -->
+      <ifGlobalVar name="obtainedLamp" value="true" type="bool">
+      <ifVar name="isLighting" value="false" type="bool">
+        <keyPress value="KEY_F">
+          <updateVar name="isLighting" value="true" type="bool"/>
+          <onEntity name="lampEntity">
+            <setActive value="true"/>
+            <playAudio/>
+          </onEntity>
+          <!-- Check player direction to move weaponEntity -->
+          <matchEntityPos name="lampEntity"/>
+          <ifVar name="playerDirection" value="0" type="int">
+            <!-- Up -->
+            <onEntity name="lampEntity">
+              <moveEntity x="0.0" y="24.0" z="0.0" applyDt="false"/>
+              <changeSprite name="../TempleAtonement/texture/lamp.png"/>
+            </onEntity>
+          </ifVar>
+          <ifVar name="playerDirection" value="1" type="int">
+            <!-- Right -->
+            <onEntity name="lampEntity">
+              <moveEntity x="24.0" y="0.0" z="0.0" applyDt="false"/>
+              <changeSprite name="../TempleAtonement/texture/lamp.png"/>
+            </onEntity>
+          </ifVar>
+          <ifVar name="playerDirection" value="2" type="int">
+            <!-- Down -->
+            <onEntity name="lampEntity">
+              <moveEntity x="0.0" y="-24.0" z="0.0" applyDt="false"/>
+              <changeSprite name="../TempleAtonement/texture/lamp.png"/>
+            </onEntity>
+          </ifVar>
+          <ifVar name="playerDirection" value="3" type="int">
+            <!-- Left -->
+            <onEntity name="lampEntity">
+              <moveEntity x="-24.0" y="0.0" z="0.0" applyDt="false"/>
+              <changeSprite name="../TempleAtonement/texture/lamp.png"/>
+            </onEntity>
+          </ifVar>
+        </keyPress>
+      </ifVar>
+    </ifGlobalVar>
+
+      <!-- attack -->
         <ifVar name="isAttacking" value="false" type="bool">
             <keyPress value="KEY_SPACE">
                 <updateVar name="isAttacking" value="true" type="bool"/>
@@ -74,6 +130,7 @@
         </onEntity>
         <!-- movement -->
         <ifVar name="isAttacking" value="false" type="bool">
+          <ifVar name="isLighting" value="false" type="bool">
             <keyPress value="KEY_W">
                 <changeSprite name="../TempleAtonement/texture/player_up.png"/>
                 <moveEntity x="0.0" y="12.0" z="0.0" applyDt="true"/>
@@ -115,6 +172,7 @@
                 </ifVar>
             </keyPress>
         </ifVar>
+       </ifVar>
 
         <ifVar name="checkMove" type="bool" value="false">
             <updateVar name="isMoving" type="bool" value="false"/>
@@ -164,10 +222,13 @@
     
     <variables>
         <bool name="isAttacking" value="false"/>
+      <bool name="isLighting" value="false"/>
         <double name="attackTimer" value="0.0"/>
         <int name="playerDirection" value="2"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
         <entity name="weaponEntity" value="weaponEntity"/>
+      <entity name="lampEntity" value="lampEntity"/>
         <globalInt name="health" value="5"/>
+      <globalBool name="obtainedLamp" value="false"/>
         <!-- <entity name="scoreEntity" value="score"/> -->
         <entity name="interactEntity" value=""/> <!-- No entity to start -->
         <double name="invinTimer" value="0.0"/>
