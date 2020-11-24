@@ -27,7 +27,7 @@ int main()
     SceneManager::getInstance().addScene("Scene 12", "../TempleAtonement/src/maps/map12.tmx");
     SceneManager::getInstance().addScene("Scene 13", "../TempleAtonement/src/maps/map13.tmx");
     SceneManager::getInstance().addScene("gameoverScene", "../TempleAtonement/src/maps/GameOver.tmx");
-
+    SceneManager::getInstance().addScene("winScene", "../TempleAtonement/src/maps/ending.tmx");
 
     //Game loop
     //Engine start
