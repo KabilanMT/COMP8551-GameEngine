@@ -39,6 +39,7 @@
                 <onEntity name="Player">
                   <!--<addVar name="points" value="2" type="int"/>-->
                     <callFunction name="addPoints"/>
+                    <callFunction name="updatePointDisplay"/>
                 </onEntity>
               <playAudio/>
               <setActive value="false"/>

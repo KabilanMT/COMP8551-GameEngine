@@ -163,6 +163,40 @@ namespace CScript
         }
     }
 
+    void setAudioSource(string& audioPath) {
+        if (!currEntity->valid()) {
+            return;
+        }
+
+        if(!currEntity->has_component<AudioSource>())
+            return;
+
+        ComponentHandle<AudioSource> handle = currEntity->component<AudioSource>();
+        if (handle->name != audioPath) {
+            handle->cleanUp();
+            handle->name = audioPath;
+            handle->initSound();
+        }
+    }
+
+    void setPosition(string& xVariable, string& yVariable, ComponentHandle<CustomScript>& cScript) {
+        if (!currEntity->valid() || !cScript.valid() || !currEntity->has_component<Transform>()) {
+            return;
+        }
+
+        ComponentHandle<Transform> handle = currEntity->component<Transform>();
+
+        if (!handle.valid()) {
+            return;
+        }
+
+        if (!cScript->containsVariable(xVariable) || !cScript->containsVariable(yVariable))
+            return;
+
+        handle->x = cScript->floats.at(xVariable);
+        handle->y = cScript->floats.at(yVariable);
+    }
+
     /**
      * Matches the specified entity's position with the current entity's position.
      * PARAM: value name of the specified entity.

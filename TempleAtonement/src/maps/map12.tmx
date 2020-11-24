@@ -86,7 +86,7 @@
   <object id="309" name="Scene9Exit" x="240" y="432" width="98" height="48">
    <properties>
     <property name="BoxCollider" value="98,48,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap09.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap09From12.xml"/>
    </properties>
   </object>
   <object id="310" name="Coin1" x="199" y="202" width="32" height="32">
@@ -133,6 +133,18 @@
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="../TempleAtonement/texture/MAP12/MAP12_WALLS.png"/>
+   </properties>
+  </object>
+  <object id="27" name="MusicManager" x="119" y="343">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/MusicManager.xml"/>
+    <property name="Persistent" value=""/>
+   </properties>
+  </object>
+  <object id="39" name="MusicTrigger" x="493.692" y="15.4279">
+   <properties>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/PlayMusic2.xml"/>
    </properties>
   </object>
  </objectgroup>

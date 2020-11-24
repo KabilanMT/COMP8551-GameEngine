@@ -3,10 +3,19 @@
  <tileset firstgid="1" source="../../../../fsm_extra02_A2.tsx"/>
  <tileset firstgid="1" source="../../../../fsm_extra02_A4.tsx"/>
  <objectgroup id="2" name="Object Layer 1">
-  <properties>
-   <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
-   <property name="Persistent" value=""/>
-  </properties>
+  
+    <object id="27" name="MusicManager" x="119" y="343">
+      <properties>
+        <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+        <property name="CustomScript" value="../TempleAtonement/src/scripts/MusicManager.xml"/>
+        <property name="Persistent" value=""/>
+      </properties>
+    </object>
+    <object id="39" name="MusicTrigger" x="493.692" y="15.4279">
+     <properties>
+      <property name="CustomScript" value="../TempleAtonement/src/scripts/PlayMusic2.xml"/>
+     </properties>
+    </object>
   <object id="32" name="land" x="0" y="0" width="960" height="960">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
@@ -136,13 +145,13 @@
   <object id="25" name="Scene8Exit" x="928" y="352" width="32" height="128">
    <properties>
     <property name="BoxCollider" value="96,32,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap08.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap08From07.xml"/>
    </properties>
   </object>
   <object id="26" name="Scene5Exit" x="512" y="0" width="96" height="32">
    <properties>
     <property name="BoxCollider" value="96,32,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap05.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap05From07.xml"/>
    </properties>
   </object>
   <object id="27" name="statue5" x="64" y="832" width="64" height="64">

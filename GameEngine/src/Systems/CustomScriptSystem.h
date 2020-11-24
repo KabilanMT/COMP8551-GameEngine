@@ -41,10 +41,14 @@ public:
             if (variablesContent != nullptr)
                 getVariables(variablesContent->FirstChild(), handle);
 
-            // Runs commands in the start tag in the entity's custom script 
+            // Runs commands in the start tag in the entity's custom script
+            if (handle->hasStarted)
+                continue;
+
             XMLElement* startContent = handle->getStart();
             if (startContent != nullptr)
                 runCommands(startContent->FirstChild(), handle);
+            handle->hasStarted = true;
         }
     }
 
@@ -570,7 +574,7 @@ public:
                     CScript::modVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
                 if (name == "updateGlobalVar")
-                    CScript::updateVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
+                    CScript::updateGlobalVar(attributes.at("name"), attributes.at("type"), attributes.at("value"), cScript);
 
                 if (name == "setGlobalEqual")
                     CScript::setGlobalEqual(attributes.at("name"), attributes.at("type"), attributes.at("value"), attributes.at("isGlobal"), cScript);
@@ -632,6 +636,12 @@ public:
                     
                 if (name == "stopAudio")
                     CScript::stopAudio();
+
+                if (name == "setAudioSource")
+                    CScript::setAudioSource(attributes.at("value"));
+
+                if (name == "setPos")
+                    CScript::setPosition(attributes.at("x"), attributes.at("y"), cScript);
 
                 command = command->NextSibling();
             }

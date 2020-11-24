@@ -118,12 +118,19 @@
   <object id="29" name="Scene2Exit" x="448" y="0" width="64" height="32">
    <properties>
     <property name="BoxCollider" value="64,32,0,0,0,0,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap02.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap02From01.xml"/>
    </properties>
   </object>
-  <object id="38" name="Music" x="493.692" y="15.4279">
+  <object id="38" name="MusicManager" x="493.692" y="15.4279">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/20-11-06_Village_theme_1.mp3,1,1,bgm"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/MusicManager.xml"/>
+    <property name="Persistent" value=""/>
+   </properties>
+  </object>
+  <object id="39" name="MusicTrigger" x="493.692" y="15.4279">
+   <properties>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/PlayMusic1.xml"/>
    </properties>
   </object>
  </objectgroup>

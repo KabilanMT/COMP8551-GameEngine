@@ -1,0 +1,44 @@
+<root>
+    <variables>
+        <int name="musicNum" value="1"/>
+    </variables>
+    <playMusic1>
+        <ifVar name="musicNum" type="int" value="2">
+            <stopAudio/>
+            <setAudioSource value="../TempleAtonement/src/sounds/20-11-06_Village_theme_1.mp3"/>
+            <playAudio/>
+        </ifVar>
+        <ifVar name="musicNum" type="int" value="3">
+            <stopAudio/>
+            <setAudioSource value="../TempleAtonement/src/sounds/20-11-06_Village_theme_1.mp3"/>
+            <playAudio/>
+        </ifVar>
+        <updateVar name="musicNum" type="int" value="1"/>
+    </playMusic1>
+    <playMusic2>
+        <ifVar name="musicNum" type="int" value="1">
+            <stopAudio/>
+            <setAudioSource value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3"/>
+            <playAudio/>
+        </ifVar>
+        <ifVar name="musicNum" type="int" value="3">
+            <stopAudio/>
+            <setAudioSource value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3"/>
+            <playAudio/>
+        </ifVar>
+        <updateVar name="musicNum" type="int" value="2"/>
+    </playMusic2>
+    <playMusic3>
+        <ifVar name="musicNum" type="int" value="1">
+            <stopAudio/>
+            <setAudioSource value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3"/>
+            <playAudio/>
+        </ifVar>
+        <ifVar name="musicNum" type="int" value="2">
+            <stopAudio/>
+            <setAudioSource value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3"/>
+            <playAudio/>
+        </ifVar>
+        <updateVar name="musicNum" type="int" value="3"/>
+    </playMusic3>
+</root>

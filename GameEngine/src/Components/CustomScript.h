@@ -81,6 +81,8 @@ struct CustomScript
         XMLElement* root;
         string xml;
 
+        bool hasStarted = false;
+
         // User Generated Variables <varible name, variable value>
         unordered_map<std::string, int> ints;
         unordered_map<std::string, float> floats;

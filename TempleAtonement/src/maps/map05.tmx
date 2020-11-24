@@ -162,10 +162,16 @@
     <property name="TextureComp" value="../TempleAtonement/texture/slash.png"/>
    </properties>
   </object>
-  <object id="24" name="Music" x="-126" y="-47" width="43" height="44">
+  <object id="27" name="MusicManager" x="119" y="343">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/MusicManager.xml"/>
     <property name="Persistent" value=""/>
+   </properties>
+  </object>
+  <object id="39" name="MusicTrigger" x="493.692" y="15.4279">
+   <properties>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/PlayMusic2.xml"/>
    </properties>
   </object>
   <object id="26" name="main_wall" x="0" y="0" width="640" height="640">
@@ -177,19 +183,19 @@
   <object id="27" name="Scene4Exit" x="0" y="256" width="32" height="96">
    <properties>
     <property name="BoxCollider" value="32,96,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap04.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap04From05.xml"/>
    </properties>
   </object>
   <object id="28" name="Scene6Exit" x="288" y="0" width="96" height="32">
    <properties>
     <property name="BoxCollider" value="96,32,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap06.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap06From05.xml"/>
    </properties>
   </object>
   <object id="29" name="Scene7Exit" x="288" y="608" width="96" height="32">
    <properties>
     <property name="BoxCollider" value="96,32,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap07.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap07From05.xml"/>
    </properties>
   </object>
  </objectgroup>

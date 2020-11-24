@@ -22,7 +22,7 @@
   <object id="4" name="door12" type="door" x="288" y="32" width="96" height="32">
    <properties>
     <property name="BoxCollider" value="96,32,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap12.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap12From09.xml"/>
    </properties>
   </object>
   <object id="5" name="wall3" type="wall" x="384" y="0" width="160" height="96">
@@ -43,7 +43,7 @@
   <object id="8" name="door4" type="door" x="608" y="256" width="32" height="96">
    <properties>
     <property name="BoxCollider" value="32,96,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap04.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap04From09.xml"/>
    </properties>
   </object>
   <object id="9" name="strip" type="strip" x="192" y="96" width="96" height="448">
@@ -150,7 +150,19 @@
   <object id="32" name="door10" x="288" y="608" width="96" height="32">
    <properties>
     <property name="BoxCollider" value="96,32,0,0,0,1,0"/>
-    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap10.xml"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/loadMap10From09.xml"/>
+   </properties>
+  </object>
+  <object id="27" name="MusicManager" x="119" y="343">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3,1,1,bgm"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/MusicManager.xml"/>
+    <property name="Persistent" value=""/>
+   </properties>
+  </object>
+  <object id="39" name="MusicTrigger" x="493.692" y="15.4279">
+   <properties>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/PlayMusic2.xml"/>
    </properties>
   </object>
  </objectgroup>
