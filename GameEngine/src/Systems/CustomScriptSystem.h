@@ -529,11 +529,18 @@ public:
                     string entityName = attributes.at("name");
                     Entity* temp = CScript::getCurrEntity();
 
-                    if (cScript.get()->containsVariable(entityName)) {
+                    if (cScript.get()->containsVariable(entityName) && cScript.get()->entities.at(entityName).id().id() != 0) {
+
                         CScript::setCurrEntity(&cScript.get()->entities.at(entityName));
                         runCommands(command->FirstChild(), cScript);
+
+                    } else if (CScript::containsGlobalVariable(entityName) && CScript::entities.at(entityName).id().id() != 0) {    
+
+                        CScript::setCurrEntity(&CScript::entities.at(entityName));
+                        runCommands(command->FirstChild(), cScript);
+                    
                     } else {
-                        cout << endl << "onEntity: entity " << entityName << " not found" << endl;
+                        Logger::getInstance() << "onEntity: entity " << entityName << " not found\n";
                     }
 
                     CScript::setCurrEntity(temp);
