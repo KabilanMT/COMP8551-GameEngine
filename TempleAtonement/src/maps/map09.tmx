@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="33">
- <tileset firstgid="1" source="dungeon_floor.tsx"/>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="37">
  <tileset firstgid="1" source="dungeon_floor.tsx"/>
  <objectgroup id="2" name="map09">
   <object id="15" name="land" type="land" x="0" y="0" width="640" height="640">
@@ -163,6 +162,34 @@
   <object id="39" name="MusicTrigger" x="493.692" y="15.4279">
    <properties>
     <property name="CustomScript" value="../TempleAtonement/src/scripts/PlayMusic2.xml"/>
+   </properties>
+  </object>
+  <object id="33" name="scoreFirstDigitEntity" x="600.416" y="-53.6842" width="40" height="40">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="scoreFirstDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
+   </properties>
+  </object>
+  <object id="34" name="scoreSecondDigitEntity" x="560.135" y="-53.6842" width="40" height="40">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="scoreSecondDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
+   </properties>
+  </object>
+  <object id="35" name="scoreThirdDigitEntity" x="519.978" y="-53.6842" width="40" height="40">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="scoreThirdDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
+   </properties>
+  </object>
+  <object id="36" name="scoreFourthDigitEntity" x="481.071" y="-53.6842" width="40" height="40">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="scoreFourthDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
    </properties>
   </object>
  </objectgroup>
