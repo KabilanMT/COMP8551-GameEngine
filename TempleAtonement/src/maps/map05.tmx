@@ -71,7 +71,9 @@
   </object>
   <object id="14" name="Enemy" x="288" y="320" width="34" height="34">
    <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/PP_Monster_Alert_1_1.wav,0,0, fx"/>
     <property name="BoxCollider" value="64,64,0,0,0,0,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/BlobMonster.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="Enemy"/>
     <property name="TextureComp" value="../TempleAtonement/texture/monster_down.png"/>
