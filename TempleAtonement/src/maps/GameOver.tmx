@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="8">
+ <tileset firstgid="1" source="../../../../dungeon_wall.tsx"/>
+ <objectgroup id="2" name="Object Layer 1">
+  <object id="1" name="map" x="0" y="0" width="640" height="640">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/GameOver_image.png"/>
+   </properties>
+  </object>
+  <object id="2" name="gameovertext" x="96" y="96" width="448" height="96">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/GameOver_Text.png"/>
+   </properties>
+  </object>
+  <object id="3" name="scoretext" x="96" y="224" width="160" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Scoretext.png"/>
+   </properties>
+  </object>
+  <object id="4" name="scorenumber" x="288" y="224" width="256" height="64"/>
+  <object id="6" name="game_notice" x="96" y="352" width="448" height="160">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/gameover_notice.png"/>
+   </properties>
+  </object>
+  <object id="7" name="camera" x="288" y="288" width="32" height="32">
+   <properties>
+    <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
+    <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1000.0f, 1000.0f"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
