@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="left-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="33">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="left-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="34">
  <objectgroup id="2" name="Scene 3">
   <object id="1" name="Land" x="32" y="32" width="576" height="576">
    <properties>
@@ -94,31 +94,46 @@
   </object>
   <object id="14" name="RiddleSign" x="304" y="272" width="32" height="32">
    <properties>
+    <property name="BoxCollider" value="24,16,0,0,0,0,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/StatuesPuzzle.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Interactable"/>
     <property name="TextureComp" value="../TempleAtonement/texture/MAP03/MAP03_SIGN.png"/>
    </properties>
   </object>
   <object id="15" name="CatStatueLeft" x="96" y="256" width="32" height="64">
    <properties>
+    <property name="BoxCollider" value="8,32,0,0,0,0,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/StatuesCat.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Interactable"/>
     <property name="TextureComp" value="../TempleAtonement/texture/MAP03/cat_statue_right.png"/>
    </properties>
   </object>
   <object id="16" name="CatStatueRight" x="512" y="256" width="32" height="64">
    <properties>
+    <property name="BoxCollider" value="8,32,0,0,0,0,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/StatuesCat.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Interactable"/>
     <property name="TextureComp" value="../TempleAtonement/texture/MAP03/cat_statue_left.png"/>
    </properties>
   </object>
   <object id="17" name="DogStatue" x="192" y="416" width="32" height="64">
    <properties>
+    <property name="BoxCollider" value="8,32,0,0,0,0,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/StatuesDog.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Interactable"/>
     <property name="TextureComp" value="../TempleAtonement/texture/MAP03/dog_statue_back.png"/>
    </properties>
   </object>
   <object id="18" name="ChickenStatue" x="416" y="160" width="32" height="64">
    <properties>
+    <property name="BoxCollider" value="8,32,0,0,0,0,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/StatuesChicken.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="Interactable"/>
     <property name="TextureComp" value="../TempleAtonement/texture/MAP03/chicken_statue_forward.png"/>
    </properties>
   </object>
@@ -172,8 +187,15 @@
     <property name="TextureComp" value="../TempleAtonement/texture/player_up.png"/>
    </properties>
   </object>
+  <object id="33" name="SignMessage" x="64" y="64" width="512" height="512" visible="0">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/MAP03/MAP03_SIGN_Message.png"/>
+   </properties>
+  </object>
   <object id="24" name="TempleGate" type="Door" x="288" y="0" width="64" height="32">
    <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/StoneDoor.mp3,0,0, fx"/>
     <property name="BoxCollider" value="64,32,0,0,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="../TempleAtonement/texture/MAP03/MAP03_DOOR_CLOSED.png"/>
