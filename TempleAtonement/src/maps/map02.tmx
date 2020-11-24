@@ -147,39 +147,31 @@
     <property name="CustomScript" value="../TempleAtonement/src/scripts/PlayMusic1.xml"/>
    </properties>
   </object>
-  <object id="33" name="scoreFirstDigitEntity" x="563.198" y="630" width="40" height="40">
+  <object id="33" name="scoreFirstDigitEntity" x="634.127" y="-57.4031" width="40" height="40">
    <properties>
-    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
-    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="scoreFirstDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
    </properties>
   </object>
-  <object id="35" name="scoreSecondDigitEntity" x="522.917" y="630" width="40" height="40">
+  <object id="35" name="scoreSecondDigitEntity" x="593.846" y="-57.4031" width="40" height="40">
    <properties>
-    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
-    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="scoreSecondDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
    </properties>
   </object>
-  <object id="36" name="scoreThirdDigitEntity" x="482.76" y="630" width="40" height="40">
+  <object id="36" name="scoreThirdDigitEntity" x="553.689" y="-57.4031" width="40" height="40">
    <properties>
-    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
-    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="scoreThirdDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
    </properties>
   </object>
-  <object id="37" name="scoreThirdDigitEntity" x="443.853" y="630" width="40" height="40">
+  <object id="37" name="scoreFourthDigitEntity" x="514.782" y="-57.4031" width="40" height="40">
    <properties>
-    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
-    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="Tag" value="scoreThirdDigitEntity"/>
+    <property name="Tag" value="scoreFourthDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
    </properties>
   </object>
