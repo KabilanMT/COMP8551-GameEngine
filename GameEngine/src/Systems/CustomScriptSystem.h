@@ -532,6 +532,9 @@ public:
                     if (cScript.get()->containsVariable(entityName)) {
                         CScript::setCurrEntity(&cScript.get()->entities.at(entityName));
                         runCommands(command->FirstChild(), cScript);
+                    } else if (CScript::containsGlobalVariable(entityName)) {
+                        CScript::setCurrEntity(&CScript::entities.at(entityName));
+                        runCommands(command->FirstChild(), cScript);
                     } else {
                         cout << endl << "onEntity: entity " << entityName << " not found" << endl;
                     }
