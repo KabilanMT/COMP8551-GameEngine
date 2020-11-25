@@ -17,6 +17,11 @@
 			<changeSprite name="../TempleAtonement/texture/MAP03/dog_Statue_left.png"/>
 		</ifVar>
     </update>
+    
+    <interacted>
+        <log value="StatuesDog interacted" />
+    </interacted>
+
     <variables>
         <int name="statueDirection" value="0"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
         <entity name="weaponEntity" value="weaponEntity"/>

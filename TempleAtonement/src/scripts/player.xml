@@ -180,11 +180,11 @@
         </ifVar>
 
         <!-- interact -->
-        <keyPress value="KEY_E">
+        <!-- <keyPress value="KEY_E">
             <onEntity name="interactEntity">
                 <callFunction name="interacted"/>
             </onEntity>
-        </keyPress>
+        </keyPress> -->
         <updateVar name="interactEntity" type="entity" value=""/>
         
         <!-- If invincible, increment timer and maybe stop being invincible -->
@@ -258,6 +258,11 @@
     <addPoints>
         <addGlobalVar name="points" value="1" type="int"/>
     </addPoints>
+
+    <setInteracted>
+        <updateVar name="interactEntity" value="collisionObject-name" type="entity"/>
+    </setInteracted>
+
     <updatePointDisplay>
         <setEqual name="scoreFirstDigit" type="int" value="points" isGlobal="true"/>
         <modVar name="scoreFirstDigit" type="int" value="10"/>
@@ -440,9 +445,6 @@
             <callFunction name="addPoints"/>
             <callFunction name="addPoints"/>
             <callFunction name="updatePointDisplay"/>
-        </ifVar>
-        <ifVar name="collisionObject-tag" value="Interactable" type="string">
-            <updateVar name="interactEntity" value="collisionObject-name" type="entity"/>
         </ifVar>
     </onCollision>
 </root>
