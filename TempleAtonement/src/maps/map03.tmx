@@ -263,5 +263,11 @@
     <property name="TextureComp" value="../TempleAtonement/texture/lamp.png"/>
    </properties>
   </object>
+  <object id="34" name="DogTrigger" x="208.667" y="445.333">
+    <properties>
+        <property name="CircleCollider" value="24,0,0,0,1,0"/>
+        <property name="CustomScript" value="../TempleAtonement/src/scripts/DogTrigger.xml"/>
+    </properties>
+  </object>
  </objectgroup>
 </map>

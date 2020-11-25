@@ -369,6 +369,12 @@ namespace CScript
         if (varType == "entity") {
             auto entities = Engine::getInstance().entities.entities_with_components<Name>();
 
+            if (value == "") {
+                Entity e;
+                cScript.get()->entities.at(varName) = e;
+                return;
+            }
+
             if (value == "collisionObject-name")
                 value = cScript.get()->strings.at("collisionObject-name");
 
