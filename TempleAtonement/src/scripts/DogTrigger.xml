@@ -1,0 +1,15 @@
+<root>
+    <variables>
+        <entity name="DogStatue" value="DogStatue" />
+    </variables>
+
+    <onCollision>
+        <ifVar name="collisionObject-tag" value="Player" type="string">
+            <keyPress value="KEY_E">
+                <onEntity name="DogStatue">
+                    <callFunction name="interacted" />
+                </onEntity>
+            </keyPress>
+        </ifVar>
+    </onCollision>
+</root>

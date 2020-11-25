@@ -137,7 +137,9 @@
   </object>
   <object id="27" name="enemyBlod1" type="enemyblod" x="385.333" y="316" width="24" height="32">
    <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/PP_Monster_Alert_1_1.wav,0,0, fx"/>
     <property name="BoxCollider" value="24,32,0,0,0,0,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/BlobMonster.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="Enemy"/>
     <property name="TextureComp" value="../TempleAtonement/texture/monster_down.png"/>
@@ -145,7 +147,9 @@
   </object>
   <object id="28" name="enemyBlod2" type="enemyblod" x="864" y="480" width="24" height="32">
    <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/PP_Monster_Alert_1_1.wav,0,0, fx"/>
     <property name="BoxCollider" value="24,32,0,0,0,0,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/BlobMonster.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="Enemy"/>
     <property name="TextureComp" value="../TempleAtonement/texture/monster_down.png"/>
@@ -153,7 +157,9 @@
   </object>
   <object id="29" name="enemyBlodd3" type="enemyblod" x="704" y="896" width="24" height="32">
    <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/PP_Monster_Alert_1_1.wav,0,0, fx"/>
     <property name="BoxCollider" value="24,32,0,0,0,0,0"/>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/BlobMonster.xml"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="Enemy"/>
     <property name="TextureComp" value="../TempleAtonement/texture/monster_down.png"/>
