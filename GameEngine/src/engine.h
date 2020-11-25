@@ -8,6 +8,7 @@
 #include <glfw/glfw3.h>
 #include <functional>
 #include <string>
+#include "ctpl_stl.h"
 
 using namespace entityx;
 
@@ -19,7 +20,7 @@ class Engine : public EntityX{
         const unsigned int SCR_WIDTH = 800;
         const unsigned int SCR_HEIGHT = 600;
         GLFWwindow* window;
-
+        ctpl::thread_pool jobPool;
         void loadScene(std::string sceneName);
 
     private:

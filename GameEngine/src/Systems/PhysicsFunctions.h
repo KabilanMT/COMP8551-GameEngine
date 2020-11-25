@@ -14,6 +14,7 @@ namespace Physics
 {
     bool DetectAABB(float x1, float y1, float width1, float height1,
     float x2, float y2, float width2, float height2){
+        
         width1 = width1 / 2.0;
         width2 = width2 / 2.0;
         height1 = height1 / 2.0;
