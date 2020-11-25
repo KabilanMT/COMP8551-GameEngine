@@ -1,6 +1,5 @@
 <root>
     <variables>
-        <entity name="Player" value="Player"/>
         <entity name="DogStatue" value="DogStatue" />
     </variables>
 
