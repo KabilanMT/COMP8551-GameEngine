@@ -104,6 +104,14 @@
     <property name="TextureComp" value="../TempleAtonement/texture/lamp.png"/>
    </properties>
   </object>
+  <object id="46" name="shieldEntity" x="141.667" y="853.333" width="71.3334" height="59.3333" visible="0">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
+    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/shield.png"/>
+   </properties>
+  </object>
   <object id="36" name="weaponEntity" x="236" y="876" width="40" height="40" visible="0">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
@@ -167,14 +175,6 @@
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="scoreFourthDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
-   </properties>
-  </object>
-  <object id="46" name="shieldEntity" x="241" y="875.333" width="40.6667" height="41.3333" visible="0">
-   <properties>
-    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
-    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
-    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
-    <property name="TextureComp" value="../TempleAtonement/texture/shield.png"/>
    </properties>
   </object>
  </objectgroup>

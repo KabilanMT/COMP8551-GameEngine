@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="left-down" width="30" height="31" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="39">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="left-down" width="30" height="31" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="40">
  <objectgroup id="2" name="Scene 2">
   <object id="20" name="Land" x="288" y="0" width="384" height="992">
    <properties>
@@ -182,6 +182,14 @@
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="scoreFourthDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
+   </properties>
+  </object>
+  <object id="39" name="shieldEntity" x="378.833" y="745.833" width="71.3334" height="59.3333" visible="0">
+   <properties>
+    <property name="AudioSource" value="../TempleAtonement/src/sounds/tm2_swing004.ogg,0,0,fx"/>
+    <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/shield.png"/>
    </properties>
   </object>
  </objectgroup>

@@ -5,7 +5,7 @@
         <globalBool name="lampchestopened" value="false"/>
         <entity name="weaponEntity" value="weaponEntity"/>
         <entity name="Player" value="Player"/>
-      <entity name="lampnotice" value="lampnotice"/>
+        <entity name="torch2" value="torch2"/>
     </variables>
     <interacted>
         
@@ -16,37 +16,10 @@
         <changeSprite name="../TempleAtonement/texture/chest_opened.png"/>
         <updateGlobalVar name="obtainedLamp" value="true" type="bool"/>
       </ifGlobalVar>
-
-      <onEntity name="lampnotice">
-        <keyPress value="KEY_SPACE">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_F">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_W">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_D">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_S">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_A">
-          <setActive value="false"/>
-        </keyPress>
-      </onEntity>
-      
-      
-      
     </update>
     <onCollision>
         <ifVar name="collisionObject-tag" value="Weapon" type="string">
           <updateGlobalVar name="lampchestopened" value="true" type="bool"/>
-          <onEntity name="lampnotice">
-            <setActive value="true"/>
-          </onEntity>
         </ifVar>
     </onCollision>
 

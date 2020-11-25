@@ -39,48 +39,28 @@
       </ifVar>
 
       <!-- shield -->
+      <ifGlobalVar name="obtainedShield" value="true" type="bool">
       <ifVar name="isProtect" value="false" type="bool">
-        <keyPress value="KEY_G">
+        <keyPress value="KEY_Q">
           <updateVar name="isProtect" value="true" type="bool"/>
           <onEntity name="shieldEntity">
             <setActive value="true"/>
             <playAudio/>
           </onEntity>
-          <!-- Check player direction to move shieldEntity -->
+          <!-- Check player direction to move weaponEntity -->
           <matchEntityPos name="shieldEntity"/>
-          <ifVar name="playerDirection" value="0" type="int">
-            <!-- Up -->
+
             <onEntity name="shieldEntity">
-              <moveEntity x="0.0" y="24.0" z="0.0" applyDt="false"/>
-              <changeSprite name="../TempleAtonement/texture/slash.png"/>
+              <moveEntity x="0.0" y="0.0" z="0.0" applyDt="false"/>
+              <changeSprite name="../TempleAtonement/texture/shield.png"/>
             </onEntity>
-          </ifVar>
-          <ifVar name="playerDirection" value="1" type="int">
-            <!-- Right -->
-            <onEntity name="shieldEntity">
-              <moveEntity x="24.0" y="0.0" z="0.0" applyDt="false"/>
-              <changeSprite name="../TempleAtonement/texture/slash.png"/>
-            </onEntity>
-          </ifVar>
-          <ifVar name="playerDirection" value="2" type="int">
-            <!-- Down -->
-            <onEntity name="shieldEntity">
-              <moveEntity x="0.0" y="-24.0" z="0.0" applyDt="false"/>
-              <changeSprite name="../TempleAtonement/texture/slash.png"/>
-            </onEntity>
-          </ifVar>
-          <ifVar name="playerDirection" value="3" type="int">
-            <!-- Left -->
-            <onEntity name="shieldEntity">
-              <moveEntity x="-24.0" y="0.0" z="0.0" applyDt="false"/>
-              <changeSprite name="../TempleAtonement/texture/slash.png"/>
-            </onEntity>
-          </ifVar>
         </keyPress>
       </ifVar>
+        </ifGlobalVar>
 
       <!-- lamp -->
       <ifGlobalVar name="obtainedLamp" value="true" type="bool">
+        <ifVar name="isProtect" value="false" type="bool">
       <ifVar name="isLighting" value="false" type="bool">
         <keyPress value="KEY_F">
           <updateVar name="isLighting" value="true" type="bool"/>
@@ -120,10 +100,13 @@
           </ifVar>
         </keyPress>
       </ifVar>
+     </ifVar>
     </ifGlobalVar>
 
       <!-- attack -->
         <ifVar name="isAttacking" value="false" type="bool">
+          <ifVar name="isProtect" value="false" type="bool">
+            <ifVar name="isLighting" value="false" type="bool">
             <keyPress value="KEY_SPACE">
                 <updateVar name="isAttacking" value="true" type="bool"/>
                 <onEntity name="weaponEntity">
@@ -161,6 +144,8 @@
                     </onEntity>
                 </ifVar>
             </keyPress>
+        </ifVar>
+          </ifVar>
         </ifVar>
 
         <!-- For audio check -->
@@ -284,6 +269,7 @@
       <entity name="lampEntity" value="lampEntity"/>
         <globalInt name="health" value="5"/>
       <globalBool name="obtainedLamp" value="false"/>
+      <globalBool name="obtainedShield" value="false"/>
         <!-- <entity name="scoreEntity" value="score"/> -->
         <entity name="interactEntity" value=""/> <!-- No entity to start -->
         <double name="invinTimer" value="0.0"/>
@@ -474,6 +460,7 @@
     </start>
     <onCollision>
         <ifVar name="collisionObject-tag" value="Enemy" type="string">
+          <ifVar name="isProtect" value="false" type="bool">
             <ifVar name="isInvincible" type="bool" value="false">
                 <addGlobalVar name="health" value="-1" type="int"/>
                 <ifGlobalVar name="health" value="0" type="int">
@@ -481,6 +468,7 @@
                     <loadScene name="gameoverScene"/>
                 </ifGlobalVar>
                 <updateVar name="isInvincible" value="true" type="bool"/>
+            </ifVar>
             </ifVar>
         </ifVar>
         <ifVar name="collisionObject-tag" value="Coin" type="string">
