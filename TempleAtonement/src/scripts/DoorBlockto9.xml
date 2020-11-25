@@ -8,8 +8,8 @@
   </variables>
 
   <update>
-    <ifGlobalVar name="Lit5" value="true" type="bool">
-      <ifGlobalVar name="Lit6" value="true" type="bool">
+    <ifGlobalVar name="Lit2" value="true" type="bool">
+      <ifGlobalVar name="Lit1" value="true" type="bool">
         <updateGlobalVar name="doorlocked9" value="false" type="bool"/>
       </ifGlobalVar>
     </ifGlobalVar>

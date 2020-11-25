@@ -161,7 +161,7 @@
     <property name="TextureComp" value="../TempleAtonement/texture/torch_unlit.png"/>
    </properties>
   </object>
-  <object id="31" name="torch4" type="interacable" x="128" y="160" width="64" height="64">
+  <object id="31" name="torch4" type="interacable" x="128" y="163.726" width="64" height="64">
    <properties>
     <property name="BoxCollider" value="32,60,0,-10,0,0,0"/>
     <property name="CustomScript" value="../TempleAtonement/src/scripts/torches2.xml"/>
