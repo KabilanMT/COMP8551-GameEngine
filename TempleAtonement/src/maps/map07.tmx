@@ -81,7 +81,7 @@
     <property name="BoxCollider" value="64,544,0,0,0,0,0"/>
    </properties>
   </object>
-  <object id="19" name="Coin6" x="736" y="832" width="32" height="32">
+  <object id="19" name="Coin30" x="736" y="832" width="32" height="32">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
     <property name="CircleCollider" value="12,0,3,0,1,0"/>
@@ -91,7 +91,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="20" name="Coin5" x="800" y="832" width="32" height="32">
+  <object id="20" name="Coin31" x="800" y="832" width="32" height="32">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
     <property name="CircleCollider" value="12,0,3,0,1,0"/>
@@ -101,7 +101,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="21" name="Coin4" x="864" y="832" width="32" height="32">
+  <object id="21" name="Coin32" x="864" y="832" width="32" height="32">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
     <property name="CircleCollider" value="12,0,3,0,1,0"/>
@@ -111,7 +111,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="22" name="Coin3" x="736" y="256" width="32" height="32">
+  <object id="22" name="Coin33" x="736" y="256" width="32" height="32">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
     <property name="CircleCollider" value="12,0,3,0,1,0"/>
@@ -121,7 +121,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="23" name="Coin2" x="800" y="256" width="32" height="32">
+  <object id="23" name="Coin34" x="800" y="256" width="32" height="32">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
     <property name="CircleCollider" value="12,0,3,0,1,0"/>
@@ -131,7 +131,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="24" name="Coin1" x="864" y="256" width="32" height="32">
+  <object id="24" name="Coin35" x="864" y="256" width="32" height="32">
    <properties>
     <property name="AudioSource" value="../TempleAtonement/src/sounds/coin_01.mp3,0,0,fx"/>
     <property name="CircleCollider" value="12,0,3,0,1,0"/>

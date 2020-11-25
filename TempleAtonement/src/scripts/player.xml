@@ -108,6 +108,7 @@
           <ifVar name="isProtect" value="false" type="bool">
             <ifVar name="isLighting" value="false" type="bool">
             <keyPress value="KEY_SPACE">
+                <callFunction name="progressText"/> <!-- Map01 cutscene progression -->
                 <updateVar name="isAttacking" value="true" type="bool"/>
                 <onEntity name="weaponEntity">
                     <setActive value="true"/>
@@ -211,6 +212,8 @@
             </keyPress>
         </ifVar>
        </ifVar>
+       
+       <matchEntityPos name="cutsceneText"/>
 
         <ifVar name="checkMove" type="bool" value="false">
             <updateVar name="isMoving" type="bool" value="false"/>
@@ -257,6 +260,21 @@
             </ifVar>
         </ifVar>
     </update>
+
+    <progressText>
+        <ifVar name="cutsceneProgressionValue" type="int" value="1">
+            <onEntity name="cutsceneText">
+                <setActive value="false"/>
+            </onEntity>
+            <updateVar name="cutsceneProgressionValue" type="int" value="2"/>
+        </ifVar>
+        <ifVar name="cutsceneProgressionValue" type="int" value="0">
+            <onEntity name="cutsceneText">
+                <changeSprite name="../TempleAtonement/texture/MAP01/Cutscene02.png"/>
+            </onEntity>
+            <updateVar name="cutsceneProgressionValue" type="int" value="1"/>
+        </ifVar>
+    </progressText>
     
     <variables>
         <bool name="isAttacking" value="false"/>
@@ -296,6 +314,68 @@
         <int name="scoreSecondDigit" value="0"/>
         <int name="scoreThirdDigit" value="0"/>
         <int name="scoreFourthDigit" value="0"/>
+
+        <entity name="cutsceneText" value="CutsceneText"/>
+        <int name="cutsceneProgressionValue" value="0"/>
+
+        <entity name="tempCoin" value=""/>
+        <!-- Coin persistence globals -->
+        <globalBool name="Coin01Taken" value="false"/>
+        <globalBool name="Coin02Taken" value="false"/>
+        <globalBool name="Coin03Taken" value="false"/>
+        <globalBool name="Coin04Taken" value="false"/>
+        <globalBool name="Coin05Taken" value="false"/>
+        <globalBool name="Coin06Taken" value="false"/>
+        <globalBool name="Coin07Taken" value="false"/>
+        <globalBool name="Coin08Taken" value="false"/>
+        <globalBool name="Coin09Taken" value="false"/>
+        <globalBool name="Coin10Taken" value="false"/>
+        <globalBool name="Coin11Taken" value="false"/>
+        <globalBool name="Coin12Taken" value="false"/>
+        <globalBool name="Coin13Taken" value="false"/>
+        <globalBool name="Coin14Taken" value="false"/>
+        <globalBool name="Coin15Taken" value="false"/>
+        <globalBool name="Coin16Taken" value="false"/>
+        <globalBool name="Coin17Taken" value="false"/>
+        <globalBool name="Coin18Taken" value="false"/>
+        <globalBool name="Coin19Taken" value="false"/>
+        <globalBool name="Coin20Taken" value="false"/>
+        <globalBool name="Coin21Taken" value="false"/>
+        <globalBool name="Coin22Taken" value="false"/>
+        <globalBool name="Coin23Taken" value="false"/>
+        <globalBool name="Coin24Taken" value="false"/>
+        <globalBool name="Coin25Taken" value="false"/>
+        <globalBool name="Coin26Taken" value="false"/>
+        <globalBool name="Coin27Taken" value="false"/>
+        <globalBool name="Coin28Taken" value="false"/>
+        <globalBool name="Coin29Taken" value="false"/>
+        <globalBool name="Coin30Taken" value="false"/>
+        <globalBool name="Coin31Taken" value="false"/>
+        <globalBool name="Coin32Taken" value="false"/>
+        <globalBool name="Coin33Taken" value="false"/>
+        <globalBool name="Coin34Taken" value="false"/>
+        <globalBool name="Coin35Taken" value="false"/>
+        <globalBool name="Coin36Taken" value="false"/>
+        <globalBool name="Coin37Taken" value="false"/>
+        <globalBool name="Coin38Taken" value="false"/>
+        <globalBool name="Coin39Taken" value="false"/>
+        <globalBool name="Coin40Taken" value="false"/>
+        <globalBool name="Coin41Taken" value="false"/>
+        <globalBool name="Coin42Taken" value="false"/>
+        <globalBool name="Coin43Taken" value="false"/>
+        <globalBool name="Coin44Taken" value="false"/>
+        <globalBool name="Coin45Taken" value="false"/>
+        <globalBool name="Coin46Taken" value="false"/>
+        <globalBool name="Coin47Taken" value="false"/>
+        <globalBool name="Coin48Taken" value="false"/>
+        <globalBool name="Coin49Taken" value="false"/>
+        <globalBool name="Coin50Taken" value="false"/>
+        <globalBool name="Coin51Taken" value="false"/>
+        <globalBool name="Coin52Taken" value="false"/>
+        <globalBool name="Coin53Taken" value="false"/>
+        <globalBool name="Coin54Taken" value="false"/>
+        <globalBool name="Coin55Taken" value="false"/>
+        <globalBool name="Coin56Taken" value="false"/>
     </variables>
 
     <addPoints>
@@ -461,9 +541,348 @@
         <multiVar name="localNewPlayerY" type="float" value="-1"/>
         <setPos x="localNewPlayerX" y="localNewPlayerY"/>
     </updatePos>
+    <removeTakenCoins>
+        <ifGlobalVar name="Coin01Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin01"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin02Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin02"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin03Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin03"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin04Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin04"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin05Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin05"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin06Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin06"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin07Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin07"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin08Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin08"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin09Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin09"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin10Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin10"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin11Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin11"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin12Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin12"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin13Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin13"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin14Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin14"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin15Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin15"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin16Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin16"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin17Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin17"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin18Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin18"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin19Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin19"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin20Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin20"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin21Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin21"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin22Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin22"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin23Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin23"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin24Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin24"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin25Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin25"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin26Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin26"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin27Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin27"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin28Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin28"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin29Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin29"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin30Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin30"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin31Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin31"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin32Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin32"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin33Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin33"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin34Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin34"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin35Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin35"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin36Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin36"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin37Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin37"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin38Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin38"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin39Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin39"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin40Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin40"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin41Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin41"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin42Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin42"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin43Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin43"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin44Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin44"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin45Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin45"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin46Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin46"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin47Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin47"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin48Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin48"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin49Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin49"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin50Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin50"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin51Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin51"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin52Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin52"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin53Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin53"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin54Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin54"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin55Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin55"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+        <ifGlobalVar name="Coin56Taken" value="true" type="bool">
+            <updateVar type="entity" name="tempCoin" value="Coin56"/>
+            <onEntity name="tempCoin">
+                <setActive value="false"/>
+            </onEntity>
+        </ifGlobalVar>
+    </removeTakenCoins>
     <start>
         <callFunction name="updatePointDisplay"/>
         <callFunction name="updatePos"/>
+        <callFunction name="removeTakenCoins"/>
     </start>
     <onCollision>
         <ifVar name="collisionObject-tag" value="Enemy" type="string">
@@ -484,6 +903,176 @@
                 <playAudio/>
                 <setActive value="false"/>
             </onEntity>
+            <!-- Coin persistence code -->
+            <ifVar name="collisionObject-name" value="Coin01" type="string">
+                <updateGlobalVar type="bool" name="Coin01Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin02" type="string">
+                <updateGlobalVar type="bool" name="Coin02Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin03" type="string">
+                <updateGlobalVar type="bool" name="Coin03Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin04" type="string">
+                <updateGlobalVar type="bool" name="Coin04Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin05" type="string">
+                <updateGlobalVar type="bool" name="Coin05Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin06" type="string">
+                <updateGlobalVar type="bool" name="Coin06Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin07" type="string">
+                <updateGlobalVar type="bool" name="Coin07Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin08" type="string">
+                <updateGlobalVar type="bool" name="Coin08Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin09" type="string">
+                <updateGlobalVar type="bool" name="Coin09Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin10" type="string">
+                <updateGlobalVar type="bool" name="Coin10Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin11" type="string">
+                <updateGlobalVar type="bool" name="Coin11Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin12" type="string">
+                <updateGlobalVar type="bool" name="Coin12Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin13" type="string">
+                <updateGlobalVar type="bool" name="Coin13Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin14" type="string">
+                <updateGlobalVar type="bool" name="Coin14Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin15" type="string">
+                <updateGlobalVar type="bool" name="Coin15Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin16" type="string">
+                <updateGlobalVar type="bool" name="Coin16Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin17" type="string">
+                <updateGlobalVar type="bool" name="Coin17Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin18" type="string">
+                <updateGlobalVar type="bool" name="Coin18Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin19" type="string">
+                <updateGlobalVar type="bool" name="Coin19Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin20" type="string">
+                <updateGlobalVar type="bool" name="Coin20Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin21" type="string">
+                <updateGlobalVar type="bool" name="Coin21Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin22" type="string">
+                <updateGlobalVar type="bool" name="Coin22Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin23" type="string">
+                <updateGlobalVar type="bool" name="Coin23Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin24" type="string">
+                <updateGlobalVar type="bool" name="Coin24Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin25" type="string">
+                <updateGlobalVar type="bool" name="Coin25Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin26" type="string">
+                <updateGlobalVar type="bool" name="Coin26Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin27" type="string">
+                <updateGlobalVar type="bool" name="Coin27Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin28" type="string">
+                <updateGlobalVar type="bool" name="Coin28Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin29" type="string">
+                <updateGlobalVar type="bool" name="Coin29Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin30" type="string">
+                <updateGlobalVar type="bool" name="Coin30Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin31" type="string">
+                <updateGlobalVar type="bool" name="Coin31Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin32" type="string">
+                <updateGlobalVar type="bool" name="Coin32Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin33" type="string">
+                <updateGlobalVar type="bool" name="Coin33Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin34" type="string">
+                <updateGlobalVar type="bool" name="Coin34Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin35" type="string">
+                <updateGlobalVar type="bool" name="Coin35Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin36" type="string">
+                <updateGlobalVar type="bool" name="Coin36Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin37" type="string">
+                <updateGlobalVar type="bool" name="Coin37Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin38" type="string">
+                <updateGlobalVar type="bool" name="Coin38Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin39" type="string">
+                <updateGlobalVar type="bool" name="Coin39Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin40" type="string">
+                <updateGlobalVar type="bool" name="Coin40Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin41" type="string">
+                <updateGlobalVar type="bool" name="Coin41Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin42" type="string">
+                <updateGlobalVar type="bool" name="Coin42Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin43" type="string">
+                <updateGlobalVar type="bool" name="Coin43Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin44" type="string">
+                <updateGlobalVar type="bool" name="Coin44Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin45" type="string">
+                <updateGlobalVar type="bool" name="Coin45Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin46" type="string">
+                <updateGlobalVar type="bool" name="Coin46Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin47" type="string">
+                <updateGlobalVar type="bool" name="Coin47Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin48" type="string">
+                <updateGlobalVar type="bool" name="Coin48Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin49" type="string">
+                <updateGlobalVar type="bool" name="Coin49Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin50" type="string">
+                <updateGlobalVar type="bool" name="Coin50Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin51" type="string">
+                <updateGlobalVar type="bool" name="Coin51Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin52" type="string">
+                <updateGlobalVar type="bool" name="Coin52Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin53" type="string">
+                <updateGlobalVar type="bool" name="Coin53Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin54" type="string">
+                <updateGlobalVar type="bool" name="Coin54Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin55" type="string">
+                <updateGlobalVar type="bool" name="Coin55Taken" value="true"/>
+            </ifVar>
+            <ifVar name="collisionObject-name" value="Coin56" type="string">
+                <updateGlobalVar type="bool" name="Coin56Taken" value="true"/>
+            </ifVar>
+
             <callFunction name="addPoints"/>
             <callFunction name="addPoints"/>
             <callFunction name="addPoints"/>
