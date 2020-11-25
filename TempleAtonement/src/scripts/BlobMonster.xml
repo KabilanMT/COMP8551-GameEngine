@@ -2,9 +2,9 @@
     <update>
         <!--get distance between enemy and player -->
         <distanceTo name="Player" var="distance"/>
-        <IfVarGreater name="distance" value="64" type="float">
+        <ifVarLess name="distance" value="128" type="float">
             <updateVar name="isFollowing" value="true" type="bool"/>
-        </IfVarGreater>
+        </ifVarLess>
       
         <!-- following -->
         <ifVar name="isFollowing" value="true" type="bool">
@@ -16,7 +16,7 @@
     
     </update>
     <variables>
-        <bool name="isFollowing" value="true"/>
+        <bool name="isFollowing" value="false"/>
         <int name="blobDirection" value="2"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
         <entity name="weaponEntity" value="weaponEntity"/>
         <entity name="Player" value="Player"/>
@@ -41,8 +41,8 @@
                     <callFunction name="addPoints"/>
                     <callFunction name="updatePointDisplay"/>
                 </onEntity>
-              <playAudio/>
-              <setActive value="false"/>
+				<playAudio/>
+				<setActive value="false"/>
             </ifVar>
         </ifVar>
     </onCollision>

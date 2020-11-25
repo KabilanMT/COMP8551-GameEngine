@@ -26,8 +26,41 @@
       </ifVar>
 
 
+      <!-- If attacking, add to a timer and not allow new input -->
+      <ifVar name="isProtect" value="true" type="bool">
+        <addVar name="attackTimer" value="deltaTime" type="double"/>
+        <ifVarGreater name="attackTimer" value="0.15" type="double">
+          <updateVar name="attackTimer" value="0.0" type="double"/>
+          <updateVar name="isProtect" value="false" type="bool" />
+          <onEntity name="shieldEntity">
+            <setActive value="false"/>
+          </onEntity>
+        </ifVarGreater>
+      </ifVar>
+
+      <!-- shield -->
+      <ifGlobalVar name="obtainedShield" value="true" type="bool">
+      <ifVar name="isProtect" value="false" type="bool">
+        <keyPress value="KEY_Q">
+          <updateVar name="isProtect" value="true" type="bool"/>
+          <onEntity name="shieldEntity">
+            <setActive value="true"/>
+            <playAudio/>
+          </onEntity>
+          <!-- Check player direction to move weaponEntity -->
+          <matchEntityPos name="shieldEntity"/>
+
+            <onEntity name="shieldEntity">
+              <moveEntity x="0.0" y="0.0" z="0.0" applyDt="false"/>
+              <changeSprite name="../TempleAtonement/texture/shield.png"/>
+            </onEntity>
+        </keyPress>
+      </ifVar>
+        </ifGlobalVar>
+
       <!-- lamp -->
       <ifGlobalVar name="obtainedLamp" value="true" type="bool">
+        <ifVar name="isProtect" value="false" type="bool">
       <ifVar name="isLighting" value="false" type="bool">
         <keyPress value="KEY_F">
           <updateVar name="isLighting" value="true" type="bool"/>
@@ -67,10 +100,13 @@
           </ifVar>
         </keyPress>
       </ifVar>
+     </ifVar>
     </ifGlobalVar>
 
       <!-- attack -->
         <ifVar name="isAttacking" value="false" type="bool">
+          <ifVar name="isProtect" value="false" type="bool">
+            <ifVar name="isLighting" value="false" type="bool">
             <keyPress value="KEY_SPACE">
                 <updateVar name="isAttacking" value="true" type="bool"/>
                 <onEntity name="weaponEntity">
@@ -108,6 +144,8 @@
                     </onEntity>
                 </ifVar>
             </keyPress>
+        </ifVar>
+          </ifVar>
         </ifVar>
 
         <!-- For audio check -->
@@ -180,11 +218,11 @@
         </ifVar>
 
         <!-- interact -->
-        <keyPress value="KEY_E">
+        <!-- <keyPress value="KEY_E">
             <onEntity name="interactEntity">
                 <callFunction name="interacted"/>
             </onEntity>
-        </keyPress>
+        </keyPress> -->
         <updateVar name="interactEntity" type="entity" value=""/>
         
         <!-- If invincible, increment timer and maybe stop being invincible -->
@@ -222,13 +260,18 @@
     
     <variables>
         <bool name="isAttacking" value="false"/>
-      <bool name="isLighting" value="false"/>
+
+        <bool name="isLighting" value="false"/>
+        <bool name="isProtect" value="false"/>
         <double name="attackTimer" value="0.0"/>
         <int name="playerDirection" value="2"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
         <entity name="weaponEntity" value="weaponEntity"/>
+      <entity name="shieldEntity" value="shieldEntity"/>
       <entity name="lampEntity" value="lampEntity"/>
         <globalInt name="health" value="5"/>
       <globalBool name="obtainedLamp" value="false"/>
+      <globalBool name="obtainedShield" value="false"/>
+
         <!-- <entity name="scoreEntity" value="score"/> -->
         <entity name="interactEntity" value=""/> <!-- No entity to start -->
         <double name="invinTimer" value="0.0"/>
@@ -258,6 +301,11 @@
     <addPoints>
         <addGlobalVar name="points" value="1" type="int"/>
     </addPoints>
+
+    <setInteracted>
+        <updateVar name="interactEntity" value="collisionObject-name" type="entity"/>
+    </setInteracted>
+
     <updatePointDisplay>
         <setEqual name="scoreFirstDigit" type="int" value="points" isGlobal="true"/>
         <modVar name="scoreFirstDigit" type="int" value="10"/>
@@ -419,6 +467,7 @@
     </start>
     <onCollision>
         <ifVar name="collisionObject-tag" value="Enemy" type="string">
+          <ifVar name="isProtect" value="false" type="bool">
             <ifVar name="isInvincible" type="bool" value="false">
                 <addGlobalVar name="health" value="-1" type="int"/>
                 <ifGlobalVar name="health" value="0" type="int">
@@ -426,6 +475,7 @@
                     <loadScene name="gameoverScene"/>
                 </ifGlobalVar>
                 <updateVar name="isInvincible" value="true" type="bool"/>
+            </ifVar>
             </ifVar>
         </ifVar>
         <ifVar name="collisionObject-tag" value="Coin" type="string">
@@ -440,9 +490,6 @@
             <callFunction name="addPoints"/>
             <callFunction name="addPoints"/>
             <callFunction name="updatePointDisplay"/>
-        </ifVar>
-        <ifVar name="collisionObject-tag" value="Interactable" type="string">
-            <updateVar name="interactEntity" value="collisionObject-name" type="entity"/>
         </ifVar>
     </onCollision>
 </root>

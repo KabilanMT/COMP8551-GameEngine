@@ -1,22 +1,40 @@
 <root>
 
-
   <variables>
-    <globalBool name="doorlocked9" value="true"/>
+    <globalBool name="Lit2" value="false"/>
     <entity name="lampEntity" value="lampEntity"/>
-    <entity name="Player" value="Player"/>
-    <entity name="torch2" value="torch2"/>
-    <entity name="Torches" value="Torches"/>
+
   </variables>
+  <interacted>
+
+  </interacted>
+  <start>
+
+  </start>
+  <onCollision>
+    <ifVar name="collisionObject-tag" value="Lamp" type="string">
+      <updateGlobalVar name="Lit2" value="true" type="bool"/>
+    </ifVar>
+  </onCollision>
+
+  <update>
+    <ifGlobalVar name="Lit2" value="true" type="bool">
+      <changeSprite name="../TempleAtonement/texture/torch_lit.png"/>
+    </ifGlobalVar>
+
+  </update>
 
 
 
-  <ifGlobalVar name="doorlocked9" value="false" type="bool">
-    <setActive value="false"/>
-  </ifGlobalVar>
 
 
 </root>
+
+
+
+
+
+
 
 <!-- 
 Reserved:

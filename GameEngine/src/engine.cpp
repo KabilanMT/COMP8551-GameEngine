@@ -185,7 +185,7 @@ void Engine::start() {
     }
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-   
+    entities.reset();
     glfwTerminate();
     return;
 }

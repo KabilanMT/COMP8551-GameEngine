@@ -1,62 +1,49 @@
 <root>
+    <update>
+        <ifVar name="statueDirection" value="0" type="int">
+			<!-- Up -->
+			<changeSprite name="../TempleAtonement/texture/MAP03/dog_Statue_back.png"/>
+		</ifVar>
+		<ifVar name="statueDirection" value="1" type="int">
+			<!-- Right -->
+			<changeSprite name="../TempleAtonement/texture/MAP03/dog_Statue_right.png"/>
+		</ifVar>
+		<ifVar name="statueDirection" value="2" type="int">
+			<!-- Down -->
+			<changeSprite name="../TempleAtonement/texture/MAP03/dog_Statue_forward.png"/>
+		</ifVar>
+		<ifVar name="statueDirection" value="3" type="int">
+			<!-- Left -->
+			<changeSprite name="../TempleAtonement/texture/MAP03/dog_Statue_left.png"/>
+		</ifVar>
+    </update>
     
+    <interacted>
+        <log value="StatuesDog interacted" />
+    </interacted>
+
     <variables>
-		    <globalBool name="obtainedLamp" value="false"/>
-        <globalBool name="lampchestopened" value="false"/>
+        <int name="statueDirection" value="0"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
         <entity name="weaponEntity" value="weaponEntity"/>
         <entity name="Player" value="Player"/>
-      <entity name="lampnotice" value="lampnotice"/>
     </variables>
-    <interacted>
-        
-    </interacted>
-    <update>
-      
-      <ifGlobalVar name="lampchestopened" value="true" type="bool">
-        <changeSprite name="../TempleAtonement/texture/chest_opened.png"/>
-        <updateGlobalVar name="obtainedLamp" value="true" type="bool"/>
-      </ifGlobalVar>
+    <start>
 
-      <onEntity name="lampnotice">
-        <keyPress value="KEY_SPACE">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_F">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_W">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_D">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_S">
-          <setActive value="false"/>
-        </keyPress>
-        <keyPress value="KEY_A">
-          <setActive value="false"/>
-        </keyPress>
-      </onEntity>
-      
-      
-      
-    </update>
+    </start>
     <onCollision>
         <ifVar name="collisionObject-tag" value="Weapon" type="string">
-          <updateGlobalVar name="lampchestopened" value="true" type="bool"/>
-          <onEntity name="lampnotice">
-            <setActive value="true"/>
-          </onEntity>
+            <ifVarGreater name="statueDirection" value="3" type="int">
+				<updateVar name="statueDirection" value="0" type="int"/>
+			</ifVarGreater>
+			<ifVar name="statueDirection" value="3" type="int">
+				<updateVar name="statueDirection" value="0" type="int"/>
+			</ifVar>
+			<ifVarLess name="statueDirection" value="3" type="int">
+				<addVar name="statueDirection" value="1" type="int"/>
+			</ifVarLess>
         </ifVar>
     </onCollision>
-
-
-
-
 </root>
-
-
-
 
 <!-- 
 Reserved:
