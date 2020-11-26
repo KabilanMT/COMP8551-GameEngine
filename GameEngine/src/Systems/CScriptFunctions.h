@@ -216,7 +216,7 @@ namespace CScript
         else
             return;
 
-        if (!other.has_component<Transform>() || !currEntity->has_component<Transform>())
+        if (!other.valid() || !other.has_component<Transform>() || !currEntity->valid() || !currEntity->has_component<Transform>())
             return;
 
         ComponentHandle<Transform> otherT = other.component<Transform>();
