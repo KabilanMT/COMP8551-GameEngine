@@ -45,7 +45,7 @@ struct EntityPair {
     ColliderType bType;
 };
 
-bool narrowphaseResults(EntityPair& possibleColl){
+bool narrowphaseResults(int id, EntityPair& possibleColl){
     ComponentHandle<Transform> c1T = possibleColl.a.component<Transform>();
     ComponentHandle<Transform> c2T = possibleColl.b.component<Transform>();
 
@@ -88,6 +88,7 @@ bool narrowphaseResults(EntityPair& possibleColl){
     }
     return false;
 }
+
 
 class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSystem> {
     public:
@@ -167,54 +168,26 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
             std::vector<std::future<bool>> results(possibleColl.size());
             std::vector<bool> resultsForThreads(possibleColl.size(), false);
             std::vector<std::thread> narrowJobs;
-
+            
+            //thread pool
             for(int i = 0; i < possibleColl.size(); i++){
-                //results.at(i) = Engine::getInstance().jobPool.push(narrowphaseResults, possibleColl.at(i));
+                results.at(i) = Engine::getInstance().jobPool.push(narrowphaseResults, possibleColl.at(i));
             }
 
-            for(int i = 0; i < possibleColl.size(); i++){
-                resultsForThreads.at(i) = narrowphaseResults(possibleColl.at(i));
-            }
-            for(int i = 0; i < resultsForThreads.size(); i++){
-                if(resultsForThreads.at(i) == true){
+            while(Engine::getInstance().jobPool.n_idle() != Engine::getInstance().jobPool.size()){};
+
+            for(int i = 0; i < results.size(); i++){
+                if(results.at(i).get() == true)
                     collisions.push_back(possibleColl.at(i));
-                }
             }
-            /*
-            Logger::getInstance() << "Before narrowphase function for loop" << "\n";
-            for (int i = 0; i < possibleColl.size(); i++) {
-                //bool (PhysicsSystem::*npFunc)(EntityPair& possibleCol){&narrowphaseResults};
-                bool tempResult = false;
-                //Logger::getInstance() << "Before thread creation" << "\n";
-                narrowJobs.push_back(std::move(std::thread([&]{this->narrowphaseResults(possibleColl.at(i), tempResult);})));
-                //Logger::getInstance() << "After thread creation" << "\n";
-                resultsForThreads.at(i) = tempResult;
-                //auto future = std::async(std::launch::async, simpleFunc, false);
+        
+           /*
+            //Single-threaded code:
+            for(int i = 0; i < possibleColl.size(); i++){
+                resultsForThreads.at(i) = narrowphaseResults(1, possibleColl.at(i));
             }
-            Logger::getInstance() << "Before threadready while loop" << "\n";
-            bool threadsReady = false;
-            while(!threadsReady){
-                threadsReady = true;
-                for(int i = 0; i < narrowJobs.size(); i++){
-                    if(!narrowJobs.at(i).joinable()){
-                        threadsReady = false;
-                    }
-                }
-            }
-
-            Logger::getInstance() << "Before threadready join loop" << "\n";
-            Logger::getInstance() << "narrowjobs size: " << narrowJobs.size() << "\n";
-            for(auto &t : narrowJobs){
-                Logger::getInstance() << "before join" << "\n";
-                t.join();
-                Logger::getInstance() << "after join" << "\n";
-            }
-
-            Logger::getInstance() << "Before resultsforthreads for loop" << "\n";
             for(int i = 0; i < resultsForThreads.size(); i++){
-                Logger::getInstance() << "Before resultsforthreads true check" << "\n";
                 if(resultsForThreads.at(i) == true){
-                    Logger::getInstance() << "Before assigning a collision" << "\n";
                     collisions.push_back(possibleColl.at(i));
                 }
             }

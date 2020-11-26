@@ -3,14 +3,10 @@
 #include "logger.h"
 #include <gtest/gtest.h>
 
-typedef void (*f_update)(); 
-
-int test() {
-    return 2; 
-}
 
 int main()
 {
+    
     //create scene
     //Scene 2 is first for testing, scene 1 should be first
     SceneManager::getInstance().addScene("Scene 1", "../TempleAtonement/src/maps/map01.tmx");
@@ -32,6 +28,6 @@ int main()
     //Game loop
     //Engine start
     Engine::getInstance().start();
-
+    
     return 0;
 }
