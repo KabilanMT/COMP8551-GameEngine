@@ -12,6 +12,8 @@
 #include <math.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+#include <future>
+#include <thread>
 
 using namespace entityx;
 using namespace Physics;
@@ -42,6 +44,51 @@ struct EntityPair {
     Entity b;
     ColliderType bType;
 };
+
+bool narrowphaseResults(int id, EntityPair& possibleColl){
+    ComponentHandle<Transform> c1T = possibleColl.a.component<Transform>();
+    ComponentHandle<Transform> c2T = possibleColl.b.component<Transform>();
+
+    if (possibleColl.aType == Box) {
+        ComponentHandle<BoxCollider> c1 = possibleColl.a.component<BoxCollider>();
+        if (possibleColl.bType == Box) {
+            ComponentHandle<BoxCollider> c2 = possibleColl.b.component<BoxCollider>();
+            return CheckCollision(c1, c2, c1T, c2T);
+        } else if (possibleColl.bType == Circle) {
+            ComponentHandle<CircleCollider> c2 = possibleColl.b.component<CircleCollider>();
+            return CheckCollision(c1, c2, c1T, c2T);
+        } else if (possibleColl.bType == Capsule) {
+            ComponentHandle<CapsuleCollider> c2 = possibleColl.b.component<CapsuleCollider>();
+            return CheckCollision(c1, c2, c1T, c2T);
+        }
+    } else if (possibleColl.aType == Circle) {
+        ComponentHandle<CircleCollider> c1 = possibleColl.a.component<CircleCollider>();
+        if (possibleColl.bType == Box) {
+            ComponentHandle<BoxCollider> c2 = possibleColl.b.component<BoxCollider>();
+            return CheckCollision(c1, c2, c1T, c2T);
+        } else if (possibleColl.bType == Circle) {
+            ComponentHandle<CircleCollider> c2 = possibleColl.b.component<CircleCollider>();
+            return CheckCollision(c1, c2, c1T, c2T);
+        } else if (possibleColl.bType == Capsule) {
+            ComponentHandle<CapsuleCollider> c2 = possibleColl.b.component<CapsuleCollider>();
+            return CheckCollision(c1, c2, c1T, c2T);
+        }
+    } else if (possibleColl.aType == Capsule) {
+        ComponentHandle<CapsuleCollider> c1 = possibleColl.a.component<CapsuleCollider>();
+        if (possibleColl.bType == Box) {
+            ComponentHandle<BoxCollider> c2 = possibleColl.b.component<BoxCollider>();
+            return CheckCollision(c1, c2, c1T, c2T);
+        } else if (possibleColl.bType == Circle) {
+            ComponentHandle<CircleCollider> c2 = possibleColl.b.component<CircleCollider>();
+            return CheckCollision(c1, c2, c1T, c2T);
+        } else if (possibleColl.bType == Capsule) {
+            ComponentHandle<CapsuleCollider> c2 = possibleColl.b.component<CapsuleCollider>();
+            return CheckCollision(c1, c2, c1T, c2T);
+        }
+    }
+    return false;
+}
+
 
 class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSystem> {
     public:
@@ -114,60 +161,37 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
             }
         }
     private:
+
+
         std::vector<EntityPair> narrowphase(std::vector<EntityPair> possibleColl) {
             std::vector<EntityPair> collisions;
-            for (EntityPair ep : possibleColl) {
-                //get each entity's colliders and transforms
-                bool isColliding = false;
-                ComponentHandle<Transform> c1T = ep.a.component<Transform>();
-                ComponentHandle<Transform> c2T = ep.b.component<Transform>();
-                if (ep.aType == Box) {
-                    ComponentHandle<BoxCollider> c1 = ep.a.component<BoxCollider>();
-                    if (ep.bType == Box) {
-                        ComponentHandle<BoxCollider> c2 = ep.b.component<BoxCollider>();
-                        isColliding = CheckCollision(c1, c2, c1T, c2T);
-                    } else if (ep.bType == Circle) {
-                        ComponentHandle<CircleCollider> c2 = ep.b.component<CircleCollider>();
-                        isColliding = CheckCollision(c1, c2, c1T, c2T);
-                    } else if (ep.bType == Capsule) {
-                        ComponentHandle<CapsuleCollider> c2 = ep.b.component<CapsuleCollider>();
-                        isColliding = CheckCollision(c1, c2, c1T, c2T);
-                    }
-                } else if (ep.aType == Circle) {
-                    ComponentHandle<CircleCollider> c1 = ep.a.component<CircleCollider>();
-                    if (ep.bType == Box) {
-                        ComponentHandle<BoxCollider> c2 = ep.b.component<BoxCollider>();
-                        isColliding = CheckCollision(c1, c2, c1T, c2T);
-                    } else if (ep.bType == Circle) {
-                        ComponentHandle<CircleCollider> c2 = ep.b.component<CircleCollider>();
-                        isColliding = CheckCollision(c1, c2, c1T, c2T);
-                    } else if (ep.bType == Capsule) {
-                        ComponentHandle<CapsuleCollider> c2 = ep.b.component<CapsuleCollider>();
-                        isColliding = CheckCollision(c1, c2, c1T, c2T);
-                    }
-                } else if (ep.aType == Capsule) {
-                    ComponentHandle<CapsuleCollider> c1 = ep.a.component<CapsuleCollider>();
-                    if (ep.bType == Box) {
-                        ComponentHandle<BoxCollider> c2 = ep.b.component<BoxCollider>();
-                        isColliding = CheckCollision(c1, c2, c1T, c2T);
-                    } else if (ep.bType == Circle) {
-                        ComponentHandle<CircleCollider> c2 = ep.b.component<CircleCollider>();
-                        isColliding = CheckCollision(c1, c2, c1T, c2T);
-                    } else if (ep.bType == Capsule) {
-                        ComponentHandle<CapsuleCollider> c2 = ep.b.component<CapsuleCollider>();
-                        isColliding = CheckCollision(c1, c2, c1T, c2T);
-                    }
-                }
-                // ComponentHandle<BoxCollider> c1 = ep.a.component<BoxCollider>();
-                // ComponentHandle<BoxCollider> c2 = ep.b.component<BoxCollider>();
-
-                // //check if the colliders are colliding based on their type/shape
-                // bool isColliding = CheckCollision(c1, c2, c1T, c2T);
-                if (isColliding) {
-                    collisions.push_back(ep);
-                }
+            std::vector<std::future<bool>> results(possibleColl.size());
+            std::vector<bool> resultsForThreads(possibleColl.size(), false);
+            std::vector<std::thread> narrowJobs;
+            
+            //thread pool
+            for(int i = 0; i < possibleColl.size(); i++){
+                results.at(i) = Engine::getInstance().jobPool.push(narrowphaseResults, possibleColl.at(i));
             }
 
+            while(Engine::getInstance().jobPool.n_idle() != Engine::getInstance().jobPool.size()){};
+
+            for(int i = 0; i < results.size(); i++){
+                if(results.at(i).get() == true)
+                    collisions.push_back(possibleColl.at(i));
+            }
+        
+           /*
+            //Single-threaded code:
+            for(int i = 0; i < possibleColl.size(); i++){
+                resultsForThreads.at(i) = narrowphaseResults(1, possibleColl.at(i));
+            }
+            for(int i = 0; i < resultsForThreads.size(); i++){
+                if(resultsForThreads.at(i) == true){
+                    collisions.push_back(possibleColl.at(i));
+                }
+            }
+            */
             return collisions;
         }
 

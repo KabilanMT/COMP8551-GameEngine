@@ -52,7 +52,7 @@ void Engine::initialize() {
     const unsigned int SCR_HEIGHT = 540;
 
     //Put setup here
-    
+    jobPool.resize(std::thread::hardware_concurrency());
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();

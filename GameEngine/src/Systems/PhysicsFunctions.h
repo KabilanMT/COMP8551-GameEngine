@@ -14,17 +14,61 @@ namespace Physics
 {
     bool DetectAABB(float x1, float y1, float width1, float height1,
     float x2, float y2, float width2, float height2){
-        width1 = width1 / 2.0;
-        width2 = width2 / 2.0;
-        height1 = height1 / 2.0;
-        height2 = height2 / 2.0;
-        if (x1 + width1 > x2 - width2 &&
-            x1 - width1 < x2 + width2 &&
-            y1 + height1 > y2 - height2 &&
-            y1 - height1 < y2 + height2) {
-                return true;
-            }
-        return false;
+        asm(
+        "movss	%xmm0, 16(%rbp);"
+        "movss	%xmm1, 24(%rbp);"
+        "movss	%xmm2, 32(%rbp);"
+        "movss	%xmm3, 40(%rbp);"
+        "movss	32(%rbp), %xmm0;"
+        "movss	.LC0(%rip), %xmm1;"
+        "divss	%xmm1, %xmm0;"
+        "movss	%xmm0, 32(%rbp);"
+        "movss	64(%rbp), %xmm0;"
+        "movss	.LC0(%rip), %xmm1;"
+        "divss	%xmm1, %xmm0;"
+        "movss	%xmm0, 64(%rbp);"
+        "movss	40(%rbp), %xmm0;"
+        "movss	.LC0(%rip), %xmm1;"
+        "divss	%xmm1, %xmm0;"
+        "movss	%xmm0, 40(%rbp);"
+        "movss	72(%rbp), %xmm0;"
+        "movss	.LC0(%rip), %xmm1;"
+        "divss	%xmm1, %xmm0;"
+        "movss	%xmm0, 72(%rbp);"
+        "movss	16(%rbp), %xmm0;"
+        "addss	32(%rbp), %xmm0;"
+        "movss	48(%rbp), %xmm1;"
+        "subss	64(%rbp), %xmm1;"
+        "comiss	%xmm1, %xmm0;"
+        "jbe	.L2;"
+        "movss	16(%rbp), %xmm0;"
+        "movaps	%xmm0, %xmm1;"
+        "subss	32(%rbp), %xmm1;"
+        "movss	48(%rbp), %xmm0;"
+        "addss	64(%rbp), %xmm0;"
+        "comiss	%xmm1, %xmm0;"
+        "jbe	.L2;"
+        "movss	24(%rbp), %xmm0;"
+        "addss	40(%rbp), %xmm0;"
+        "movss	56(%rbp), %xmm1;"
+        "subss	72(%rbp), %xmm1;"
+        "comiss	%xmm1, %xmm0;"
+        "jbe	.L2;"
+        "movss	24(%rbp), %xmm0;"
+        "movaps	%xmm0, %xmm1;"
+        "subss	40(%rbp), %xmm1;"
+        "movss	56(%rbp), %xmm0;"
+        "addss	72(%rbp), %xmm0;"
+        "comiss	%xmm1, %xmm0;"
+        "jbe	.L2;"
+        "movl	$1, %eax;"
+        "jmp	.L7;"
+        ".L2:"
+        "movl	$0, %eax;"
+        ".L7:"
+        );
+        register bool result asm("eax");
+        return result;
     }
 
     glm::vec2 ClosestPointOnLineSegment(glm::vec2 A, glm::vec2 B, glm::vec2 Point){

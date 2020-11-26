@@ -1,5 +1,5 @@
 CXX			:= g++
-CXX_FLAGS 	:= -g --std=gnu++14 
+CXX_FLAGS 	:= -g --std=gnu++14 -Wl,--allow-multiple-definition -pthread
 
 BIN			:= bin
 SRC			:= src
