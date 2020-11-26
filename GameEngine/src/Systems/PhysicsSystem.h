@@ -166,7 +166,6 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
         std::vector<EntityPair> narrowphase(std::vector<EntityPair> possibleColl) {
             std::vector<EntityPair> collisions;
             std::vector<std::future<bool>> results(possibleColl.size());
-            std::vector<bool> resultsForThreads(possibleColl.size(), false);
             std::vector<std::thread> narrowJobs;
             
             //thread pool
@@ -180,18 +179,6 @@ class PhysicsSystem : public System<PhysicsSystem>, public Receiver<PhysicsSyste
                 if(results.at(i).get() == true)
                     collisions.push_back(possibleColl.at(i));
             }
-        
-           /*
-            //Single-threaded code:
-            for(int i = 0; i < possibleColl.size(); i++){
-                resultsForThreads.at(i) = narrowphaseResults(1, possibleColl.at(i));
-            }
-            for(int i = 0; i < resultsForThreads.size(); i++){
-                if(resultsForThreads.at(i) == true){
-                    collisions.push_back(possibleColl.at(i));
-                }
-            }
-            */
             return collisions;
         }
 
