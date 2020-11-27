@@ -31,12 +31,12 @@
     <playMusic3>
         <ifVar name="musicNum" type="int" value="1">
             <stopAudio/>
-            <setAudioSource value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3"/>
+            <setAudioSource value="../TempleAtonement/src/sounds/20-11-25 Boss Theme A Loop.mp3"/>
             <playAudio/>
         </ifVar>
         <ifVar name="musicNum" type="int" value="2">
             <stopAudio/>
-            <setAudioSource value="../TempleAtonement/src/sounds/29-Dark fantasy studio- You are fighting with me.mp3"/>
+            <setAudioSource value="../TempleAtonement/src/sounds/20-11-25 Boss Theme A Loop.mp3"/>
             <playAudio/>
         </ifVar>
         <updateVar name="musicNum" type="int" value="3"/>
