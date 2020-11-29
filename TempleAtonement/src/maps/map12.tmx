@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="4" nextobjectid="323">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="4" nextobjectid="328">
  <tileset firstgid="1" source="Dungeon.tsx"/>
  <tileset firstgid="1" source="blobsprite_01.tsx"/>
  <objectgroup id="2" name="Scene 12">
@@ -189,6 +189,41 @@
     <property name="BoxCollider" value="28,28,0,0,0,1,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="TextureComp" value="../TempleAtonement/texture/shield.png"/>
+   </properties>
+  </object>
+  <object id="323" name="healthFirstDigitEntity" x="0.641509" y="-50.5065" width="40" height="40">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="healthFirstDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/health_icon.png"/>
+   </properties>
+  </object>
+  <object id="324" name="healthSecondDigitEntity" x="41.6415" y="-50.5065" width="40" height="40">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="healthSecondDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/health_icon.png"/>
+   </properties>
+  </object>
+  <object id="325" name="healthThirdDigitEntity" x="82.6415" y="-50.5065" width="40" height="40">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="healthThirdDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/health_icon.png"/>
+   </properties>
+  </object>
+  <object id="326" name="healthFourthDigitEntity" x="123.642" y="-50.5065" width="40" height="40">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="healthFourthDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/health_icon.png"/>
+   </properties>
+  </object>
+  <object id="327" name="healthFifthDigitEntity" x="164.642" y="-50.5065" width="40" height="40">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="healthFifthDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/health_icon.png"/>
    </properties>
   </object>
  </objectgroup>
