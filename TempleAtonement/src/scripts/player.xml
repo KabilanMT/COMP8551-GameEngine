@@ -559,37 +559,36 @@
                 <changeSprite name="../TempleAtonement/texture/Numbers/9.png"/>
             </ifVar>
         </onEntity>
-		
-		<ifVar name="health" value="4" type="int">
+		<ifGlobalVar name="health" value="4" type="int">
 			<onEntity name="healthFifthDigitEntity">
 				<changeSprite name="../TempleAtonement/texture/transparent.png"/>
 				<log value="Health is at 4"/>
 			</onEntity>
-		</ifVar>
-		<ifVar name="health" value="3" type="int">
+		</ifGlobalVar>
+		<ifGlobalVar name="health" value="3" type="int">
 			<onEntity name="healthFourthDigitEntity">
 				<changeSprite name="../TempleAtonement/texture/transparent.png"/>
 				<log value="Health is at 3"/>
 			</onEntity>
-		</ifVar>
-		<ifVar name="health" value="2" type="int">
+		</ifGlobalVar>
+		<ifGlobalVar name="health" value="2" type="int">
 			<onEntity name="healthThirdDigitEntity">
 				<changeSprite name="../TempleAtonement/texture/transparent.png"/>
 				<log value="Health is at 2"/>
 			</onEntity>
-		</ifVar>
-		<ifVar name="health" value="1" type="int">
+		</ifGlobalVar>
+		<ifGlobalVar name="health" value="1" type="int">
 			<onEntity name="healthSecondDigitEntity">
 				<changeSprite name="../TempleAtonement/texture/transparent.png"/>
 				<log value="Health is at 1"/>
 			</onEntity>
-		</ifVar>
-		<ifVar name="health" value="0" type="int">
+		</ifGlobalVar>
+		<ifGlobalVar name="health" value="0" type="int">
 			<onEntity name="healthFirstDigitEntity">
 				<changeSprite name="../TempleAtonement/texture/transparent.png"/>
 				<log value="Health is at 0nn"/>
 			</onEntity>
-		</ifVar>
+		</ifGlobalVar>
 
     </updatePointDisplay>
     <updatePos>
