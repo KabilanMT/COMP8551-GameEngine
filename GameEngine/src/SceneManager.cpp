@@ -10,7 +10,7 @@ SceneManager::SceneManager() {
 }
 
 void SceneManager::start() {
-    Scene* first = scenes.at(3);
+    Scene* first = scenes.at(0);
     loadScene(first->getName());
 }
 
