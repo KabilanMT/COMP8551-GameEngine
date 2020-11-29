@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="16">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="17">
  <objectgroup id="2" name="Object Layer 1">
   <object id="5" name="land" x="0" y="0" width="640" height="640">
    <properties>
@@ -55,32 +55,38 @@
     <property name="TextureComp" value="../TempleAtonement/texture/MAP01/grandmother.png"/>
    </properties>
   </object>
-  <object id="12" name="scoreFirstDigitEntity" x="599.429" y="-51.7334" width="40" height="40">
+  <object id="12" name="scoreFirstDigitEntity" x="417.913" y="566.287" width="40" height="40">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="scoreFirstDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
    </properties>
   </object>
-  <object id="13" name="scoreSecondDigitEntity" x="559.148" y="-51.7334" width="40" height="40">
+  <object id="13" name="scoreSecondDigitEntity" x="377.632" y="566.287" width="40" height="40">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="scoreSecondDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
    </properties>
   </object>
-  <object id="14" name="scoreThirdDigitEntity" x="518.991" y="-51.7334" width="40" height="40">
+  <object id="14" name="scoreThirdDigitEntity" x="338.475" y="566.287" width="40" height="40">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="scoreThirdDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
    </properties>
   </object>
-  <object id="15" name="scoreFourthDigitEntity" x="480.084" y="-51.7334" width="40" height="40">
+  <object id="15" name="scoreFourthDigitEntity" x="299.568" y="566.287" width="40" height="40">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
     <property name="Tag" value="scoreFourthDigitEntity"/>
     <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
+   </properties>
+  </object>
+  <object id="16" name="scoretext" x="134.851" y="554.287" width="160" height="64">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Scoretext.png"/>
    </properties>
   </object>
  </objectgroup>

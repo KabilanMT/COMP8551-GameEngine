@@ -291,7 +291,7 @@
     <property name="TextureComp" value="../TempleAtonement/texture/door_block.png"/>
    </properties>
   </object>
-  <object id="52" name="doorblock13" x="288" y="0" width="96" height="64">
+  <object id="52" name="doorblock13" x="288" y="0" width="96" height="64" visible="0">
    <properties>
     <property name="BoxCollider" value="32,60,0,-10,0,0,0"/>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>

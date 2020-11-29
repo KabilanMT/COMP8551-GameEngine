@@ -1,0 +1,171 @@
+<root>
+    
+    <variables>
+        <globalInt name="points" value="0"/>
+
+        <entity name="scoreFirstDigitEntity" value="scoreFirstDigitEntity"/>
+        <entity name="scoreSecondDigitEntity" value="scoreSecondDigitEntity"/>
+        <entity name="scoreThirdDigitEntity" value="scoreThirdDigitEntity"/>
+        <entity name="scoreFourthDigitEntity" value="scoreFourthDigitEntity"/>
+
+        <int name="scoreFirstDigit" value="0"/>
+        <int name="scoreSecondDigit" value="0"/>
+        <int name="scoreThirdDigit" value="0"/>
+        <int name="scoreFourthDigit" value="0"/>
+    </variables>
+    <interacted>
+        
+    </interacted>
+    <update>
+      
+        <setEqual name="scoreFirstDigit" type="int" value="points" isGlobal="true"/>
+        <modVar name="scoreFirstDigit" type="int" value="10"/>
+
+        <setEqual name="scoreSecondDigit" type="int" value="points" isGlobal="true"/>
+        <divideVar name="scoreSecondDigit" type="int" value="10"/>
+        <modVar name="scoreSecondDigit" type="int" value="10"/>
+
+        <setEqual name="scoreThirdDigit" type="int" value="points" isGlobal="true"/>
+        <divideVar name="scoreThirdDigit" type="int" value="100"/>
+        <modVar name="scoreThirdDigit" type="int" value="10"/>
+
+        <setEqual name="scoreFourthDigit" type="int" value="points" isGlobal="true"/>
+        <divideVar name="scoreFourthDigit" type="int" value="1000"/>
+        <modVar name="scoreFourthDigit" type="int" value="10"/>
+
+        <onEntity name="scoreFirstDigitEntity">
+            <ifVar name="scoreFirstDigit" value="0" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/0.png"/>
+            </ifVar>
+            <ifVar name="scoreFirstDigit" value="1" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/1.png"/>
+            </ifVar>
+            <ifVar name="scoreFirstDigit" value="2" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/2.png"/>
+            </ifVar>
+            <ifVar name="scoreFirstDigit" value="3" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/3.png"/>
+            </ifVar>
+            <ifVar name="scoreFirstDigit" value="4" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/4.png"/>
+            </ifVar>
+            <ifVar name="scoreFirstDigit" value="5" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/5.png"/>
+            </ifVar>
+            <ifVar name="scoreFirstDigit" value="6" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/6.png"/>
+            </ifVar>
+            <ifVar name="scoreFirstDigit" value="7" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/7.png"/>
+            </ifVar>
+            <ifVar name="scoreFirstDigit" value="8" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/8.png"/>
+            </ifVar>
+            <ifVar name="scoreFirstDigit" value="9" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/9.png"/>
+            </ifVar>
+        </onEntity>
+
+        <onEntity name="scoreSecondDigitEntity">
+            <ifVar name="scoreSecondDigit" value="0" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/0.png"/>
+            </ifVar>
+            <ifVar name="scoreSecondDigit" value="1" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/1.png"/>
+            </ifVar>
+            <ifVar name="scoreSecondDigit" value="2" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/2.png"/>
+            </ifVar>
+            <ifVar name="scoreSecondDigit" value="3" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/3.png"/>
+            </ifVar>
+            <ifVar name="scoreSecondDigit" value="4" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/4.png"/>
+            </ifVar>
+            <ifVar name="scoreSecondDigit" value="5" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/5.png"/>
+            </ifVar>
+            <ifVar name="scoreSecondDigit" value="6" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/6.png"/>
+            </ifVar>
+            <ifVar name="scoreSecondDigit" value="7" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/7.png"/>
+            </ifVar>
+            <ifVar name="scoreSecondDigit" value="8" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/8.png"/>
+            </ifVar>
+            <ifVar name="scoreSecondDigit" value="9" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/9.png"/>
+            </ifVar>
+        </onEntity>
+
+        <onEntity name="scoreThirdDigitEntity">
+            <ifVar name="scoreThirdDigit" value="0" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/0.png"/>
+            </ifVar>
+            <ifVar name="scoreThirdDigit" value="1" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/1.png"/>
+            </ifVar>
+            <ifVar name="scoreThirdDigit" value="2" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/2.png"/>
+            </ifVar>
+            <ifVar name="scoreThirdDigit" value="3" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/3.png"/>
+            </ifVar>
+            <ifVar name="scoreThirdDigit" value="4" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/4.png"/>
+            </ifVar>
+            <ifVar name="scoreThirdDigit" value="5" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/5.png"/>
+            </ifVar>
+            <ifVar name="scoreThirdDigit" value="6" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/6.png"/>
+            </ifVar>
+            <ifVar name="scoreThirdDigit" value="7" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/7.png"/>
+            </ifVar>
+            <ifVar name="scoreThirdDigit" value="8" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/8.png"/>
+            </ifVar>
+            <ifVar name="scoreThirdDigit" value="9" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/9.png"/>
+            </ifVar>
+        </onEntity>
+        
+        <onEntity name="scoreFourthDigitEntity">
+            <ifVar name="scoreFourthDigit" value="0" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/0.png"/>
+            </ifVar>
+            <ifVar name="scoreFourthDigit" value="1" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/1.png"/>
+            </ifVar>
+            <ifVar name="scoreFourthDigit" value="2" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/2.png"/>
+            </ifVar>
+            <ifVar name="scoreFourthDigit" value="3" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/3.png"/>
+            </ifVar>
+            <ifVar name="scoreFourthDigit" value="4" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/4.png"/>
+            </ifVar>
+            <ifVar name="scoreFourthDigit" value="5" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/5.png"/>
+            </ifVar>
+            <ifVar name="scoreFourthDigit" value="6" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/6.png"/>
+            </ifVar>
+            <ifVar name="scoreFourthDigit" value="7" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/7.png"/>
+            </ifVar>
+            <ifVar name="scoreFourthDigit" value="8" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/8.png"/>
+            </ifVar>
+            <ifVar name="scoreFourthDigit" value="9" type="int">
+                <changeSprite name="../TempleAtonement/texture/Numbers/9.png"/>
+            </ifVar>
+        </onEntity>
+      
+      
+      
+    </update>
+</root>
