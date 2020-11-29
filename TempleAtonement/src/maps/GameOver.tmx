@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="12">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="27">
  <tileset firstgid="1" source="../../../../dungeon_wall.tsx"/>
  <objectgroup id="2" name="Object Layer 1">
   <object id="1" name="map" x="0" y="0" width="640" height="640">
@@ -20,7 +20,11 @@
     <property name="TextureComp" value="../TempleAtonement/texture/Scoretext.png"/>
    </properties>
   </object>
-  <object id="4" name="scorenumber" x="288" y="224" width="256" height="64"/>
+  <object id="4" name="scorenumber" x="284.037" y="222.679" width="256" height="64">
+   <properties>
+    <property name="CustomScript" value="../TempleAtonement/src/scripts/gameoverScore.xml"/>
+   </properties>
+  </object>
   <object id="6" name="game_notice" x="96" y="352" width="448" height="160">
    <properties>
     <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
@@ -31,6 +35,35 @@
    <properties>
     <property name="BoxCollider" value="22,28,0,-2,0,0,0"/>
     <property name="Camera" value="-480.0f, 480.0f, -270.0f, 270.0f, -1000.0f, 1000.0f"/>
+    <property name="Tag" value="Player"/>
+   </properties>
+  </object>
+  <object id="17" name="scoreFirstDigitEntity" x="461.62" y="233.414" width="48.3422" height="48.3422">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="scoreFirstDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
+   </properties>
+  </object>
+  <object id="18" name="scoreSecondDigitEntity" x="414.147" y="233.414" width="48.3422" height="48.3422">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="scoreSecondDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
+   </properties>
+  </object>
+  <object id="19" name="scoreThirdDigitEntity" x="365.615" y="233.414" width="48.3422" height="48.3422">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="scoreThirdDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
+   </properties>
+  </object>
+  <object id="20" name="scoreFourthDigitEntity" x="318.594" y="233.414" width="48.3422" height="48.3422">
+   <properties>
+    <property name="ShaderComp" value="src/res/shaders/Basic.shader"/>
+    <property name="Tag" value="scoreFourthDigitEntity"/>
+    <property name="TextureComp" value="../TempleAtonement/texture/Numbers/0.png"/>
    </properties>
   </object>
  </objectgroup>

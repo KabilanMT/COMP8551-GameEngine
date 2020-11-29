@@ -284,11 +284,11 @@
         <double name="attackTimer" value="0.0"/>
         <int name="playerDirection" value="2"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
         <entity name="weaponEntity" value="weaponEntity"/>
-      <entity name="shieldEntity" value="shieldEntity"/>
-      <entity name="lampEntity" value="lampEntity"/>
+        <entity name="shieldEntity" value="shieldEntity"/>
+        <entity name="lampEntity" value="lampEntity"/>
         <globalInt name="health" value="5"/>
-      <globalBool name="obtainedLamp" value="false"/>
-      <globalBool name="obtainedShield" value="false"/>
+        <globalBool name="obtainedLamp" value="false"/>
+        <globalBool name="obtainedShield" value="false"/>
 
         <!-- <entity name="scoreEntity" value="score"/> -->
         <entity name="interactEntity" value=""/> <!-- No entity to start -->

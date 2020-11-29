@@ -1,0 +1,92 @@
+<root>
+    <update>
+        <!--get distance between enemy and player -->
+        <distanceTo name="Player" var="distance"/>
+        <ifVarLess name="distance" value="128" type="float">
+            <updateVar name="isFollowing" value="true" type="bool"/>
+        </ifVarLess>
+      
+        <!-- following -->
+        <ifVar name="isFollowing" value="true" type="bool">
+            <vectorTo name="Player" x="distX" y="distY"/>
+            <multiVar name="distX" type="float" value="4.0"/>
+            <multiVar name="distY" type="float" value="4.0"/>
+            <moveEntityByVars x="distX" y="distY" z="0.0f" applyDt="true" />
+            <updateGlobalVar name="doorlocked4" value="true" type="bool"/>
+        </ifVar>
+    
+    </update>
+    <variables>
+        <bool name="isFollowing" value="false"/>
+        <int name="blobDirection" value="2"/> <!-- 0 - up, 1 - right, 2 - down, 3 - left -->
+        <entity name="weaponEntity" value="weaponEntity"/>
+        <entity name="Player" value="Player"/>
+        <int name="enemyHealth" value="500"/>
+        <float name="distance" value="0.0"/>
+        <float name="distX" value="0.0"/>
+        <float name="distY" value="0.0"/>
+        <!-- <entity name="scoreEntity" value="score"/> -->
+    </variables>
+    <interacted>
+        
+    </interacted>
+    <start>
+
+    </start>
+    <onCollision>
+        <ifVar name="collisionObject-tag" value="Weapon" type="string">
+            <addVar name="enemyHealth" value="-1" type="int"/>
+            <ifVar name="enemyHealth" value="400" type="int">
+                <playAudio/>
+            </ifVar>
+            <ifVar name="enemyHealth" value="300" type="int">
+                <playAudio/>
+            </ifVar>
+            <ifVar name="enemyHealth" value="200" type="int">
+                <playAudio/>
+            </ifVar>
+            <ifVar name="enemyHealth" value="100" type="int">
+                <playAudio/>
+            </ifVar>
+            <ifVar name="enemyHealth" value="0" type="int">
+                <onEntity name="Player">
+                  <!--<addVar name="points" value="2" type="int"/>-->
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="addPoints"/>
+                    <callFunction name="updatePointDisplay"/>
+                    <loadScene name="winScene"/>
+                </onEntity>
+				<playAudio/>
+				<setActive value="false"/>
+            </ifVar>
+        </ifVar>
+    </onCollision>
+</root>
